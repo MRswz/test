@@ -331,7 +331,7 @@ public class DictTypeController {
 	
 	@RequestMapping("/queryDictTypeList")
 	public @ResponseBody ResultMapNew queryDictTypeList(HttpServletRequest request, @RequestBody CardformInitDataParams params) throws Exception{
-		
+		String choose=request.getParameter("id");
 		//Map requestParam = params.getRequestParam();
 		Map filter = params.getFilter();
 		String offset = params.getOffset();
@@ -361,7 +361,14 @@ public class DictTypeController {
 		if (deleteMark!=null && deleteMark!="") {
 			wheres += " and SYS_DICT_TYPE.DELETE_MARK = "+" '"+deleteMark+"' ";
 		}
-		
+		if(choose!=null && choose!=""){
+		if(choose.equals("sql")){
+			wheres += " and ( SYS_DICT_TYPE.DICT_TYPE_CLASS like "+" '%"+choose+"%' )";
+		}
+		if(choose.equals("dict")){
+			wheres += " and ( SYS_DICT_TYPE.DICT_TYPE_CLASS != "+" 'sql') ";
+		}
+		}	
 		String sql = "select SYS_DICT_TYPE.DICT_TYPE_ID as dictEntryId, "+
 					 " SYS_DICT_TYPE.DICT_TYPE_CODE as dictTypeCode, "+
 					 " SYS_DICT_TYPE.DICT_TYPE_NAME as dictTypeName, "+

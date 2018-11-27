@@ -42,9 +42,12 @@ import com.myehr.pojo.formmanage.form.SysFormColumn;
 import com.myehr.pojo.formmanage.form.SysFormGeneralParam;
 import com.myehr.pojo.formmanage.form.SysFormGroup;
 import com.myehr.pojo.formmanage.form.SysFormWhere;
+import com.myehr.pojo.formmanage.form.SysFormYkReport;
+import com.myehr.pojo.formmanage.form.SysFormYkReportQueryparams;
 import com.myehr.pojo.formmanage.form.SysFormconfigWithBLOBs;
 import com.myehr.pojo.formmanage.form.SysGridFilter;
 import com.myehr.pojo.formmanage.form.SysGridFilterColumn;
+import com.myehr.pojo.formmanage.form.SysSqlParams;
 import com.myehr.pojo.formmanage.question.SysExamtemplate;
 import com.myehr.pojo.formmanage.question.SysExamtemplateQuestion;
 import com.myehr.pojo.formmanage.question.SysQuestion;
@@ -57,6 +60,7 @@ import com.myehr.pojo.formmanage.widget.SysFormRichtext;
 import com.myehr.pojo.formmanage.widget.SysFormTextbox;
 import com.myehr.pojo.sysParam.SysSystemParam;
 import com.myehr.pojo.sysmenu.SysMenu;
+import com.myehr.pojo.sysuser.EmpVEmp1basic;
 import com.myehr.pojo.sysuser.SysUser;
 import com.myehr.pojo.sysuser.SysUserExpand;
 import com.myehr.pojo.task.SysTask;
@@ -389,5 +393,17 @@ public interface ISysformconfigService {
 	Map getSysParam();
 
 	List<SysTask> getTaskDatasByUserId(String userId);
+
+	String getMainframeMenuWithSchemex(String code, String userId);
+
+	int setMainframeMenuWithSchemex(String code, String userId);
+
+	EmpVEmp1basic getPersonInfoByuserId(String userId);
+
+	int setPersonInfoByuserId(String userId);
+
+	List<SysSqlParams> getYkParamsByreportId(Long reportId);
+
+	SysFormYkReport getYkreportByformId(String formId);
 
 }

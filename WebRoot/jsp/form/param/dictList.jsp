@@ -28,6 +28,7 @@
 </div>
 <script>
 $(function() {
+
     querys_1041();
 	$(".fixed-table-toolbar").css("margin-top","0px");
 		$(".container-fluid").css("max-height","100%");
@@ -55,7 +56,7 @@ $(function() {
 	var _formId_1041='1041';
     function querys_1041() {
         $("#scheme_list_List").bootstrapTable({
-            url :'${pageContext.request.contextPath }/dictType/queryDictTypeList.action',
+            url :'${pageContext.request.contextPath }/dictType/queryDictTypeList.action?id=${param.choosea}',
             contentType: 'application/json;charset=utf-8',
             dataType:'json',
             method:'post',
@@ -279,7 +280,7 @@ function editScheme(){
 		alert('<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"请选择一行数据")%>');return ;
 	}
 
-	window.parent.document.getElementById("SYS_SYSTEM_SCHEME.comboboxGuiInitValue").value=select.dictTypeCode;
+	window.parent.document.getElementById("SYS_SYSTEM_SCHEME.comboboxIsSearch").value=select.dictTypeCode;
 	window.parent.document.getElementById("SYS_SYSTEM_SCHEME.comboboxDict").value=select.dictTypeName;
 	closex();
 }

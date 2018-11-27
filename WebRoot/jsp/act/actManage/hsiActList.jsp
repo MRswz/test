@@ -4,383 +4,57 @@
 <html>
 <body>
 <div class="container-fluid" style="height:100%;overflow-y:auto;">
-	<ul class="nav nav-tabs" id="myTab">
-		<li class='active'><a href="#Tab_1">自由流程已批列表</a></li>
-		<li ><a href="#Tab_2">普通流程已批列表</a></li>
-	</ul>
-	<div class="tab-content">
-		<div class="tab-pane" id="Tab_2">
-			<div style="margin-top:5px;">
-				<div class="input-group">
-					<div id="grid_org_list_filter">
-						<table class="cbs-table" style="margin-bottom:5px">
-							<tr>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div style="margin-right:10px;display:inline-block">
-					<input type="button" id="actPicture"  class="btn btn-primary" value=<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程图")%> onclick="actPicture('task')"/>
-				</div>
-				<div style="margin-right:10px;display:inline-block">
-					<input type="button" id="actPictureLink"  class="btn btn-primary" value=<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程图路线")%> onclick="actPicture('link')"/>
-				</div>
-				<div style="margin-right:10px;display:inline-block">
-					<input type="button" id="showHisData"  class="btn btn-primary" value=<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"审批详情")%> onclick="showHisData()"/>
-				</div>
-				<div id="grid_org_list_filter" style="float:right;display:inline-block;position:relative;">
-					<input id="FILTER_1041" name="FILTER_1041" placeholder="<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程编码")%>,<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程名称")%>" style="padding: 6px 30px 6px 10px;" title="<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程编码")%>,<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程名称")%>" type="text" class="form-control" oninput="grid_org_list_fun11()" />
-					<i class="icon-search" style="position: absolute;right: 12px;top: 2px;cursor: pointer;"></i>
-				</div>
-				<div style="margin-right:10px;display:inline-block">
-					<input type="button" id="withdrawTaskTo"  class="btn btn-danger" value=<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"撤回")%> onclick="withdrawTaskTo()"/>
-				</div>
+	<div style="margin-top:5px;">
+<div class="input-group">
+    <div id="grid_org_list_filter">
+        <table class="cbs-table" style="margin-bottom:5px">
+            <tr>
+            </tr>
+        </table>
+    </div>
+</div>
+			<div style="margin-right:10px;display:inline-block">
+			    <input type="button" id="actPicture"  class="btn btn-primary" value=<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程图")%> onclick="actPicture('task')"/>
 			</div>
-			<table id="org_list_List">
-			</table>
-		</div>
-		<div class="tab-pane active" id="Tab_1">
-			<div style="margin-top:5px;">
-				<div class="input-group">
-					<div id="grid_org_list_filter">
-						<table class="cbs-table" style="margin-bottom:5px">
-							<tr>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div style="margin-right:10px;display:inline-block">
-					<input type="button" id="showHisData"  class="btn btn-primary" value=<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"审批详情")%> onclick="showHisDataForFree()"/>
-				</div>
-				<div id="grid_org_list_filter" style="float:right;display:inline-block;position:relative;">
-					<input id="FILTER_1041" name="FILTER_1041" placeholder="<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程编码")%>,<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程名称")%>" style="padding: 6px 30px 6px 10px;" title="<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程编码")%>,<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程名称")%>" type="text" class="form-control" oninput="grid_org_list_fun11()" />
-					<i class="icon-search" style="position: absolute;right: 12px;top: 2px;cursor: pointer;"></i>
-				</div>
+			<div style="margin-right:10px;display:inline-block">
+			    <input type="button" id="actPictureLink"  class="btn btn-primary" value=<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程图路线")%> onclick="actPicture('link')"/>
 			</div>
-			<table id="org_list_List2">
-			</table>
-		</div>
-	</div>
+			<div style="margin-right:10px;display:inline-block">
+			    <input type="button" id="showHisData"  class="btn btn-primary" value=<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"审批详情")%> onclick="showHisData()"/>
+			</div>
+			<div id="grid_org_list_filter" style="float:right;display:inline-block;position:relative;">
+				<input id="FILTER_1041" name="FILTER_1041" placeholder="<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程编码")%>,<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程名称")%>" style="padding: 6px 30px 6px 10px;" title="<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程编码")%>,<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程名称")%>" type="text" class="form-control" oninput="grid_org_list_fun11()" />
+				<i class="icon-search" style="position: absolute;right: 12px;top: 2px;cursor: pointer;"></i>
+			</div>
+			<div style="margin-right:10px;display:inline-block">
+			    <input type="button" id="withdrawTaskTo"  class="btn btn-danger" value=<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"撤回")%> onclick="withdrawTaskTo()"/>
+			</div>
+</div>
+<table id="org_list_List">
+</table>
 </div>
 <script>
 $(function() {
-    querys_1042();
-	var x0=0;
-	var x1=0;
-	$('#myTab a').click(function (e) {
-		e.preventDefault();
-		var x = $(this)[0].innerHTML;
-		if(x=="普通流程已批列表"){
-			if(x0==0){
-				querys_1041();
-				$(this).tab('show');
-				var tab = this.hash;
-				var tab2 = $(tab).find('table').bootstrapTable('refresh');
-			}else{
-				$(this).tab('show');
-				var tab = this.hash;
-				var tab2 = $(tab).find('table').bootstrapTable('refresh');
-			}
-			x0++;
-			}
-		if(x=="自由流程已批列表"){
-			if(x1==0){
-				$(this).tab('show');
-				var tab = this.hash;
-				var tab2 = $(tab).find('table').bootstrapTable('refresh');
-			}else{
-				$(this).tab('show');
-				var tab = this.hash;
-				var tab2 = $(tab).find('table').bootstrapTable('refresh');
-			}
-			x1++;
-		}
-	});
+    querys_1041();
+    initDict();
+    initDate();
+    console.log($(".BTNGROUP_1041>div").length);
+    var DIVAMOUNT = 5;
+    if($(".BTNGROUP_1041>div").length > DIVAMOUNT){
+    	var len = $(".BTNGROUP_1041>div").length;
+    	$(".BTNGROUP_1041>div:gt(4)").hide();
+    	var selectObj = $('<div class="btn-group"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多 <span class="caret"></span></button><ul class="dropdown-menu" style="min-width:90px;left:-14px;"></ul></div>');
+    	$(".BTNGROUP_1041").append(selectObj);
+    	for(var i=DIVAMOUNT;i<len;i++){
+    		var liObj = $('<li style="margin-left:14px;"></li>');
+    		liObj.append($(".BTNGROUP_1041>div").eq(i).clone(true));
+    		selectObj.find('.dropdown-menu').append(liObj);
+    		selectObj.find('.dropdown-menu').append($('<li role="separator" class="divider"></li>'));
+    	}
+    	selectObj.find('.dropdown-menu div').show();
+    }
 });
 	var _formId_1041='1041';
-	function querys_1042() {
-        $("#org_list_List2").bootstrapTable({
-            url :'${pageContext.request.contextPath }/act/task/historicFree.action',
-            contentType: 'application/json;charset=utf-8',
-            dataType:'json',
-            method:'post',
-            height : '578',
-            undefinedText : '-',
-            pagination : true,
-            striped : true,
-            queryParams : grid_org_list_fun,
-            cache : false,
-            pageSize : 10, 
-            pageList : [10,20,50,10000], 
-            toolbar : "#toolbar",
-            showColumns : true,
-            showExport : true,
-            clickToSelect: true,
-            showRefresh : true,
-            sidePagination : "server",
-            columns : [{
-                field : 'state',
-                checkbox : true,
-                align : 'center',
-                valign : 'middle'
-            },
-            {
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"序号")%>',
-                field : 'defaultXH',
-                align : 'center',
-                visible : true,
-                valign : 'left',
-                formatter: function (value, row, index) {
-                    if(value==undefined){
-                        value=index+1;
-                    }
-                    return "<a style=\"font-size:14px;text-decoration:none;color:black;width:50px;\" name=\"defaultXH\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"序号\">"+value+"</a>";
-                }
-            },
-            {
-                field : 'flag',
-                visible : false
-            },
-            {
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"任务标题")%>',
-                field : 'title',
-                align : 'center',
-                visible : true,
-                valign : 'left',
-                formatter: function (value, row, index) {
-					if(value==undefined){
-						value='-';
-					}
-					return "<a  class=\"eli w400\" style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"title\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"任务标题\">"+value+"</a>";
-				}
-            },
-            {
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"任务编号")%>',
-                field : 'taskId',
-                align : 'center',
-                visible : false,
-                valign : 'left',
-                formatter: function (value, row, index) {
-                    if(value==undefined){
-                        value='-';
-                    }
-                    return "<a  class=\"eli w100\" style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"taskId\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"任务编号\">"+value+"</a>";
-                }
-            },
-			 {
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"任务名称")%>',
-                field : 'taskName',
-                align : 'center',
-                visible : true,
-                valign : 'left',
-                formatter: function (value, row, index) {
-                    if(value==undefined){
-                        value='-';
-                    }
-                    return "<a  class=\"eli w200\" style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"taskName\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"任务名称\">"+value+"</a>";
-                }
-            },
-            {
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"任务环节")%>',
-                field : 'taskDefKey',
-                align : 'center',
-                visible : false,
-                valign : 'left',
-                formatter: function (value, row, index) {
-					if(value==undefined){
-						value='-';
-					}
-					return "<a  class=\"eli w100\" style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"taskDefKey\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"任务环节\">"+value+"</a>";
-                }
-            },
-            {
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程实例ID")%>',
-                field : 'procInsId',
-                align : 'center',
-                visible : false,
-                valign : 'left',
-                formatter: function (value, row, index) {
-					if(value==undefined){
-						value='-';
-					}
-					return "<a  class=\"eli w100\" style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"procInsId\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"流程实例ID\">"+value+"</a>";
-				}
-            },
-			{
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程定义ID")%>',
-                field : 'procDefId',
-                align : 'center',
-                visible : false,
-                valign : 'left',
-                formatter: function (value, row, index) {
-					if(value==undefined){
-						value='-';
-					}
-					return "<a  class=\"eli w100\" style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"procDefId\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"流程定义ID\">"+value+"</a>";
-				}
-            },
-			{
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程定义标识")%>',
-                field : 'procDefKey',
-                align : 'center',
-                visible : false
-            },{
-                field : 'businessKey',
-                visible : false
-            },
-			{
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"业务绑定Table")%>',
-                field : 'businessTable',
-                align : 'center',
-                visible : false,
-                valign : 'left',
-                formatter: function (value, row, index) {
-					if(value==undefined){
-						value='-';
-					}
-					return "<a  class=\"eli w100\" style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"businessTable\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"业务绑定Table\">"+value+"</a>";
-				}
-            },
-			{
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"业务绑定ID")%>',
-                field : 'businessId',
-                align : 'center',
-                visible : true,
-                valign : 'left',
-                formatter: function (value, row, index) {
-					if(value==undefined){
-						value='-';
-					}
-					return "<a  class=\"eli w50\" style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"businessId\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"业务绑定ID\">"+value+"</a>";
-				}
-            },
-			{
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"表单ID")%>',
-                field : 'formId',
-                align : 'center',
-                visible : false,
-                valign : 'left',
-                formatter: function (value, row, index) {
-					if(value==undefined){
-						value='-';
-					}
-					return "<a  class=\"eli w100\" style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"formId\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"表单ID\">"+value+"</a>";
-				}
-            },
-			{
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"任务状态")%>',
-                field : 'status',
-                align : 'center',
-                visible : false,
-                valign : 'left',
-                formatter: function (value, row, index) {
-					if(value==undefined){
-						value='-';
-					}
-					return "<a  class=\"eli w100\" style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"status\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"任务状态\">"+value+"</a>";
-				}
-            },
-			{
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"任务到达时间")%>',
-                field : 'actCreateTime',
-                align : 'center',
-                visible : true,
-                valign : 'left',
-                formatter: function (value, row, index) {
-					var date = "-";
-					if(value!=null){
-						date = new Date(value).Format("yyyy-MM-dd hh:mm:ss");
-					}
-					return "<a class=\"eli w200\" style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"actCreateTime\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"任务到达时间\">" + date + "</a>";
-				}
-            },
-			{
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"任务完成时间")%>',
-                field : 'actEndTime',
-                align : 'center',
-                visible : true,
-                valign : 'left',
-                formatter: function (value, row, index) {
-					var date = "-";
-					if(value!=null){
-						date = new Date(value).Format("yyyy-MM-dd hh:mm:ss");
-					}
-					return "<a class=\"eli w200\" style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"actEndTime\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"任务完成时间\">" + date + "</a>";
-				}
-            },
-            {
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程图查看权限")%>',
-                field : 'isViewProcessPicture',
-                align : 'center',
-                visible : false,
-                valign : 'left',
-                formatter: function (value, row, index) {
-					if(value==undefined){
-						value='-';
-					}
-					return "<a  class=\"eli w100\" style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"isViewProcessPicture\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"流程图查看权限\">"+value+"</a>";
-				}
-            },
-            {
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"批量审批权限")%>',
-                field : 'isAllowBatchApprove',
-                align : 'center',
-                visible : false,
-                valign : 'left',
-                formatter: function (value, row, index) {
-					if(value==undefined){
-						value='-';
-					}
-					return "<a  class=\"eli w100\" style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"isAllowBatchApprove\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"批量审批权限\">"+value+"</a>";
-				}
-            },
-            ],
-            onClickRow: function (row, $element) {
-                curRow = row;
-            },
-		onLoadSuccess: function (aa, bb, cc) {
-                $("#org_list_List2 a").editable({
-                    disabled: true,
-                    emptytext: "-",
-                    url: function (params) {
-                        var sName = $(this).attr("name");
-                        curRow[sName] = params.value;
-                    },
-                    type: 'text'
-                });
-            },
-            responseHandler : function(res) {  
-                return {  
-                    total : res.total,  
-                    rows : res.rows  
-                };
-            }
-        });
-        window.operateEvents = {  
-			'click #remove': function (e, value, row, index) {  
-				$.ajax({  
-					type: 'POST', 
-					data: JSON.stringify(row),  
-					url: '${pageContext.request.contextPath }/dictType/removeSysDictType.action',  
-					success: function (data) {  
-						alert('<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"删除成功")%>');
-						window.location.href = window.location.href; 
-						$('#org_list_List2').bootstrapTable(
-							'remove', {  
-								field: 'Id',  
-								values: [row.Id],  
-							}
-						);  
-						$('#org_list_List2').bootstrapTable(
-							'refresh',{
-								url:'${pageContext.request.contextPath }/dictType/findDictTypeList2.action'  
-							}
-						)
-					}
-				})
-			}
-		}
-	}
     function querys_1041() {
         $("#org_list_List").bootstrapTable({
             url :'${pageContext.request.contextPath }/act/task/historic.action',
@@ -640,30 +314,30 @@ $(function() {
             }
         });
         window.operateEvents = {  
-			'click #remove': function (e, value, row, index) {  
-				$.ajax({  
-					type: 'POST', 
-					data: JSON.stringify(row),  
-					url: '${pageContext.request.contextPath }/dictType/removeSysDictType.action',  
-					success: function (data) {  
-						alert('<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"删除成功")%>');
-						window.location.href = window.location.href; 
-						$('#org_list_List').bootstrapTable(
-							'remove', {  
-								field: 'Id',  
-								values: [row.Id],  
-							}
-						);  
-						$('#org_list_List').bootstrapTable(
-							'refresh',{
-								url:'${pageContext.request.contextPath }/dictType/findDictTypeList2.action'  
-							}
-						)
-					}
-				})
-			}
-		}
-	}
+            'click #remove': function (e, value, row, index) {  
+            $.ajax({  
+                type: 'POST', 
+                data: JSON.stringify(row),  
+                url: '${pageContext.request.contextPath }/dictType/removeSysDictType.action',  
+                success: function (data) {  
+                    alert('<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"删除成功")%>');
+                    window.location.href = window.location.href; 
+                    $('#org_list_List').bootstrapTable(
+                        'remove', {  
+                            field: 'Id',  
+                            values: [row.Id],  
+                        }
+                    );  
+                    $('#org_list_List').bootstrapTable(
+                        'refresh',{
+                            url:'${pageContext.request.contextPath }/dictType/findDictTypeList2.action'  
+                        }
+                    );
+                }
+            });
+        }
+    };
+}
 /** 刷新页面 */ 
 function refresh_org_list() { 
     $('#org_list_List').bootstrapTable('refresh'); 
@@ -728,30 +402,6 @@ function showHisData(){
 	        });
          }
     })
-}
-
-function showHisDataForFree(){
-	var selects = $("#org_list_List2").bootstrapTable('getSelections');
-	var select = {};
-	if(selects!=null && selects.length>0){
-		select = selects[0];
-	}else {
-		alert('<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"请选择一行数据")%>');return ;
-	}
-	var url='/myehr/jsp/act/actFree/showActConment.jsp?taskId='+select.procInsId;
-	layer.open({
-		type: 2,
-		title:'<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"审批详情")%>',
-		shadeClose: true,
-		shade: 0.8,
-		maxmin:true,
-		zIndex:9999,
-		area: ['950px', '500px'],
-		content: url,
-		success:function(layero,index){
-		$('.layui-layer-max').click();
-		}
-	});
 }
 
 function withdrawTaskTo(){

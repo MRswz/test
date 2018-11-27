@@ -73,24 +73,25 @@ function initData(e){
 			if(configs[1]=='Y'){
 				$("#isCount").prop("checked",true);
 			}
-			if(configs[2]=='Y'){
-				$("#youxiao").prop("checked",true);
-			}
-			if(configs[3]=='Y'){
-				$("#zuixin").prop("checked",true);
-			}
-			if(configs[4]=='Y'){
-				$("#all").prop("checked",true);
-			}
-			if(configs[5]=='N'){
+			if(configs[2]=='N'){
 				$("#isAdd").prop("checked",false);
 			}
-			if(configs[6]=='N'){
+			if(configs[3]=='N'){
 				$("#isEdit").prop("checked",false);
 			}
-			if(configs[7]=='N'){
+			if(configs[4]=='N'){
 				$("#isDelete").prop("checked",false);
 			}
+			if(configs[5]=='Y'){
+				$("#youxiao").prop("checked",true);
+			}
+			if(configs[6]=='Y'){
+				$("#zuixin").prop("checked",true);
+			}
+			if(configs[7]=='Y'){
+				$("#all").prop("checked",true);
+			}
+	
 		}
 	}
 }
@@ -109,21 +110,6 @@ function updateTabDetail(){
 	}else{
 		config += 'N'+',';
 	}
-	if($("#youxiao").prop("checked")){
-		config += 'Y'+',';
-	}else{
-		config += 'N'+',';
-	}
-	if($("#zuixin").prop("checked")){
-		config += 'Y'+',';
-	}else{
-		config += 'N'+',';
-	}
-	if($("#all").prop("checked")){
-		config += 'Y'+',';
-	}else{
-		config += 'N'+',';
-	}
 	if($("#isAdd").prop("checked")){
 		config += 'Y'+',';
 	}else{
@@ -135,10 +121,26 @@ function updateTabDetail(){
 		config += 'N'+',';
 	}
 	if($("#isDelete").prop("checked")){
+		config += 'Y'+',';
+	}else{
+		config += 'N'+',';
+	}
+	if($("#youxiao").prop("checked")){
+		config += 'Y'+',';
+	}else{
+		config += 'N'+',';
+	}
+	if($("#zuixin").prop("checked")){
+		config += 'Y'+',';
+	}else{
+		config += 'N'+',';
+	}
+	if($("#all").prop("checked")){
 		config += 'Y';
 	}else{
 		config += 'N';
 	}
+	
 	obj.tabDetailConfig = config;
 	obj.tabDetailId = mstTabId;
 	$.ajax({  

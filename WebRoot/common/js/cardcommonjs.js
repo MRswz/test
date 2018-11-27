@@ -26314,6 +26314,7 @@ function showCheckedFileDate(arr,e,yulanButton,deleteButton,uploadButton,shangch
 		}).on("fileuploaded", function(event, data) {
 			window.location.reload();
 		})
+		/*
 		$("#"+e).find("[name='file-zh[]']").on('filebatchselected', function(event, data, previewId, index) {
 			  var content = "<div id='batchUp' class='row cell' style='border:none;line-height:25px;height:95%;overflow:auto;' >\n"+
 							"<div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n"+
@@ -26341,7 +26342,7 @@ function showCheckedFileDate(arr,e,yulanButton,deleteButton,uploadButton,shangch
 				 
 				}
 			});
-		});
+		});*/
 	}else{
 		$("#"+e).find("[name='file-zh[]']").css("display","none");
 	}
@@ -32019,6 +32020,7 @@ function showFormDateNew(id,arr,e,yulanButton,deleteButton,uploadButton,shangchu
 			initFileManage2New('','','','','',id,numLimit,sizeLimit,typeLimit,objType,objId);
 			changeFileCss();
 		})
+		
 		$("#"+e).find("[name='file-zh[]']").on('filebatchselected', function(event, data, previewId, index) {
 			  var content = "<div id='batchUp' class='row cell' style='border:none;line-height:25px;height:95%;overflow:auto;' >\n"+
 							"<div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n"+

@@ -6,18 +6,24 @@
 .fixed-table-body{
    max-height:480px;
 }
+
+#tt:hover
+{
+color:red;
+}
+
 </style>
 <body>
 <div class="container-fluid" style="height:100%;overflow-y:auto;">
 	<div style="margin-top:5px;">
-		<div class="input-group">
-			<div id="grid_org_list_filter">
-				<table class="cbs-table" style="margin-bottom:5px">
-					<tr>
-					</tr>
-				</table>
-			</div>
-		</div>
+<div class="input-group">
+    <div id="grid_org_list_filter">
+        <table class="cbs-table" style="margin-bottom:5px">
+            <tr>
+            </tr>
+        </table>
+    </div>
+</div>
 		<div class="BTNGROUP_1041" style="margin:0 auto; display:inline-block;height: 35px;">
 			<div style="margin-right:10px;display:inline-block">
 			    <input type="button" id="select"  class="btn btn-danger" value=<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"终止")%> onclick="stopActTask()"/>
@@ -25,7 +31,6 @@
 			<div style="margin-right:10px;display:inline-block">
 			    <input type="button" id="approve"  class="btn btn-primary" value=<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"审批")%> onclick="approve()"/>
 			</div>
-			<!--
 			<div style="margin-right:10px;display:inline-block">
 			    <input type="button" id="batchApprove"  class="btn btn-primary" value=<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"批量审批")%> onclick="batchApprove()"/>
 			</div>
@@ -41,15 +46,14 @@
 			<div style="margin-right:10px;display:inline-block">
 			    <input type="button" id="addorg_list"  class="btn btn-primary" value=<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"审批历史")%> onclick="actHis()"/>
 			</div>
-			-->
 		</div>
-		<div id="grid_org_list_filter" style="float:right;display:inline-block;position:relative;">
-			<input id="FILTER_1041" name="FILTER_1041" placeholder="<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"菜单编码")%>,<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"菜单名称")%>" style="padding: 6px 30px 6px 10px;" title="<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"菜单编码")%>,<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"菜单名称")%>" type="text" class="form-control" oninput="grid_org_list_fun11()" />
-			<i class="icon-search" style="position: absolute;right: 12px;top: 2px;cursor: pointer;"></i>
-		</div>
-	</div>
-	<table id="org_list_List">
-	</table>
+			<div id="grid_org_list_filter" style="float:right;display:inline-block;position:relative;">
+				<input id="FILTER_1041" name="FILTER_1041" placeholder="<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"菜单编码")%>,<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"菜单名称")%>" style="padding: 6px 30px 6px 10px;" title="<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"菜单编码")%>,<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"菜单名称")%>" type="text" class="form-control" oninput="grid_org_list_fun11()" />
+				<i class="icon-search" style="position: absolute;right: 12px;top: 2px;cursor: pointer;"></i>
+			</div>
+</div>
+<table id="org_list_List">
+</table>
 </div>
 <script>
 $(function() {
@@ -81,17 +85,17 @@ $(function() {
             method:'post',
             height : '578',
             undefinedText : '-',
-            pagination : false,
+            pagination : true,
             striped : true,
             queryParams : grid_org_list_fun,
             cache : false,
-            //pageSize : 10, 
-            //pageList : [10,70,10000], 
+            pageSize : 10, 
+            pageList : [10,70,10000], 
             toolbar : "#toolbar",
-            showColumns : false,
-            showExport : false,
+            showColumns : true,
+            showExport : true,
             clickToSelect: true,
-            showRefresh : false,
+            showRefresh : true,
             sidePagination : "server",
             columns : [{
                 field : 'state',
@@ -122,7 +126,7 @@ $(function() {
 					if(value==undefined){
 						value='-';
 					}
-					return "<a  class=\"eli w400\" style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"title\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"任务标题\">"+value+"</a>";
+					return "<a id=\"tt\" class=\"eli w400\" style=\"font-size:14px;text-decoration:none;text-decoration:underline;width:200px;\" name=\"title\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"任务标题\">"+value+"</a>";
 				}
             },
             {
@@ -297,13 +301,13 @@ $(function() {
             },
             ],
             onClickRow: function (row, $element) {
-                curRow = row;
+                curRow = row; 
+                 
+				   
+				approve2(row);
             },
-            onDblClickRow: function (row, $element) {
-            	curRow = row;
-            	approveForDC(row);
-            },
-			onLoadSuccess: function (aa, bb, cc) {
+           
+		onLoadSuccess: function (aa, bb, cc) {
                 $("#org_list_List a").editable({
                     disabled: true,
                     emptytext: "-",
@@ -421,10 +425,14 @@ function approve(){
 	});
 }
 
-function approveForDC(e){
-	var select = e ;
-	
-	var url='/myehr/form/toForm.action?formId='+select.formId+'&key='+select.procDefKey+'&isInit=true&orderBy='+select.taskDefKey+'&taskId='+select.taskId+'&procInsId='+select.procInsId+'&businessId='+select.businessId;
+function approve2(e){
+	var key = e.procDefKey;
+	var formId = e.formId;
+	var orderBy=e.taskDefKey;
+	var taskId=e.taskId;
+	var procInsId=e.procInsId;
+	var businessId=e.businessId;
+		var url='/myehr/form/toForm.action?formId='+formId+'&key='+key+'&isInit=true&orderBy='+orderBy+'&taskId='+taskId+'&procInsId='+procInsId+'&businessId='+businessId;
 	
 	layer.open({
 		type: 2,
@@ -442,6 +450,7 @@ function approveForDC(e){
 			    refresh_org_list();
 		}
 	});
+
 }
 
 function batchApprove(){

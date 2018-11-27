@@ -54,7 +54,7 @@ public class RuntimeTreeFormServiceImpl  implements IRuntimeTreeFormService {
 		SysFormconfigCache form = formService.getForm(formId);
 		SysFormconfigTreeCache tree = form.getTree();
 		Map<String,Object> p = null;
-			p = RuntimeUtil.jsonToMap(paramsJson);
+		p = RuntimeUtil.jsonToMap(paramsJson);
 		if("1".equals(tree.getFormTreeType())){
 			SysFormTreeSolutionCache s = sysformconfigService.getTreeSolutionById(tree.getFormTreeSolutionId());
 			String sql = s.getTreeSolutionExcSql();

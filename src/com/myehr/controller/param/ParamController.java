@@ -525,10 +525,10 @@ public class ParamController {
 		}*/
 		
 	   String value=combobox.get(0).getComboboxGuiInitValue();
-	   String sql="select DICT_TYPE_NAME from SYS_DICT_TYPE where DICT_TYPE_CODE='"+value+"'";
+	   /*String sql="select DICT_TYPE_NAME from SYS_DICT_TYPE where DICT_TYPE_CODE='"+value+"'";
 	    Map map=MybatisUtil.queryOne("runtime.selectSql", sql);
-	    String a=map.get("DICT_TYPE_NAME")+"";
-	    combobox.get(0).setComboboxIsSearch(a);
+	    String a=map.get("DICT_TYPE_NAME")+"";*/
+	    combobox.get(0).setComboboxIsSearch(value);
 	    System.out.println(value);
 	    
 		if (combobox.size()>0) {

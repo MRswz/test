@@ -93,17 +93,17 @@ public class AuthorizationUtil {
 	}
 	
 	public static String getKeyProperties(String keyName){
-//		String path =  System.getProperty("user.dir").replace("\\", "/").replace("bin", "");
-//		path = path+"webapps/myehr/WEB-INF/classes/key.properties";
-		String path = "E:/workspace/Myeclipse/.metadata/.me_tcat/webapps/myehr/WEB-INF/classes/key.properties";
+		String path =  System.getProperty("user.dir").replace("\\", "/").replace("bin", "");
+		path = path+"webapps/myehr/WEB-INF/classes/key.properties";
+	//	String path = "E:/workspace/Myeclipse/.metadata/.me_tcat/webapps/myehr/WEB-INF/classes/key.properties";
 		String keyValue = GetDBPropertiesValue.readValue(path,keyName);
 		return keyValue;
 	}
 	
 	public static String createHardwareProperties() throws IOException{
-//		String path =  System.getProperty("user.dir").replace("\\", "/").replace("bin", "");
-//		path = path+"webapps/myehr/WEB-INF/classes/hardware.properties";
-		String path = "E:/workspace/Myeclipse/.metadata/.me_tcat/webapps/myehr/WEB-INF/classes/hardware.properties";
+		String path =  System.getProperty("user.dir").replace("\\", "/").replace("bin", "");
+		path = path+"webapps/myehr/WEB-INF/classes/hardware.properties";
+	//	String path = "E:/workspace/Myeclipse/.metadata/.me_tcat/webapps/myehr/WEB-INF/classes/hardware.properties";
 		File f = new File(path);
 		if (f.exists()) {  
 			System.out.print("文件存在");  

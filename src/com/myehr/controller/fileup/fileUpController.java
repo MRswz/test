@@ -1302,7 +1302,6 @@ private String deleteElement(String all, String obj) {
 			A0188 = request.getSession().getAttribute("empid")+"";
 		}
 		return ActUtils.getUserPhotoById(A0188,sysformconfigService);
-		
 	}
 	
 	@RequestMapping("/getEmpPhotoByUserId")

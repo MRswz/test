@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.myehr.common.exception.DcfException;
 import com.myehr.common.util.ResultMap;
 import com.myehr.pojo.sysmenu.SysMenu;
 import com.myehr.pojo.sysmenu.SysMenuExample;
@@ -37,7 +38,7 @@ public interface SysMenuService {
 	 * @return
 	 */
 	public String  queryMainframeMenu(String userId,HttpServletRequest request);
-	public String  queryMainframeMenuByPcode(String userId,String schemeId,String menuCode);
+	public String  queryMainframeMenuByPcode(String userId,String schemeId,String menuCode, boolean isApp) throws DcfException, Exception;
 	
 	/**
 	 * 根据角色获取角色的所有可操作的菜单
@@ -69,6 +70,7 @@ public interface SysMenuService {
 	public String queryMainframeMenuWithSchemex(String schemeId, String userId,
 			HttpServletRequest request, String isApp);
 	public Map getMenuWithSchemeAllx(String userId) throws Exception;
+	public void setMenuWithSchemeAllx(String userId) throws Exception;
 	
 	
 }

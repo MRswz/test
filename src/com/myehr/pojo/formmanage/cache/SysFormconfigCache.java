@@ -25,7 +25,10 @@ import com.myehr.pojo.formmanage.form.SysFormGeneralParam;
 import com.myehr.pojo.formmanage.form.SysFormGroup;
 import com.myehr.pojo.formmanage.form.SysFormReport;
 import com.myehr.pojo.formmanage.form.SysFormWhere;
+import com.myehr.pojo.formmanage.form.SysFormYkReport;
+import com.myehr.pojo.formmanage.form.SysFormYkReportQueryparams;
 import com.myehr.pojo.formmanage.form.SysFormconfigWithBLOBs;
+import com.myehr.pojo.formmanage.form.SysSqlParams;
 import com.myehr.pojo.formmanage.form.SysTreeNodeType;
 import com.myehr.pojo.formmanage.question.SysExamtemplate;
 import com.myehr.pojo.formmanage.question.SysExamtemplateQuestion;
@@ -137,6 +140,8 @@ public class SysFormconfigCache implements Serializable{
 		
 		private SysCardtocardConfig cardtocardConfig;
 		
+		private List<SysSqlParams> ykParams;
+		private SysFormYkReport YKreport;
 		public SysCardtocardConfig getCardtocardConfig() {
 			return cardtocardConfig;
 		}
@@ -530,12 +535,20 @@ public class SysFormconfigCache implements Serializable{
 			this.slidButtons = slidButtons;
 		}
 
+		public SysFormYkReport getYKreport() {
+			return YKreport;
+		}
+
 		public List<SysFormButtonCache> getBottomButtons() {
 			return bottomButtons;
 		}
 
 		public void setBottomButtons(List<SysFormButtonCache> bottomButtons) {
 			this.bottomButtons = bottomButtons;
+		}
+
+		public List<SysSqlParams> getYkParams() {
+			return ykParams;
 		}
 
 		/**
@@ -585,9 +598,11 @@ public class SysFormconfigCache implements Serializable{
 				this.mstTab = new SysFormconfigMstTabCache(Long.parseLong(formId),this);
 				this.setCardtocardConfig(formId,sysformconfigService);
 				return ;
-//			}else if("4".equals(formDefLayoutType) || "9".equals(formDefLayoutType)){
-//				this.report = new SysFormReport(this.formDefId+"",this);
-//				return ;
+			}else if("8".equals(formDefLayoutType)){
+				this.YKreport = sysformconfigService.getYkreportByformId(formId);
+				if (this.YKreport!=null) {
+					this.ykParams = sysformconfigService.getYkParamsByreportId(this.YKreport.getReportId());
+				}
 			}else if("7".equals(formDefLayoutType)){
 				//初始化多tab页的主表配置对象
 				this.mstTab = new SysFormconfigMstTabCache(Long.parseLong(formId),this);

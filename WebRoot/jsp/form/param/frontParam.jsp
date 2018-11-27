@@ -184,6 +184,7 @@ function formatDatebox(value,key) {
 				async: false,
 				contentType: 'application/json;charset=utf-8',
 				success: function (datas) {
+				  
 					for(var i=0;i<datas.length;i++){
 						if(datas[i].MENU_PARAM_TYPE=="hiddenParam"){
 							if(datas[i].MENU_PARAM_CLASS=="constant"){
@@ -199,8 +200,10 @@ function formatDatebox(value,key) {
 							if(datas[i].SQL_PARAMS_GUI_TYPE=="1"){
 								htmlTr += "<td style=\"padding-left:10px;\"  align=\"left\"><input id=\""+datas[i].MENU_PARAM_NAME+"\" name=\""+datas[i].MENU_PARAM_NAME+"\" type=\"text\" class=\"form-control\" style=\"width:200px;\"/></td>\n";
 							}else if(datas[i].SQL_PARAMS_GUI_TYPE=="2"){
-								htmlTr += "<td style=\"padding-left:10px;\"  align=\"left\"><select id=\""+datas[i].MENU_PARAM_NAME+"\" styleType=\"select\" name=\"\"  class=\"form-control\" style=\"width:200px;\" DictName=\""+datas[i].COMBOBOX_GUI_INIT_VALUE+"\" dataField=\"\"></select></td>\n";
-							}else if(datas[i].SQL_PARAMS_GUI_TYPE=="6"){
+							  
+							   htmlTr += "<td style=\"padding-left:10px;\"  align=\"left\"><select id=\""+datas[i].MENU_PARAM_NAME+"\" styleType=\"select\" name=\""+datas[i].SQL_PARAMS_NAME+"\" class=\"form-control\" style=\"width:200px;\" DictName=\""+datas[i].MENU_PARAM_FROM+"\" dataField=\"\"></select></td>\n";
+			            	     
+			            	}else if(datas[i].SQL_PARAMS_GUI_TYPE=="6"){
 								var dateClass="";
 								if(datas[i].DATEPICKER_FORMAT.toLowerCase()=='yyyy-mm-dd'){
 									dateClass='form_date1';
@@ -219,19 +222,36 @@ function formatDatebox(value,key) {
 							}
 							htmlTr += "</tr>\n";
 							flagnum++;
+							
 						}	
+						
 					}
+					
 				}
+				
 			});
 			
 			$("#frontParam").append(htmlTr);
+	
 		}
 		if(flagnum==0){
 			window.parent.initFilterParam(dataType,data);
 			closex();
 		}
 	}
-
+   /* function xx(datas){
+      var classes=[];
+      classes = $("select");
+      for(var j=0;j<datas.length;j++){
+		                           var data = datas[j];
+		                          // var data1=datas[j].MENU_PARAM_NAME;
+		                          for(var i=0;i<data.length;i++){
+			                      document.getElementById(classes[i].MENU_PARAM_NAME).options.add(new Option(data[i].COMBOBOX_GUI_INIT_VALUE,data[i].SQL_PARAM_SCHEMA_ID));
+		                     }
+	                        }
+    
+    }
+    */
 	//获取url参数(filterName/paramType)
 	function GetQueryString(key){
 	        var reg = new RegExp("(^|&)"+key+"=([^&]*)(&|$)");

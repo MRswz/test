@@ -332,6 +332,13 @@ public class ActTaskService {
 						e.setStatus("todo");
 						
 						result.add(e);
+					}else{
+						try {
+							endProcess(task.getId());
+						} catch (Exception e2) {
+							// TODO: handle exception
+							System.out.println(e2.getMessage());
+						}
 					}
 			}
 			if (realSize<conductSize) {
@@ -3079,7 +3086,40 @@ public ResultActListMap todoList(Act act,String userId,String showType,List<ActR
             historyService.deleteHistoricTaskInstance(currTask.getId());
             historyService.deleteHistoricTaskInstance(task.getId());
             runtimeService.deleteProcessInstance(processInstanceId,"发起人终止");
-            return reCode;
+            /**
+             * 终止流程后,删除流程其他记录
+             */
+    		String sql1 = "delete from act_hi_actinst where    PROC_INST_ID_ = '"+processInstanceId+"'";
+    		MybatisUtil.delete("runtime.selectSql", sql1);
+    		String sql2 = "delete from act_hi_attachment   where   PROC_INST_ID_= '"+processInstanceId+"'";
+    		MybatisUtil.delete("runtime.selectSql", sql2);
+    		String sql3 = "delete from act_hi_comment  where   PROC_INST_ID_= '"+processInstanceId+"'";
+    		MybatisUtil.delete("runtime.selectSql", sql3);
+    		String sql4 = "delete from act_hi_detail   where   PROC_INST_ID_= '"+processInstanceId+"'";
+    		MybatisUtil.delete("runtime.selectSql", sql4);
+    		String sql5 = "delete from act_hi_identitylink where TASK_ID_ IN (select ID_ from act_hi_taskinst where PROC_INST_ID_ = '"+processInstanceId+"')";
+    		MybatisUtil.delete("runtime.selectSql", sql5);
+    		String sql6 = "delete from act_hi_identitylink where   PROC_INST_ID_= '"+processInstanceId+"'";
+    		MybatisUtil.delete("runtime.selectSql", sql6);
+    		String sql7 = "delete from act_hi_procinst where   PROC_INST_ID_= '"+processInstanceId+"'";
+    		MybatisUtil.delete("runtime.selectSql", sql7);
+    		String sql8 = "delete from act_hi_taskinst where   PROC_INST_ID_= '"+processInstanceId+"'";
+    		MybatisUtil.delete("runtime.selectSql", sql8);
+    		String sql9 = "delete from act_hi_varinst  where   PROC_INST_ID_= '"+processInstanceId+"'";
+    		MybatisUtil.delete("runtime.selectSql", sql9);
+    		String sql10 = "delete from act_ru_event_subscr where   PROC_INST_ID_= '"+processInstanceId+"'";
+    		MybatisUtil.delete("runtime.selectSql", sql10);
+    		String sql11 = "delete from act_ru_identitylink where TASK_ID_ IN (select ID_ from act_ru_task where PROC_INST_ID_ = '"+processInstanceId+"')";
+    		MybatisUtil.delete("runtime.selectSql", sql11);
+    		String sql12 = "delete from act_ru_identitylink where   PROC_INST_ID_= '"+processInstanceId+"'";
+    		MybatisUtil.delete("runtime.selectSql", sql12);
+    		String sql13 = "delete from act_ru_task where   PROC_INST_ID_= '"+processInstanceId+"'";
+    		MybatisUtil.delete("runtime.selectSql", sql13);
+    		String sql14 = "delete from act_ru_variable where   PROC_INST_ID_= '"+processInstanceId+"'";
+    		MybatisUtil.delete("runtime.selectSql", sql14);
+    		String sql15 = "delete from act_ru_execution    where   PROC_INST_ID_= '"+processInstanceId+"'";
+    		MybatisUtil.delete("runtime.selectSql", sql15);
+                        return reCode;
         } catch (Exception e) {
         	reCode[0] = "false";
 			reCode[1] = "未知错误,请联系开发人员";

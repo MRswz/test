@@ -115,7 +115,7 @@ public class SysGridFormBeansUtil implements Serializable {
     }
 	
 	public static String getTextBoxHtml(String classType, String jsId, String fieldName, String vtype,String othervtype, String emptyText, boolean isRequired,
-			boolean isValidation, boolean isDisable, String entityName, String width,String lableName, boolean isRender,String formDefCode, boolean readonly, String align,String checkSelf,String height,String showtypeString,String colorCondition,String color,SysTextBoxCache textBox,String isApp,String columnPosition) {
+			boolean isValidation, boolean isDisable, String entityName, String width,String lableName, boolean isRender,String formDefCode, boolean readonly, String align,String checkSelf,String height,String showtypeString,String colorCondition,String color,SysTextBoxCache textBox,String isApp,String columnPosition,boolean isAccount) {
 		// TODO 自动生成方法存根
 		String requiredVtypeHtml = isRequired?";required":"";
 		String vtypeHtml =  "";
@@ -152,9 +152,9 @@ public class SysGridFormBeansUtil implements Serializable {
 			temp = getCardAndCardColumnProperty(fieldName,lableName,vtypeHtml,width,rendereHtml,align,"",showtypeString,colorCondition,color,textBox,"TEXTBOX");
 		} */else {
 			if (classType.equals("richText")) {
-				temp = getGridColumnProperty(fieldName,lableName,vtypeHtml,width,rendereHtml,align,"",showtypeString,colorCondition,color,textBox,classType);
+				temp = getGridColumnProperty(fieldName,lableName,vtypeHtml,width,rendereHtml,align,"",showtypeString,colorCondition,color,textBox,classType,isAccount);
 			} else {
-				temp = getGridColumnProperty(fieldName,lableName,vtypeHtml,width,rendereHtml,align,"",showtypeString,colorCondition,color,textBox,"");
+				temp = getGridColumnProperty(fieldName,lableName,vtypeHtml,width,rendereHtml,align,"",showtypeString,colorCondition,color,textBox,"",isAccount);
 			}
 			
 		}
@@ -166,7 +166,7 @@ public class SysGridFormBeansUtil implements Serializable {
 	} 
 	
 	public static String getTextBoxHtmlForGrid(String classType, String jsId, String fieldName, String vtype,String othervtype, String emptyText, boolean isRequired,
-			boolean isValidation, boolean isDisable, String entityName, String width,String lableName, boolean isRender,String formDefCode, boolean readonly, String align,String checkSelf,String height,String showtypeString,String isEdit,String color,SysTextBoxCache textBox,String isApp,String columnPosition) {
+			boolean isValidation, boolean isDisable, String entityName, String width,String lableName, boolean isRender,String formDefCode, boolean readonly, String align,String checkSelf,String height,String showtypeString,String isEdit,String color,SysTextBoxCache textBox,String isApp,String columnPosition,boolean isAccount) {
 		// TODO 自动生成方法存根
 		String requiredVtypeHtml = isRequired?";required":"";
 		String vtypeHtml =  "";
@@ -189,7 +189,7 @@ public class SysGridFormBeansUtil implements Serializable {
 		String rendereHtml = isRender?" renderer=\""+RENDERER_NAME+formDefCode+jsId+"\"":"";
 		String alignHtml = align==null?"":"align=\""+align+"\"";
 		String temp = "";
-		temp = getGridColumnPropertyForGrid(fieldName,lableName,vtypeHtml,width,rendereHtml,align,"",showtypeString,isEdit,color,textBox,"");
+		temp = getGridColumnPropertyForGrid(fieldName,lableName,vtypeHtml,width,rendereHtml,align,"",showtypeString,isEdit,color,textBox,"",isAccount);
 		return temp;
 	} 
 	
@@ -428,7 +428,7 @@ public class SysGridFormBeansUtil implements Serializable {
 	}
 	
 	public static String getPicHtml(String classType, String jsId, String fieldName, String vtype,String othervtype, String emptyText, boolean isRequired,
-			boolean isValidation, boolean isDisable, String entityName, String width,String lableName, boolean isRender,String formDefCode, boolean readonly, String align,String checkSelf,String height,String showtypeString,String colorCondition,String color,SysTextBoxCache textBox,String isApp,String columnPosition) {
+			boolean isValidation, boolean isDisable, String entityName, String width,String lableName, boolean isRender,String formDefCode, boolean readonly, String align,String checkSelf,String height,String showtypeString,String colorCondition,String color,SysTextBoxCache textBox,String isApp,String columnPosition,boolean isAccount) {
 		// TODO 自动生成方法存根
 		String requiredVtypeHtml = isRequired?";required":"";
 		String vtypeHtml =  "";
@@ -463,7 +463,7 @@ public class SysGridFormBeansUtil implements Serializable {
 					   "	<span class=\"mui-icon\"></span>\n";
 				}
 		} else {
-			temp = getGridColumnProperty(fieldName,lableName,vtypeHtml,width,rendereHtml,align,"",showtypeString,colorCondition,color,textBox,"");
+			temp = getGridColumnProperty(fieldName,lableName,vtypeHtml,width,rendereHtml,align,"",showtypeString,colorCondition,color,textBox,"", isAccount);
 		}
 		
 		/*if(!readonly){
@@ -500,7 +500,7 @@ public class SysGridFormBeansUtil implements Serializable {
 	 */
 	public static String getDatepickerHtml(String classType, String jsId, String fieldName, String vtype, String emptyText, boolean isRequired, boolean isCellEdite, 
 			boolean isRender, boolean isValidation, boolean isDisable, String entityName, String formColumnWidth, String format, String timeformat, boolean showtime, 
-			boolean showokbutton, boolean showclearbutton, boolean allowinput, boolean showtodaybutton, boolean isDrawdate,String formDefCode,boolean readonly, String formColumnAlign,String lableName,String isDrawdateFunName,String colorCondition,String color,SysTextBoxCache textbox) {
+			boolean showokbutton, boolean showclearbutton, boolean allowinput, boolean showtodaybutton, boolean isDrawdate,String formDefCode,boolean readonly, String formColumnAlign,String lableName,String isDrawdateFunName,String colorCondition,String color,SysTextBoxCache textbox,boolean isAccount) {
 		// TODO 自动生成方法存根
 		String requiredVtypeHtml = isRequired?"vtype=\"required\"":"";
 		String rendereHtml = isRender?" renderer=\""+RENDERER_NAME+formDefCode+jsId+"\"":"";
@@ -529,7 +529,7 @@ public class SysGridFormBeansUtil implements Serializable {
 			allowinputHtml = "";
 		}*/
 		
-		String temp = getGridColumnProperty(fieldName,lableName,vtypeHtml,widthHtml,rendereHtml,formColumnAlign,dateFormat,"",colorCondition,color,textbox,"");
+		String temp = getGridColumnProperty(fieldName,lableName,vtypeHtml,widthHtml,rendereHtml,formColumnAlign,dateFormat,"",colorCondition,color,textbox,"",isAccount);
 		if(!readonly){
 			temp += "<input  property=\"editor\" class=\""+classType+"\"" + 
 						emptyTextHtml+widthHtml+isDrawdateFunName+formatHtml+timeFormatHtml+showtimeHtml+showokbuttonHtml+showclearbuttonHtml+showtodaybuttonHtml+allowinputHtml+widthHtml+"/>";
@@ -585,7 +585,7 @@ public class SysGridFormBeansUtil implements Serializable {
 	 * @return
 	 */
 	public static String getLookupHtml(String classType, String jsId, String fieldName, String vtype, String emptyText, boolean isRequired, boolean isCellEdit, boolean isRender,
-			boolean isValidation, boolean isDisable, String entityName, String formColumnWidth,String lableName, String formDefCode, String formColumnAlign,String displayField,String onButtonEditName,String colorCondition,String color,SysTextBoxCache textbox) {
+			boolean isValidation, boolean isDisable, String entityName, String formColumnWidth,String lableName, String formDefCode, String formColumnAlign,String displayField,String onButtonEditName,String colorCondition,String color,SysTextBoxCache textbox,boolean isAccount) {
 		// TODO 自动生成方法存根
 		String requiredVtypeHtml = isRequired?"vtype=\"required\"":"";
 		String rendereHtml = isRender?" renderer=\""+RENDERER_NAME+formDefCode+jsId+"\"":"";
@@ -596,7 +596,7 @@ public class SysGridFormBeansUtil implements Serializable {
 		String displayFieldHtml = displayField==null?"":"displayField=\""+displayField+"\"";
 		
 		
-		String temp = getGridColumnProperty(fieldName,lableName,vtypeHtml,widthHtml,rendereHtml,alignHtml,displayFieldHtml,"",colorCondition,color,textbox,"");
+		String temp = getGridColumnProperty(fieldName,lableName,vtypeHtml,widthHtml,rendereHtml,alignHtml,displayFieldHtml,"",colorCondition,color,textbox,"",isAccount);
 		if(isDisable==false){
 			temp+=SysCardFormBeansUtil.getNbsp(4)+"<input property=\"editor\" class=\"nui-buttonedit\" onbuttonclick=\""+onButtonEditName+"\" style=\"width:100%;\"/>"+SysCardFormBeansUtil.NEW_LINE_ONLY; 
 		}
@@ -609,7 +609,7 @@ public class SysGridFormBeansUtil implements Serializable {
 
 
 	
-	public static String getGridColumnProperty(String fieldName,String lableName,String vtype,String width,String rendereHtml,String alignHtml,String otherHtml,String showtypeString,String colorCondition,String color,SysTextBoxCache textbox,String isRichText){
+	public static String getGridColumnProperty(String fieldName,String lableName,String vtype,String width,String rendereHtml,String alignHtml,String otherHtml,String showtypeString,String colorCondition,String color,SysTextBoxCache textbox,String isRichText,boolean isAccount){
 		//temp+=SysCardFormBeansUtil.getNbsp(3)+"<div field=\""+fieldName+"\" name=\""+fieldName+"\" allowSort=\"true\" headerAlign=\"center\" "+alignHtml+width+rendereHtml+vtype+otherHtml+">"+lableName+SysCardFormBeansUtil.NEW_LINE_ONLY;
 		fieldName = fieldName.toUpperCase();
 		String width1 = "";
@@ -695,26 +695,56 @@ public class SysGridFormBeansUtil implements Serializable {
 		}else{
 			colortemp = "                   return "+"\""+"<a "+hrefhtml+" class=\\\"eli w"+width1+"\\\" style=\\\"font-size:12px;"+textDecoration+"color:black;width:"+width+";\\\" name="+"\\"+"\""+fieldName+"\\"+"\" data-type="+"\\"+"\"text"+"\\"+"\" data-pk="+"\\"+"\""+"\""+"+row.Id+"+"\""+"\\"+"\" title=\\\""+"\""+"+"+ "value" +"+"+"\""+"\\\" data-title="+"\\"+"\""+lableName+"\\"+"\">"+"\""+"+"+ "value" +"+"+"\""+"</a>"+"\""+";"+"\n";
 		}
-		
-		String temp="  {"+"\n"
-//		+"                title : '"+lableName+"',"+"\n"
-		+"                title : '"+lableName+"',"+"\n"
-		+"                field : '"+fieldName+"',"+"\n"
-		+"                align : 'center',"+"\n"
-		+"                "+showtypeString+","+"\n"
-		+"                valign : '"+alignHtml+"',"+"\n"
-//		+"                sortable : true,"+"\n"
-		+"                formatter: function (value, row, index) {"+"\n"
-		+"                    if(value==undefined){"+"\n"
-		+"                        value='-';"+"\n"
-		+"                    }"+"\n"
-		+colortemp
-		+"                }"+"\n"
-		+"            },"+"\n";
+		String temp;
+		if(isAccount){
+			String count="},\n"+
+							"footerFormatter: function(value){\n"+
+								"   var sum = 0;\n"+
+							    "    for (var i=0;i<value.length;i++) {\n"+
+								"		var val = value[i]."+fieldName+";\n"+
+							    "       if(!isNaN(val)){\n"+
+								"         sum =sum+val;\n"+
+							    "       }\n"+
+							    "}\n"+
+								"  return sum.toFixed(4);\n"+
+							    "}\n";
+			temp="  {"+"\n"
+//					+"                title : '"+lableName+"',"+"\n"
+					+"                title : '"+lableName+"',"+"\n"
+					+"                field : '"+fieldName+"',"+"\n"
+					+"                align : 'center',"+"\n"
+					+"                "+showtypeString+","+"\n"
+					+"                valign : '"+alignHtml+"',"+"\n"
+//					+"                sortable : true,"+"\n"
+					+"                formatter: function (value, row, index) {"+"\n"
+					+"                    if(value==undefined){"+"\n"
+					+"                        value='-';"+"\n"
+					+"                    }"+"\n"
+					+colortemp+"\n"
+					+count
+					+"            },"+"\n";
+		}else{
+			 temp="  {"+"\n"
+//					+"                title : '"+lableName+"',"+"\n"
+					+"                title : '"+lableName+"',"+"\n"
+					+"                field : '"+fieldName+"',"+"\n"
+					+"                align : 'center',"+"\n"
+					+"                "+showtypeString+","+"\n"
+					+"                valign : '"+alignHtml+"',"+"\n"
+//					+"                sortable : true,"+"\n"
+					+"                formatter: function (value, row, index) {"+"\n"
+					+"                    if(value==undefined){"+"\n"
+					+"                        value='-';"+"\n"
+					+"                    }"+"\n"
+					+colortemp
+					+"                }"+"\n"
+					+"            },"+"\n";
+		}
+
 		return temp;
 	}
 	
-	public static String getGridColumnPropertyForGrid(String fieldName,String lableName,String vtype,String width,String rendereHtml,String alignHtml,String otherHtml,String showtypeString,String isEdit,String color,SysTextBoxCache textbox,String isRichText){
+	public static String getGridColumnPropertyForGrid(String fieldName,String lableName,String vtype,String width,String rendereHtml,String alignHtml,String otherHtml,String showtypeString,String isEdit,String color,SysTextBoxCache textbox,String isRichText,boolean isAccount){
 		//temp+=SysCardFormBeansUtil.getNbsp(3)+"<div field=\""+fieldName+"\" name=\""+fieldName+"\" allowSort=\"true\" headerAlign=\"center\" "+alignHtml+width+rendereHtml+vtype+otherHtml+">"+lableName+SysCardFormBeansUtil.NEW_LINE_ONLY;
 		fieldName = fieldName.toUpperCase();
 		String width1 = "";
@@ -741,7 +771,35 @@ public class SysGridFormBeansUtil implements Serializable {
 		} else {
 			colortemp = "                   return "+"\""+"<a  class=\\\"eli w"+width1+"\\\" style=\\\"font-size:12px;"+textDecoration+"color:black;width:"+width+";\\\" name="+"\\"+"\""+fieldName+"\\"+"\" data-type="+"\\"+"\"text"+"\\"+"\" data-pk="+"\\"+"\""+"\""+"+row.Id+"+"\""+"\\"+"\" title=\\\""+"\""+"+"+ "value" +"+"+"\""+"\\\"  data-title="+"\\"+"\""+lableName+"\\"+"\">\"+value+\"</a>\"\n";
 		}
-		String temp="  {"+"\n"
+		String temp;
+		if(isAccount){
+			String count="},\n"+
+					"footerFormatter: function(value){\n"+
+						"   var sum = 0;\n"+
+					    "    for (var i=0;i<value.length;i++) {\n"+
+						"		var val = value[i]."+fieldName+";\n"+
+					    "       if(!isNaN(val)){\n"+
+						"         sum =sum+val;\n"+
+					    "       }\n"+
+					    "}\n"+
+						"  return sum.toFixed(4);\n"+
+					    "}\n";
+			temp="  {"+"\n"
+//					+"                title : '"+lableName+"',"+"\n"
+					+"                title : '"+lableName+"',"+"\n"
+					+"                field : '"+fieldName+"',"+"\n"
+					+"                align : 'center',"+"\n"
+					+"                "+showtypeString+","+"\n"
+					+"                valign : '"+alignHtml+"',"+"\n"
+					+"                formatter: function (value, row, index) {"+"\n"
+					+"                    if(value==undefined){"+"\n"
+					+"                        value='-';"+"\n"
+					+"                    }"+"\n"
+					+colortemp
+					+count+"\n"
+					+"            },"+"\n";
+		}else{
+		 temp="  {"+"\n"
 //		+"                title : '"+lableName+"',"+"\n"
 		+"                title : '"+lableName+"',"+"\n"
 		+"                field : '"+fieldName+"',"+"\n"
@@ -755,7 +813,7 @@ public class SysGridFormBeansUtil implements Serializable {
 		+colortemp
 		+"                }"+"\n"
 		+"            },"+"\n";
-		return temp;
+		}		return temp;
 	}
 	
 	/**
@@ -3018,7 +3076,14 @@ public class SysGridFormBeansUtil implements Serializable {
 		int formDefId = form.getPojoform().getFormDefId().intValue();
 
 		StringBuffer js = new StringBuffer();
-
+		//判断是否合计
+		String shoot="";
+		for(int i=0;i<form.getColumns().size();i++){
+			if(form.getColumns().get(i).getPojo().getFormColumnTotal()!=null&&form.getColumns().get(i).getPojo().getFormColumnTotal().equals("Y")){
+						
+				shoot="            showFooter: true,"+"\n";
+			}
+		}
 		String[] showButton = null;
 		if (form.getGrid().getFormEditNextOnEnter()!=null) {
 			showButton = form.getGrid().getFormEditNextOnEnter().split(",");
@@ -3099,6 +3164,7 @@ public class SysGridFormBeansUtil implements Serializable {
 		+"            height : 500,"+"\n"
 		+"            undefinedText : '-',"+"\n"
 		+"            pagination : true,"+"\n"
+		+shoot
 		+"            striped : false,"+"\n"
 		+"            fixedColumns: "+fixedColumns+","+"\n"
 		+"            fixedNumber:"+fixedNumber+","+"\n"
@@ -4030,27 +4096,28 @@ public class SysGridFormBeansUtil implements Serializable {
 				}else{
 					jspBuildString +="        '        <a href=\""+sList.get(0).getTemplateColumnLinkMark()+paramStrings+"\">'+\n";
 				}
-			}		        
-									if(photo==null||photo.equals("")){
-										
-									}else if (photos[photos.length-1].toUpperCase().equals("EMPID")) {
-													jspBuildString +=  	"        '            <div class=\"col-sm-4\">'+\n"+
-													        "        '                <div class=\"text-center\">'+\n"+
-													        "        '                    <img width=\"100\" style=\"margin:0 auto\" alt=\"image\" id=\"Employee_Photo_WT\" class=\"img-circle m-t-xs img-responsive\" >'+\n"+
-													        "        '                    <div class=\"m-t-xs font-bold\" ></div>'+\n"+
-													        "        '                </div>'+\n"+
-													        "        '            </div>'+\n";	
-									}else {
-										jspBuildString +=  			"        '            <div class=\"col-sm-4\">'+\n"+
-															        "        '                <div class=\"text-center\">'+\n"+
-															        "        '                    <img width=\"100\" style=\"margin:0 auto\" alt=\"image\" title=\"'+"+titles+"+'\" class=\"img-circle m-t-xs img-responsive\" src=\"http://116.62.243.28:9875/'+arr[i]."+photo.toUpperCase()+"+'\">'+\n"+
-															        "        '                    <div class=\"m-t-xs font-bold\" title=\"'+"+titles+"+'\">'+arr[i]."+name.toUpperCase()+"+'</div>'+\n"+
-															        "        '                </div>'+\n"+
-															        "        '            </div>'+\n";							
-									}
+			}		
+			String jspsyin="";
+			if(photo==null||photo.equals("")){
+				
+			}else if (photos[photos.length-1].toUpperCase().equals("EMPID")) {
+				jspsyin +=  	"        '            <div class=\"col-sm-4\"style=\"right:100\">'+\n"+
+							        "        '                <div class=\"text-center\">'+\n"+
+							        "        '                    <img width=\"100\" style=\"margin:0 auto\" alt=\"image\" id=\"Employee_Photo_WT\" class=\" m-t-xs img-responsive\" >'+\n"+
+							        "        '                    <div class=\"m-t-xs font-bold\" ></div>'+\n"+
+							        "        '                </div>'+\n"+
+							        "        '            </div>'+\n";	
+			}else {
+				jspsyin +=  			"        '            <div class=\"col-sm-4\"style=\"right:100\">'+\n"+
+									        "        '                <div class=\"text-center\">'+\n"+
+									        "        '                    <img width=\"100\" style=\"margin:0 auto\" alt=\"image\" title=\"'+"+titles+"+'\" class=\"m-t-xs img-responsive\" src=\"http://116.62.243.28:9875/'+arr[i]."+photo.toUpperCase()+"+'\">'+\n"+
+									        "        '                    <div class=\"m-t-xs font-bold\" title=\"'+"+titles+"+'\">'+arr[i]."+name.toUpperCase()+"+'</div>'+\n"+
+									        "        '                </div>'+\n"+
+									        "        '            </div>'+\n";							
+			}
 							       
 							        
-			jspBuildString +=       "        '            <div class=\"col-sm-8\">'+\n"+
+			jspBuildString +=       "        '            <div class=\"col-sm-8\"style=\"left:120\">'+\n"+
 							        "        '                <h3 style=\"margin-top:0;overflow:hidden;height:35px;color:"+sList.get(1).getTemplateColumnFontColor()+";\" title=\"'+"+titles+"+'\"><strong>'+"+titles+"+'</strong></h3>'+\n";
 			if(position[0]==null||position[0].equals("")){
 												
@@ -4081,7 +4148,9 @@ public class SysGridFormBeansUtil implements Serializable {
 									}
 			      jspBuildString += "        '                </div>'+\n"+
 							        "        '            </div>'+\n"+
-							        "        '            <div class=\"clearfix\"></div>'+\n"+
+							        jspsyin+"\n"+
+			      
+			        				"        '            <div class=\"clearfix\"></div>'+\n"+
 							        "        '        </a>'+\n"+
 							        "        '    </div>'+\n"+
 							        "        '</div>');\n"+
@@ -4518,9 +4587,11 @@ public class SysGridFormBeansUtil implements Serializable {
 				}
 				String dateType = isDateTime(form.getColumns(),title[i].split("\\|")[2]);
 				if (!dateType.equals("false")) {
-					initTitles+="if(arr[i]."+title[i].split("\\|")[0].toUpperCase()+"!=null){\n"+
-							"	 "+title[i].split("\\|")[0]+" = new Date("+title[i].split("\\|")[0]+").Format(\""+dateType+"\");\n"+
-							"}\n";
+					if(dateType.indexOf("|")>-1){//字典
+						initTitles+= title[i].split("\\|")[0]+" = arr[i]."+title[i].split("\\|")[0].toUpperCase()+"_DICTNAME;\n";
+					}else {//日期
+						initTitles+= title[i].split("\\|")[0]+" = arr[i]."+title[i].split("\\|")[0].toUpperCase()+"_NEWDATE;\n";
+					}
 				}else {
 					initTitles+="if(arr[i]."+title[i].split("\\|")[0].toUpperCase()+"==null){\n"+
 								"	 "+title[i].split("\\|")[0]+" = '';\n"+
@@ -4576,9 +4647,11 @@ public class SysGridFormBeansUtil implements Serializable {
 				initPositions += "var "+content[y] +" = arr[i]."+content[y].toUpperCase()+";\n";
 				String dateType = isDateTime(form.getColumns(),sList.get(x).getTemplateColumnValue().split("\\|")[2]);
 				if (!dateType.equals("false")) {
-					initPositions+= "if(arr[i]."+content[y].toUpperCase()+"!=null){\n"+
-							"	 "+content[y]+" = new Date("+content[y]+").Format(\""+dateType+"\");\n"+
-							"}\n";
+					if(dateType.indexOf("|")>-1){//字典
+						initPositions+= content[y]+" = arr[i]."+content[y].toUpperCase()+"_DICTNAME;\n";
+					}else {//日期
+						initPositions+= content[y]+" = arr[i]."+content[y].toUpperCase()+"_NEWDATE;\n";
+					}
 				}else {
 					initPositions+="if(arr[i]."+content[y].toUpperCase()+"==null){\n"+
 							"	 "+content[y]+" = '';\n"+

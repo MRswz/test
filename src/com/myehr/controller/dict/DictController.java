@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -308,7 +310,20 @@ public class DictController {
 			logger.info(dictTypeCode);
 		}
 		SysDictType dictType=dictTypeServiceImpl.findSysDictTypeByCode(dictTypeCode);
-		//List<SysDictEntryExpand> list= serviceImpl.searchDictEntryListByTypeId(dictType.getDictTypeId());
+		if(dictType.getDictTypeClass()=="SQL"||dictType.getDictTypeClass().equals("SQL")){
+			String sql1="";
+			Map lists = sysformconfigService.getDictNameMap(dictTypeCode);
+			List<Map<String,String>> rsc = new ArrayList<Map<String,String>>();
+		    Set<Entry<Integer, String>> entrys = lists.entrySet();
+            for(Entry<Integer, String> entry:entrys){
+				Map<String,String> m1 = new HashMap<String,String>();
+				System.out.println("key值："+entry.getKey()+" value值："+entry.getValue());
+				m1.put("text", entry.getKey()+"");
+				m1.put("id", entry.getValue());
+				rsc.add(m1);
+			}
+			   return rsc;
+		}		//List<SysDictEntryExpand> list= serviceImpl.searchDictEntryListByTypeId(dictType.getDictTypeId());
 		List<SysDictEntry> list = sysformconfigService.getDictEntrys(dictTypeCode);
 		SysDictEntryExample entryExample = new SysDictEntryExample();
 		logger.info(dictType.getDictTypeName());
@@ -661,7 +676,6 @@ public class DictController {
 					dictData.setName("请选择...");
 					data.add(dictData);
 				}
-				logger.info(column.getFormColumnUsName());
 				List<DictData> datas2 = sysformconfigService.getCardDictDataByDictTypeCode(column.getFormColumnUsName(),"dict");
 				if (datas2!=null) {
 					data.addAll(datas2);
@@ -675,7 +689,6 @@ public class DictController {
 					dictData.setName("请选择...");
 					data.add(dictData);
 				}
-				logger.info(column.getFormColumnUsName());
 				List<DictData> datas2 = sysformconfigService.getCardDictDataByDictTypeCode(column.getFormColumnUsName(),"sql");
 				if (datas2!=null) {
 					data.addAll(datas2);

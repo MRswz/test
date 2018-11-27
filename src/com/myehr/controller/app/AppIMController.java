@@ -33,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.myehr.common.app.login.tls_sigature;
 import com.myehr.common.app.login.tls_sigature.GenTLSSignatureResult;
+import com.myehr.common.exception.DcfException;
 import com.myehr.common.mybatis.MybatisUtil;
 import com.myehr.common.util.ChangeCode;
 import com.myehr.mapper.app.im.SysCheckTokenMapper;
@@ -43,6 +44,7 @@ import com.myehr.mapper.sysParam.SysSystemParamMapper;
 import com.myehr.mapper.sysuser.SysUserExpandMapper;
 import com.myehr.mapper.sysuser.SysUserMapper;
 import com.myehr.pojo.UserExample;
+import com.myehr.pojo.act.Act;
 import com.myehr.pojo.app.im.ReturnInfoMessage;
 import com.myehr.pojo.app.im.SysCheckTokenExample;
 import com.myehr.pojo.app.im.SysImInformation;
@@ -53,6 +55,7 @@ import com.myehr.pojo.sysParam.SysSystemParamExample;
 import com.myehr.pojo.sysuser.SysUser;
 import com.myehr.pojo.sysuser.SysUserExample;
 import com.myehr.service.app.TXIMService;
+import com.myehr.service.flow.ActTaskService;
 import com.myehr.service.menu.SysMenuService;
 
 @Controller
@@ -69,8 +72,8 @@ public class AppIMController {
 	@Resource(name = "TXIMService")  TXIMService txitservice;
 	@Autowired 
 	private SysMenuService sMService;
-	
-	
+	@Autowired
+	private ActTaskService actTaskService;
 	@RequestMapping("/saveMessage")
 	public @ResponseBody Object saveMessage(HttpServletRequest request){
 		SysImMessage message = new SysImMessage();
@@ -85,9 +88,6 @@ public class AppIMController {
 		String messagetype = request.getParameter("messagetype");
 		String isreaded = request.getParameter("isreaded");
 		String messagecontent = request.getParameter("messagecontent");
-		
-		
-		
 		ReturnInfoMessage infoMessage = new ReturnInfoMessage();
 		if (id!=null&&!id.equals("")) {
 			try {
@@ -252,15 +252,20 @@ public class AppIMController {
 		result= JSON.toJSONString(map);
 		return result;
 	}
-	
 	@RequestMapping(value="/getMenuByPcode", produces = "text/html;charset=UTF-8")
-	public @ResponseBody Object queryMainframeMenuByPcode(HttpServletRequest request){		
+	public @ResponseBody Object queryMainframeMenuByPcode(HttpServletRequest request) throws DcfException, Exception{		
 		String userId = request.getSession().getAttribute("userid")+"";
 		String pCode = request.getParameter("menuCode");
 		String schemeId = request.getParameter("schemeId");
-		return sMService.queryMainframeMenuByPcode(userId,schemeId,pCode);
+		boolean isApp = true;
+		return sMService.queryMainframeMenuByPcode(userId,schemeId,pCode,isApp);
 	}
-	
+	@RequestMapping("/getToDoList")
+	public @ResponseBody Object getToDoList(HttpServletRequest request) throws DcfException, Exception{		
+		String userId = request.getSession().getAttribute("userid")+"";
+		Act act = new Act();
+		return actTaskService.todoList_New(act,userId,null,null,null);
+	}
 	
 	@RequestMapping("/getOrgAndPerInfo_imLoad")
 	public @ResponseBody Object getOrgAndPerInfo(HttpServletRequest request){		
@@ -506,12 +511,12 @@ public class AppIMController {
 				 "       }"+
 				 "   ]"+
 				 "}";
-String identifier = "sysadmin";
-String sdkappid = "1400113421";
-String usersig = "eJxlj11PgzAYhe-5FYTbGW0pVWPiBe4jKbJMFNzcTYO0kHcIVNp9afzvRlxiE8-t8*ScnE-HdV0vjZ-O86Lotq3h5qik5964HvLO-qBSIHhuOOnFPygPCnrJ89LIfoCYUuojZDsgZGughJOhjzoXDbSWoUXNh5nfigAhjEngY1uBaoDzaTZmyWQxD6tClOn1jKpi3DwrnS3u6Mdolj6wjITr5KBf2bZYjiZ7Vk3jx-t1875BSdvEy7Dur3LJNheyDsruBb9l0cpEu2qVQMRurUkDjTx9IvgyIAG2X*1kr6FrB8FHmGKfoJ94zpfzDcTJXss_";
-
-String httpString = "https://console.tim.qq.com/v4/profile/portrait_set?usersig="+usersig+"&identifier="+identifier+"&sdkappid="+sdkappid+"&random=99999999&contenttype=json";
-Map map = (Map)JSON.parse(ChangeCode.httpsRequest(httpString,"POST",postStr));
-return null;
+		String identifier = "sysadmin";
+		String sdkappid = "1400113421";
+		String usersig = "eJxlj11PgzAYhe-5FYTbGW0pVWPiBe4jKbJMFNzcTYO0kHcIVNp9afzvRlxiE8-t8*ScnE-HdV0vjZ-O86Lotq3h5qik5964HvLO-qBSIHhuOOnFPygPCnrJ89LIfoCYUuojZDsgZGughJOhjzoXDbSWoUXNh5nfigAhjEngY1uBaoDzaTZmyWQxD6tClOn1jKpi3DwrnS3u6Mdolj6wjITr5KBf2bZYjiZ7Vk3jx-t1875BSdvEy7Dur3LJNheyDsruBb9l0cpEu2qVQMRurUkDjTx9IvgyIAG2X*1kr6FrB8FHmGKfoJ94zpfzDcTJXss_";
+		
+		String httpString = "https://console.tim.qq.com/v4/profile/portrait_set?usersig="+usersig+"&identifier="+identifier+"&sdkappid="+sdkappid+"&random=99999999&contenttype=json";
+		Map map = (Map)JSON.parse(ChangeCode.httpsRequest(httpString,"POST",postStr));
+		return null;
 	}
 }

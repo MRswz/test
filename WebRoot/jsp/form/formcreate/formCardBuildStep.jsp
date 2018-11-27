@@ -2834,7 +2834,7 @@ function query_tablestep3() {
             field : 'formWhereLeftBracket', // 字段  
             align: 'center',
             valign: 'middle',
-            width:175,
+            width:70,
             formatter: function (value, row, index) {
             	if(value==undefined){
 	        		value = "";
@@ -2870,7 +2870,7 @@ function query_tablestep3() {
             field : 'formWhereValue',  
             align : 'center',  
             valign : 'middle', 
-            width:200,
+            width:300,
             formatter: function (value, row, index) {
             	if(value==undefined){
 	        		value = "";
@@ -2906,7 +2906,7 @@ function query_tablestep3() {
             field : 'formWhereNullIs',  
             align : 'center',  
             valign : 'middle',
-            width:175,
+            width:70,
             formatter: function (value, row, index) {
             	if(value==undefined){
 		        		value = "";
@@ -2918,7 +2918,7 @@ function query_tablestep3() {
             field : 'formWhereRightBracket',  
             align : 'center',  
             valign : 'middle',
-            width:175,
+            width:70,
             formatter: function (value, row, index) {
             	if(value==undefined){
 		        		value = "";

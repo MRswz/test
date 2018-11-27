@@ -40,7 +40,7 @@ public class TXIMServiceImpy implements TXIMService {
 	String sdkappid = "1400113421";
 	String usersig = "eJxlj11PgzAYhe-5FYTbGW0pVWPiBe4jKbJMFNzcTYO0kHcIVNp9afzvRlxiE8-t8*ScnE-HdV0vjZ-O86Lotq3h5qik5964HvLO-qBSIHhuOOnFPygPCnrJ89LIfoCYUuojZDsgZGughJOhjzoXDbSWoUXNh5nfigAhjEngY1uBaoDzaTZmyWQxD6tClOn1jKpi3DwrnS3u6Mdolj6wjITr5KBf2bZYjiZ7Vk3jx-t1875BSdvEy7Dur3LJNheyDsruBb9l0cpEu2qVQMRurUkDjTx9IvgyIAG2X*1kr6FrB8FHmGKfoJ94zpfzDcTJXss_";
 
-	String ACCESS_TOKEN = QywxUtil.getToken();
+	String ACCESS_TOKEN = "";//QywxUtil.getToken();
 	
 	@Override
 	public Map friendImport(String[] frendsCode,String userCode) {

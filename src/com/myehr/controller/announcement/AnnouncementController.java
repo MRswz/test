@@ -25,6 +25,7 @@ import com.myehr.mapper.formmanage.form.AnnouncementMapper;
 import com.myehr.mapper.formmanage.form.SysFormconfigMapper;
 import com.myehr.mapper.formmanage.formexpand.SysFormconfigMapperExpand;
 
+import com.myehr.pojo.announcement.WeatherUtil;
 import com.myehr.pojo.formmanage.form.Announcement;
 import com.myehr.pojo.formmanage.form.SysFormWhere;
 import com.myehr.pojo.formmanage.form.SysFormconfig;
@@ -131,4 +132,20 @@ public class AnnouncementController {
 			Announcement a = announcementService.seeAnnouncementById(id1);
 		return a;
 	}
+	@RequestMapping("/WeatherReport")
+	public @ResponseBody Object Weather(HttpServletRequest request) throws Throwable{
+		String CityId=request.getParameter("CityId");
+		Map map1=WeatherUtil.getTodayWeather2(CityId);
+		Map map2=WeatherUtil.getTodayWeather1(CityId);
+	//	String aa=request.getParameter("TEMPLATE_CODE");
+	//	String sql="";
+	//	List<Map> ss=MybatisUtil.queryList("runtime.selectSql", aa);
+		Map maps=new HashMap();
+		maps.put("map1", map1);
+		maps.put("map2", map2);
+		return maps;
+		
+	}
+	
+
 }

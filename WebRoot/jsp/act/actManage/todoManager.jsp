@@ -48,9 +48,7 @@ var setting = {
 			//双击节点时，是否自动展开父节点的标识
 			view: { dblClickExpand: false}, 
 		};
-		var paramtabs_map = {N: [{title:'<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程管理树")%>', url:'<%= basePath%>jsp/act/actManage/modeStartlList.jsp'}],
-							 F: [{title:'<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程管理树")%>', url:'<%= basePath%>jsp/act/actFree/actfreemodelList.jsp'}]
-							};
+		var paramtabs_map = {N: [{title:'<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程管理树")%>', url:'<%= basePath%>jsp/act/actManage/modeStartlList.jsp'}]};
 		//数据过滤  childNodes其实是ajax返回的数据
 		function filter(treeId, parentNode, childNodes) {
 				if (!childNodes) return null;

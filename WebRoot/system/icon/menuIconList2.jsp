@@ -4,6 +4,7 @@
 <html>
 <head>
 <script type="text/javascript" src="../../common/js/iconfont.js"></script>
+<link rel="stylesheet" href="../../common/css/workspace/iconfont.css" type="text/css"></link>
 <style type="text/css">
 .hexie-icon{
   font-size: 35px;
@@ -155,10 +156,10 @@ $(function() {
                 valign : 'left',
                 formatter: function (value, row, index) {
                     if(row.iconType==1){
-                       //return "<span class=\""+value+"\" style=\"color:"+row.iconColor+";\"></span>";
-                       return  "<svg class=\"hexie-icon\" aria-hidden=\"true\">"+
-			                   "  <use xlink:href=\""+value+"\"></use>"+
-			                   "</svg>";
+                       return "<span class=\""+value+"\" style=\"color:"+row.iconColor+";\"></span>";
+                       //return  "<svg class=\"hexie-icon\" aria-hidden=\"true\">"+
+			           //        "  <use xlink:href=\""+value+"\"></use>"+
+			           //        "</svg>";
                     }
                     if(row.iconType==2){
 					   return "<img src=\"//192.168.1.109:9999/CustomEmotions/"+row.imgFile+"\" style=\"width:70px;height:70px\" title=\"公司logo\">";
@@ -173,10 +174,10 @@ $(function() {
                 valign : 'left',
                 formatter: function (value, row, index) {
                     if(row.iconType==1){
-                       //return "<span class=\""+value+"\" style=\"color:"+row.checkedIconColor+";\"></span>";
-                    	return  "<svg class=\"hexie-icon\" aria-hidden=\"true\">"+
-			                    "  <use xlink:href=\""+value+"\"></use>"+
-			                    "</svg>";
+                        return "<span class=\""+value+"\" style=\"color:"+row.checkedIconColor+";\"></span>";
+                    	//return  "<svg class=\"hexie-icon\" aria-hidden=\"true\">"+
+			            //        "  <use xlink:href=\""+value+"\"></use>"+
+			            //        "</svg>";
                     }
                     if(row.iconType==2){
                        return "<img src=\"//192.168.1.109:9999/CustomEmotions/"+row.checkedImgFile+"\" style=\"width:70px;height:70px\" title=\"公司logo\">";

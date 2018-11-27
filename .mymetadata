@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-module
   type="WEB"
-  name="myehr_0_SQLSERVER"
+  name="myehr11.27"
   id="myeclipse.1486182359521"
   context-root="/myehr"
   j2ee-spec="6.0"
-  archive="myehr_0_SQLSERVER.war">
+  archive="myehr11.27.war">
   <attributes>
     <attribute name="webrootdir" value="WebRoot" />
   </attributes>

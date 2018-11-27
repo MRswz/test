@@ -19,10 +19,11 @@
 				<td style="padding-left:10px;"  align="left"  ><select id="SYS_SYSTEM_SCHEME.comboboxGuiInitType" title="<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"数据初始化类型")%>" name="comboboxGuiInitType"  class="form-control" emptyText="请选择..."  required="true"  style="width:200px;" textField="dictName" valueField="dictID" DictName="SYS_FORM_GUI_FROM_TYPE" nullItemText="" dataField="dicts"></select></td>
 				<td style="padding-left:10px;"  width="150"  ><lable><%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"初始值来源")%>: </lable></td>
 				<td style="padding-left:10px;"  align="left"  >
-					<input id="SYS_SYSTEM_SCHEME.comboboxDict" name="comboboxDict" type="text" class="form-control"  vtype="illegalChar;maxLength:null;minLength:null;" style="width:200px;position:absolute"/><i style="position:relative;left:180px;top:5px" onclick="choseDict()" class="glyphicon glyphicon-plus"></i>
-					<input id="SYS_SYSTEM_SCHEME.comboboxGuiInitValue" name="comboboxGuiInitValue" type="hidden" class="form-control"  vtype="illegalChar;maxLength:null;minLength:null;" style="width:200px;position:absolute"/>
+					<input id="SYS_SYSTEM_SCHEME.comboboxIsSearch" name="comboboxDict" type="text" class="form-control"  vtype="illegalChar;maxLength:null;minLength:null;" style="width:200px;position:absolute"/><i style="position:relative;left:180px;top:5px" onclick="choseDict()" class="glyphicon glyphicon-plus"></i>
+					<input id="SYS_SYSTEM_SCHEME.comboboxDict" name="comboboxGuiInitValue" type="hidden" class="form-control"  vtype="illegalChar;maxLength:null;minLength:null;" style="width:200px;position:absolute"/>
 				</td>
 			</tr>
+			
 			<tr style="height:65px">
 				<td style="padding-left:10px;"  width="150"  ><lable><%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"初始值来源类型")%>: </lable></td>
 				<td style="padding-left:10px;"  align="left"  ><select id="SYS_SYSTEM_SCHEME.comboboxDataFromType" title="<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"初始值来源类型")%>" name="comboboxDataFromType"  class="form-control" emptyText="请选择..."  required="true"  style="width:200px;" textField="dictName" valueField="dictID" DictName="SYS_FORM_INIT_DATA_TYPE" nullItemText="" dataField="dicts"></select></td>
@@ -287,7 +288,9 @@ $(function () {
 	}
 	
 	function choseDict(){
-		var url = '/myehr/jsp/form/param/dictList.jsp';
+	//var choosea=$('#SYS_SYSTEM_SCHEME.comboboxGuiInitType').val();
+	 var choosea=$('[id="SYS_SYSTEM_SCHEME.comboboxGuiInitType"]').val();
+		var url = '/myehr/jsp/form/param/dictList.jsp?choosea='+choosea;
 		layer.open({
 			type: 2,
 			title:'<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"选择字典")%>',

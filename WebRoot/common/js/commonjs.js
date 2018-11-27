@@ -104757,14 +104757,18 @@ function gridPatterns2(){
 	$(".container-fluid").css("max-height","100%");
 	$(".container-fluid").css("padding-left","0");
 	//$(".fixed-table-container").css("height",$('.container-fluid').height() -59 +"px");
-	$(".fixed-table-body").css("height","84%");
+	
+	$(".fixed-table-body").css("height",$(".fixed-table-container").height()-72+"px");
 }
 function gridPatterns1(){
 	$(".fixed-table-toolbar").css("margin-top","38px");
 	$(".container-fluid").css("max-height","100%");
 	$(".container-fluid").css("padding-left","0");
-	$(".fixed-table-container").css("height",$('.container-fluid').height() -59 +"px");
-	$(".fixed-table-body").css("height","84%");
+	
+
+	$(".fixed-table-container").css("height",$('.container-fluid').height() -59+"px");
+	
+	$(".fixed-table-body").css("height",$(".fixed-table-container").height()-72+"px");
 	$(".input-group").css("z-index","7");
 }
 /**取url参数值  */
@@ -104869,33 +104873,48 @@ function setReadOnly(e){
 
 function changeQueryGrid(e){
 	var obj = $("#"+e).parent().parent().parent().parent().parent();
-	obj.css("height","85%");
-	obj.find("[class='fixed-table-container']").css("height",obj.height() -79 +"px");
-	obj.find("[class='fixed-table-body']").css("height","84%");
+	//alert("85%")
+	var temp = 0;
+	if($('#myTab')){
+		temp = $('#myTab').height();
+	}
+	obj.css("height",$("body").height()-60+"px");
+	//alert(34);
+	//alert(obj.children().children(0).height());
+	obj.find("[class='fixed-table-container']").css("height",obj.height() -obj.children().children(0).height()+"px");
+	obj.find("[class='fixed-table-body']").css("height",$(".fixed-table-container").height()-72+"px");
 	obj.find("[id='myTab']").css("margin","0px");
 	obj.find("form").css("margin-top","0px");
 }
 function changeQueryGrid2(e){
 	var obj = $("#"+e).parent().parent().parent().parent().parent();
 	obj.css("height","85%");
+		
 	obj.find("[class='fixed-table-container']").css("height",obj.parent().parent().parent().height() -105 +"px");
-	obj.find("[class='fixed-table-body']").css("height","84%");
+	
+	obj.find("[class='fixed-table-body']").css("height",$(".fixed-table-container").height()-72+"px");
 	obj.find("[id='myTab']").css("margin","0px");
 	obj.find("form").css("margin-top","0px");
 }
 
 function changeQueryGrid0(){
-	$(".container-fluid").css("height","85%");
-	$(".fixed-table-container").css("height",$('.container-fluid').height() -79 +"px");
-	$(".fixed-table-body").css("height","84%");
+	$(".container-fluid").css("height","100%");
+	var temp = 0;
+	if($('#myTab')){
+		temp = $('#myTab').height();
+	}
+	$(".fixed-table-container").css("height",$('.container-fluid').height() -79-temp +"px");
+	
+	$(".fixed-table-body").css("height",$(".fixed-table-container").height()-72+"px");
 	$("#myTab").css("margin","0px");
 	$("form").css("margin-top","0px");
 }
 
 function changeQueryGrid1(){
 //	$(".container-fluid").css("height","43%");
-	$(".fixed-table-container").css("height",$('.container-fluid').height() -79 +"px");
-	$(".fixed-table-body").css("height","84%");
+
+	$(".fixed-table-container").css("height",$('.container-fluid').height() -79+"px");
+	$(".fixed-table-body").css("height",$(".fixed-table-container").height()-72+"px");
 	$("#myTab").css("margin","0px");
 	$("form").css("margin-top","0px");
 }

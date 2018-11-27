@@ -2,6 +2,18 @@
 <%@ include file="/common/common.jsp" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
+
+<style type="text/css">
+
+
+#tt:hover
+{
+color:red;
+
+}
+
+</style>
+
 <body>
 <div class="container-fluid" style="height:100%;overflow-y:auto;">
 	<div style="margin-top:5px;">
@@ -104,7 +116,7 @@ $(function() {
                 title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"乐观锁")%>',
                 field : 'rev',
                 align : 'center',
-                visible : true,
+                visible : false,
                 valign : 'left',
                 formatter: function (value, row, index) {
                     if(value==undefined){
@@ -114,7 +126,7 @@ $(function() {
                 }
             },
             {
-                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"模型名称")%>',
+                title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程名称")%>',
                 field : 'name',
                 align : 'center',
                 visible : true,
@@ -123,14 +135,14 @@ $(function() {
 					if(value==undefined){
 						value='-';
 					}
-					return "<a  class=\"eli w100\"  style=\"font-size:14px;text-decoration:none;color:black;width:200px;\" name=\"name\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"模型名称\">"+value+"</a>";
+					return "<a  class=\"eli w400\" id=\"tt\" style=\"font-size:14px;text-decoration:none;text-decoration:underline;width:300px;\" name=\"name\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"流程名称\">"+value+"</a>";
                 }
             },
             {
                 title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"模型KEY")%>',
                 field : 'key_',
                 align : 'center',
-                visible : true,
+                visible : false,
                 valign : 'left',
                 formatter: function (value, row, index) {
 					if(value==undefined){
@@ -143,7 +155,7 @@ $(function() {
                 title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"创建时间")%>',
                 field : 'createTime',
                 align : 'center',
-                visible : true,
+                visible : false,
                 valign : 'left',
                 formatter: function (value, row, index) {
 					var date = "-";
@@ -157,7 +169,7 @@ $(function() {
                 title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"最后更新时间")%>',
                 field : 'lastUpdateTime',
                 align : 'center',
-                visible : true,
+                visible : false,
                 valign : 'left',
                 formatter: function (value, row, index) {
 					var date = "-";
@@ -171,7 +183,7 @@ $(function() {
                 title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"版本")%>',
                 field : 'version',
                 align : 'center',
-                visible : true,
+                visible : false,
                 valign : 'left',
                 formatter: function (value, row, index) {
 					if(value==undefined){
@@ -184,7 +196,7 @@ $(function() {
                 title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"流程定义信息")%>',
                 field : 'metaInfo',
                 align : 'center',
-                visible : true,
+                visible : false,
                 valign : 'left',
                 formatter: function (value, row, index) {
 					if(value==undefined){
@@ -197,7 +209,7 @@ $(function() {
                 title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"部署ID")%>',
                 field : 'deploymentId',
                 align : 'center',
-                visible : true,
+                visible : false,
                 valign : 'left',
                 formatter: function (value, row, index) {
 					if(value==undefined){
@@ -210,7 +222,7 @@ $(function() {
                 title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"editorSourceValueId")%>',
                 field : 'editorSourceValueId',
                 align : 'center',
-                visible : true,
+                visible : false,
                 valign : 'left',
                 formatter: function (value, row, index) {
 					if(value==undefined){
@@ -223,7 +235,7 @@ $(function() {
                 title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"editorSourceExtraValueId")%>',
                 field : 'editorSourceExtraValueId',
                 align : 'center',
-                visible : true,
+                visible : false,
                 valign : 'left',
                 formatter: function (value, row, index) {
 					if(value==undefined){
@@ -236,7 +248,7 @@ $(function() {
                 title : '<%=LangUtil.getLangByCode((String)session.getAttribute("langType"),"tenantId")%>',
                 field : 'tenantId',
                 align : 'center',
-                visible : true,
+                visible : false,
                 valign : 'left',
                 formatter: function (value, row, index) {
 					if(value==undefined){

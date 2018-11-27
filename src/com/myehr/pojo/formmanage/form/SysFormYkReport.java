@@ -1,8 +1,10 @@
 package com.myehr.pojo.formmanage.form;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SysFormYkReport {
+public class SysFormYkReport  implements Serializable{
+	private static final long serialVersionUID = 1L;
     private Long reportId;
 
     private Long reportFormId;

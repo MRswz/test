@@ -306,7 +306,8 @@ public class ActUtils {
 
 	public static String[] getUserPhotoById(String empId, ISysformconfigService sysformconfigService) throws Exception {
 		String[] recode = new String[2];
-		if (sysformconfigService.getEmpPhotoByUserId(empId)!=null&&!sysformconfigService.getEmpPhotoByUserId(empId).equals("")) {
+		String photo = sysformconfigService.getEmpPhotoByUserId(empId);
+		if (photo!=null&&!photo.equals("")) {
 			recode[0]=sysformconfigService.getEmpPhotoByUserId(empId);
 		}else{
 			SysSystemParam photoPath = (SysSystemParam) sysformconfigService.getSysParam().get("photoPath");
@@ -319,7 +320,7 @@ public class ActUtils {
 				recode[0]=photoPath.getSysParamValue1()+"/人员照片/"+empName+"_"+empCode+".jpg";
 			}
 		}
-		
+		//
 		return recode;
 	}
 

@@ -211,12 +211,55 @@ public class formDragconfigController {
 		String userId = session.getAttribute("userid")+"";
 		Map map = new HashMap();
 		Act act = new Act();
-		
-		map.put("waitDatas",actTaskService.todoList_New(act,userId,null,null,null));
-		map.put("dragMenus",sMService.getMenuWithSchemeAllx(userId));
-		map.put("taskDatas",sysformconfigService.getTaskDatasByUserId(userId));
-		map.put("newsDatas",announcementService.queryAnnouncement("", null, null, null, null));
-		map.put("workDatas",calendarService.queryWorkDatas(userId,0));
+		String loadThings = request.getParameter("duty");
+		if (loadThings.indexOf("personInfo")>-1) {
+			map.put("personInfo",sysformconfigService.getPersonInfoByuserId(userId));
+		}
+		if (loadThings.indexOf("waitDatas")>-1) {
+			map.put("waitDatas",actTaskService.todoList_New(act,userId,null,null,null));
+		}
+		if (loadThings.indexOf("dragMenus")>-1) {
+			map.put("dragMenus",sMService.getMenuWithSchemeAllx(userId));
+		}
+		if (loadThings.indexOf("taskDatas")>-1) {
+			map.put("taskDatas",sysformconfigService.getTaskDatasByUserId(userId));
+		}
+		if (loadThings.indexOf("newsDatas")>-1) {
+			map.put("newsDatas",announcementService.queryAnnouncement("", null, null, null, null));
+		}
+		if (loadThings.indexOf("workDatas")>-1) {
+			map.put("workDatas",calendarService.queryWorkDatas(userId,0));
+		}
 		return map;
+	}
+	
+	//保存数据
+	@RequestMapping("/refreshDragAllDatas")
+	public @ResponseBody Object refreshDragAllDatas(HttpServletRequest request) throws Exception{
+		HttpSession session = request.getSession();
+		String userId = session.getAttribute("userid")+"";
+		Map map = new HashMap();
+		Act act = new Act();
+		String loadThings = request.getParameter("duty");
+		String[] reCode = {"0"};
+		if (loadThings.indexOf("personInfo")>-1) {
+			sysformconfigService.setPersonInfoByuserId(userId);
+		}
+		if (loadThings.indexOf("waitDatas")>-1) {
+			//map.put("waitDatas",actTaskService.todoList_New(act,userId,null,null,null));
+		}
+		if (loadThings.indexOf("dragMenus")>-1) {
+			sMService.setMenuWithSchemeAllx(userId);
+		}
+		if (loadThings.indexOf("taskDatas")>-1) {
+			//map.put("taskDatas",sysformconfigService.getTaskDatasByUserId(userId));
+		}
+		if (loadThings.indexOf("newsDatas")>-1) {
+			//map.put("newsDatas",announcementService.queryAnnouncement("", null, null, null, null));
+		}
+		if (loadThings.indexOf("workDatas")>-1) {
+			//map.put("workDatas",calendarService.queryWorkDatas(userId,0));
+		}
+		return reCode;
 	}
 }

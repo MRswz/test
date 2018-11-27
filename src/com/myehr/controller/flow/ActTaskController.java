@@ -22,7 +22,6 @@ import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.history.HistoricTaskInstanceQuery;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -37,25 +36,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.common.collect.Maps;
-import com.myehr.common.exception.DcfException;
 import com.myehr.common.mybatis.MybatisUtil;
 import com.myehr.common.mybatis.Pager;
-import com.myehr.common.util.DateUtil;
 import com.myehr.common.util.ResultMapNew;
-import com.myehr.common.util.datasource.CustomerContextHolder;
 import com.myehr.common.utils.ActUtils;
 import com.myehr.controller.form.parambean.CardformInitDataParams;
-import com.myehr.controller.webservice.cxf.erp.CUXOKCBPMSERAPKGPortType_CUXOKCBPMSERAPKGPort_Client;
 import com.myehr.mapper.activiti.ActHiActinstMapper;
 import com.myehr.mapper.activiti.ActHiProcinstMapper;
 import com.myehr.mapper.activiti.ActReModelMapper;
 import com.myehr.mapper.activiti.ActRuTaskMapper;
 import com.myehr.mapper.activiti.SysActTitleMapper;
 import com.myehr.mapper.activiti.expand.ActNodePropertiesExpandMapper;
-import com.myehr.mapper.formmanage.form.SysActfreeConductMapper;
-import com.myehr.mapper.formmanage.form.SysActfreeHisMapper;
-import com.myehr.mapper.formmanage.form.SysActfreeModelMapper;
-import com.myehr.mapper.formmanage.form.SysActfreeWayMapper;
 import com.myehr.mapper.sysdict.SysDictEntryMapper;
 import com.myehr.mapper.sysdict.SysDictTypeMapper;
 import com.myehr.mapper.sysuser.SysUserMapper;
@@ -71,32 +62,13 @@ import com.myehr.pojo.activiti.ActRuTask;
 import com.myehr.pojo.activiti.ActRuTaskExample;
 import com.myehr.pojo.activiti.SysActTitle;
 import com.myehr.pojo.activiti.SysActTitleExample;
-import com.myehr.pojo.dict.DictData;
-import com.myehr.pojo.dict.SysDictEntry;
-import com.myehr.pojo.dict.SysDictEntryExample;
-import com.myehr.pojo.dict.SysDictType;
-import com.myehr.pojo.dict.SysDictTypeExample;
-import com.myehr.pojo.formmanage.cache.SysFormButtonCache;
-import com.myehr.pojo.formmanage.cache.SysFormColumnCache;
-import com.myehr.pojo.formmanage.cache.SysFormGeneralExecSqlCache;
 import com.myehr.pojo.formmanage.cache.SysFormconfigCache;
-import com.myehr.pojo.formmanage.form.SysActfreeConduct;
-import com.myehr.pojo.formmanage.form.SysActfreeConductExample;
-import com.myehr.pojo.formmanage.form.SysActfreeHis;
-import com.myehr.pojo.formmanage.form.SysActfreeHisExample;
-import com.myehr.pojo.formmanage.form.SysActfreeModel;
-import com.myehr.pojo.formmanage.form.SysActfreeModelExample;
-import com.myehr.pojo.formmanage.form.SysActfreeWay;
-import com.myehr.pojo.formmanage.form.SysActfreeWayExample;
-import com.myehr.pojo.sysuser.SysUser;
 import com.myehr.pojo.task.SysTask;
 import com.myehr.pojo.task.SysTaskExample;
 import com.myehr.service.flow.ActTaskService;
 import com.myehr.service.formmanage.form.IFormService;
 import com.myehr.service.formmanage.form.ISysformconfigService;
 import com.myehr.service.formmanage.runtime.IRuntmeButtonService;
-import com.myehr.service.impl.formmanage.runtime.RuntimeButtonServiceImpl;
-import com.myehr.service.impl.formmanage.runtime.RuntimeUtil;
 import com.myehr.service.primaryKey.PrimaryKeyService;
 
 
@@ -166,10 +138,7 @@ public class ActTaskController {
 	private ISysformconfigService sysformconfigService;
 	
 	@Autowired SysActTitleMapper actTitleMapper;
-	@Autowired SysActfreeWayMapper actfreeWayMapper;
-	@Autowired SysActfreeModelMapper actfreeModelMapper;
-	@Autowired SysActfreeHisMapper actfreeHisMapper;
-	@Autowired SysActfreeConductMapper actfreeConductMapper;
+	
 	/**
 	 * 获取待办列表
 	 * @param procDefKey 流程定义标识
@@ -179,40 +148,26 @@ public class ActTaskController {
 	@ResponseBody
 	public ResultActListMap todoList(HttpServletRequest request, @RequestBody ActSaveDataParams params,Model model) {
 		ResultActListMap result = new ResultActListMap();
-		String userId  = ((BigDecimal) request.getSession().getAttribute("userid"))+"";
+		String userId  = request.getSession().getAttribute("userid")+"";
 		try {
 			Map paramsMap = params.getParamsMap();
 			String showType = (String)paramsMap.get("showType");
 			String flowCode = (String)paramsMap.get("flowCode");
+			
 			if (flowCode!=null && !flowCode.equals("")&&!flowCode.equals("FlowRoot")) {
 				List<ActReModel> models = sysformconfigService.getActModelsByCode(flowCode);
 				Act act = new Act();
+//				List<Act> list = actTaskService.todoList(act,userId,showType,models,params);
+//				result.setRows(list);
+//				result.setTotal(list.size());
 				result = actTaskService.todoList(act,userId,showType,models,params);
 			}else if (flowCode!=null&&flowCode.equals("FlowRoot")) {
 				Act act = new Act();
-				result = actTaskService.todoList_New(act,userId,showType,null,params);
+//				List<Act> list = actTaskService.todoList(act,userId,showType,null,params);
+//				result.setRows(list);
+//				result.setTotal(list.size());
+				result = actTaskService.todoList(act,userId,showType,null,params);
 			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.getMessage();
-		}
-		return result;
-	}
-	/**
-	 * 移动端获取待办列表(带访问地址)
-	 * @param procDefKey 流程定义标识
-	 * @return
-	 */
-	@RequestMapping(value = "todoForMobile")
-	@ResponseBody
-	public ResultActListForVueMap todoForMobile(HttpServletRequest request, @RequestBody ActSaveDataParams params,Model model) {
-		ResultActListForVueMap result = new ResultActListForVueMap();
-		String userId  = ((BigDecimal) request.getSession().getAttribute("userid"))+"";
-		try {
-			Map paramsMap = params.getParamsMap();
-			String showType = (String)paramsMap.get("showType");
-			Act act = new Act();
-			result = actTaskService.todoListForMobile(act,userId,showType,null,params);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.getMessage();
@@ -254,54 +209,74 @@ public class ActTaskController {
 	@RequestMapping(value = "getTotalModel")
 	@ResponseBody
 	public Object getTotalModel(HttpServletRequest request){
-		String userId = request.getSession().getAttribute("userid")+"";
-	    String sql = "";
-	    if (userId.equals("1")) {
-	      sql = "SELECT COUNT (1) as num FROM (SELECT DISTINCT * FROM ( SELECT act_re_model.ID_ AS id, act_re_model.REV_ AS rev,act_re_model.NAME_ AS name,act_re_model.KEY_ AS key_,act_re_model.CATEGORY_ category, act_re_model.CREATE_TIME_ AS createTime,act_re_model.LAST_UPDATE_TIME_ AS lastUpdateTime,act_re_model.VERSION_ AS version, act_re_model.META_INFO_ AS metaInfo,act_re_model.DEPLOYMENT_ID_ AS deoloymentId,act_re_model.EDITOR_SOURCE_VALUE_ID_ AS editorSourceValueId, act_re_model.EDITOR_SOURCE_EXTRA_VALUE_ID_ AS editorSourceExtraValueId,act_re_model.TENANT_ID_ AS tenantId,act_node_properties_expand.ACT_NODE_FORM_ID AS actNodeFormId FROM act_re_model LEFT JOIN act_node_properties_expand ON act_re_model.id_ = act_node_properties_expand.ACT_MODEL_ID WHERE act_node_properties_expand.ACT_NODE_KEY = 'start' UNION SELECT act_re_model.ID_ AS id,act_re_model.REV_ AS rev,act_re_model.NAME_ AS name,act_re_model.KEY_ AS key_, act_re_model.CATEGORY_ category,act_re_model.CREATE_TIME_ AS createTime,act_re_model.LAST_UPDATE_TIME_ AS lastUpdateTime, act_re_model.VERSION_ AS version,act_re_model.META_INFO_ AS metaInfo,act_re_model.DEPLOYMENT_ID_ AS deoloymentId, act_re_model.EDITOR_SOURCE_VALUE_ID_ AS editorSourceValueId,act_re_model.EDITOR_SOURCE_EXTRA_VALUE_ID_ AS editorSourceExtraValueId, act_re_model.TENANT_ID_ AS tenantId,act_node_properties_expand.ACT_NODE_FORM_ID AS actNodeFormId FROM act_re_model LEFT JOIN act_node_properties_expand ON act_re_model.id_ = act_node_properties_expand.ACT_MODEL_ID WHERE act_re_model.ID_ NOT IN ( SELECT ACT_MODEL_ID FROM act_node_properties_expand ) ) t ) a";
-	    } else {
-	      sql = 
-	      
-	        "SELECT COUNT (1) as num FROM (SELECT DISTINCT * FROM ( SELECT act_re_model.ID_ AS id, act_re_model.REV_ AS rev,act_re_model.NAME_ AS name,act_re_model.KEY_ AS key_,act_re_model.CATEGORY_ category, act_re_model.CREATE_TIME_ AS createTime,act_re_model.LAST_UPDATE_TIME_ AS lastUpdateTime,act_re_model.VERSION_ AS version, act_re_model.META_INFO_ AS metaInfo,act_re_model.DEPLOYMENT_ID_ AS deoloymentId,act_re_model.EDITOR_SOURCE_VALUE_ID_ AS editorSourceValueId, act_re_model.EDITOR_SOURCE_EXTRA_VALUE_ID_ AS editorSourceExtraValueId,act_re_model.TENANT_ID_ AS tenantId,act_node_properties_expand.ACT_NODE_FORM_ID AS actNodeFormId FROM act_re_model LEFT JOIN act_node_properties_expand ON act_re_model.id_ = act_node_properties_expand.ACT_MODEL_ID join sys_act_role on act_re_model.ID_ = sys_act_role.actid WHERE act_node_properties_expand.ACT_NODE_KEY = 'start' and sys_act_role.roleid in (SELECT SYS_USER_ROLE.ROLE_ID from SYS_USER_ROLE WHERE SYS_USER_ROLE.USER_ID = " + userId + ") UNION SELECT " + "act_re_model.ID_ AS id,act_re_model.REV_ AS rev,act_re_model.NAME_ AS name,act_re_model.KEY_ AS key_, " + "act_re_model.CATEGORY_ category,act_re_model.CREATE_TIME_ AS createTime,act_re_model.LAST_UPDATE_TIME_ AS lastUpdateTime, " + "act_re_model.VERSION_ AS version,act_re_model.META_INFO_ AS metaInfo,act_re_model.DEPLOYMENT_ID_ AS deoloymentId, " + "act_re_model.EDITOR_SOURCE_VALUE_ID_ AS editorSourceValueId,act_re_model.EDITOR_SOURCE_EXTRA_VALUE_ID_ AS editorSourceExtraValueId, " + "act_re_model.TENANT_ID_ AS tenantId,act_node_properties_expand.ACT_NODE_FORM_ID AS actNodeFormId FROM act_re_model " + "LEFT JOIN act_node_properties_expand ON act_re_model.id_ = act_node_properties_expand.ACT_MODEL_ID join sys_act_role on act_re_model.ID_ = sys_act_role.actid  WHERE act_re_model.ID_ NOT IN ( " + "SELECT ACT_MODEL_ID FROM act_node_properties_expand ) and sys_act_role.roleid in (SELECT SYS_USER_ROLE.ROLE_ID from SYS_USER_ROLE WHERE SYS_USER_ROLE.USER_ID = " + userId + ") ) t ) a";
-	    }
-	    int freeModel = 0;
-	    int freeHis = 0;
-	    int freeWait = 0;
-	    try
-	    {
-	      SysActfreeModelExample example = new SysActfreeModelExample();
-	      List<SysActfreeModel> models = this.actfreeModelMapper.selectByExample(example);
-	      freeModel = models.size();
-	      SysActfreeHisExample example2 = new SysActfreeHisExample();
-	      example2.or().andAssigreeEqualTo(userId);
-	      List<SysActfreeHis> his = this.actfreeHisMapper.selectByExample(example2);
-	      freeHis = his.size();
-	      SysActfreeConductExample example3 = new SysActfreeConductExample();
-	      example3.or().andAssigneeEqualTo(userId);
-	      List<SysActfreeConduct> conducts = this.actfreeConductMapper.selectByExample(example3);
-	      freeWait = conducts.size();
-	    }
-	    catch (Exception localException1) {}
-	    Map map = new HashMap();
-	    String[] nums = new String[3];
-	    try
-	    {
-	      map = (Map)MybatisUtil.queryOne("runtime.selectSql", sql);
-	      String num0 = map.get("num")+"";
-	      nums[0] = (Integer.valueOf(num0) + freeModel)+"";
-	      String num1 = this.actTaskService.getHistoricListTotal(userId)+"";
-	      nums[1] = (Integer.valueOf(num1) + freeHis)+"";
-	      ActReModelExample modelExample = new ActReModelExample();
-	      List<ActReModel> models = this.actReModelMapper.selectByExample(modelExample);
-	      String num2 = this.actTaskService.getTodoListTotal(userId, models)+"";
-	      nums[2] = (Integer.valueOf(num2) + freeWait)+"";
-	    }
-	    catch (Exception e)
-	    {
-	      e.printStackTrace();logger.error(e.getMessage(), e);
-	    }
-	    return nums;
+		String userId  = request.getSession().getAttribute("userid")+"";
+		String sql = "";
+		if (userId.equals("1")) {
+			sql = "SELECT COUNT (1) as num FROM (SELECT DISTINCT * FROM ( "+
+				 	 "SELECT act_re_model.ID_ AS id, "+
+				 	 "act_re_model.REV_ AS rev,act_re_model.NAME_ AS name,act_re_model.KEY_ AS key_,act_re_model.CATEGORY_ category, "+
+				 	 "act_re_model.CREATE_TIME_ AS createTime,act_re_model.LAST_UPDATE_TIME_ AS lastUpdateTime,act_re_model.VERSION_ AS version, "+
+				 	 "act_re_model.META_INFO_ AS metaInfo,act_re_model.DEPLOYMENT_ID_ AS deoloymentId,act_re_model.EDITOR_SOURCE_VALUE_ID_ AS editorSourceValueId, "+
+				 	 "act_re_model.EDITOR_SOURCE_EXTRA_VALUE_ID_ AS editorSourceExtraValueId,act_re_model.TENANT_ID_ AS tenantId,act_node_properties_expand.ACT_NODE_FORM_ID AS actNodeFormId "+
+				 	 "FROM act_re_model LEFT JOIN act_node_properties_expand ON act_re_model.id_ = act_node_properties_expand.ACT_MODEL_ID "+
+				 	 "WHERE act_node_properties_expand.ACT_NODE_KEY = 'start' UNION SELECT "+
+				 	 "act_re_model.ID_ AS id,act_re_model.REV_ AS rev,act_re_model.NAME_ AS name,act_re_model.KEY_ AS key_, "+
+				 	 "act_re_model.CATEGORY_ category,act_re_model.CREATE_TIME_ AS createTime,act_re_model.LAST_UPDATE_TIME_ AS lastUpdateTime, "+
+				 	 "act_re_model.VERSION_ AS version,act_re_model.META_INFO_ AS metaInfo,act_re_model.DEPLOYMENT_ID_ AS deoloymentId, "+
+				 	 "act_re_model.EDITOR_SOURCE_VALUE_ID_ AS editorSourceValueId,act_re_model.EDITOR_SOURCE_EXTRA_VALUE_ID_ AS editorSourceExtraValueId, "+
+				 	 "act_re_model.TENANT_ID_ AS tenantId,act_node_properties_expand.ACT_NODE_FORM_ID AS actNodeFormId FROM act_re_model "+
+				 	 "LEFT JOIN act_node_properties_expand ON act_re_model.id_ = act_node_properties_expand.ACT_MODEL_ID WHERE act_re_model.ID_ NOT IN ( "+
+					 "SELECT ACT_MODEL_ID FROM act_node_properties_expand ) ) t ) a";//可发
+		}else {
+			//权限过滤
+			sql = "SELECT COUNT (1) as num FROM (SELECT DISTINCT * FROM ( "+
+				 	 "SELECT act_re_model.ID_ AS id, "+
+				 	 "act_re_model.REV_ AS rev,act_re_model.NAME_ AS name,act_re_model.KEY_ AS key_,act_re_model.CATEGORY_ category, "+
+				 	 "act_re_model.CREATE_TIME_ AS createTime,act_re_model.LAST_UPDATE_TIME_ AS lastUpdateTime,act_re_model.VERSION_ AS version, "+
+				 	 "act_re_model.META_INFO_ AS metaInfo,act_re_model.DEPLOYMENT_ID_ AS deoloymentId,act_re_model.EDITOR_SOURCE_VALUE_ID_ AS editorSourceValueId, "+
+				 	 "act_re_model.EDITOR_SOURCE_EXTRA_VALUE_ID_ AS editorSourceExtraValueId,act_re_model.TENANT_ID_ AS tenantId,act_node_properties_expand.ACT_NODE_FORM_ID AS actNodeFormId "+
+				 	 "FROM act_re_model LEFT JOIN act_node_properties_expand ON act_re_model.id_ = act_node_properties_expand.ACT_MODEL_ID join sys_act_role on act_re_model.ID_ = sys_act_role.actid "+
+				 	 "WHERE act_node_properties_expand.ACT_NODE_KEY = 'start' and sys_act_role.roleid in (SELECT SYS_USER_ROLE.ROLE_ID from SYS_USER_ROLE WHERE SYS_USER_ROLE.USER_ID = "+userId+") UNION SELECT "+
+				 	 "act_re_model.ID_ AS id,act_re_model.REV_ AS rev,act_re_model.NAME_ AS name,act_re_model.KEY_ AS key_, "+
+				 	 "act_re_model.CATEGORY_ category,act_re_model.CREATE_TIME_ AS createTime,act_re_model.LAST_UPDATE_TIME_ AS lastUpdateTime, "+
+				 	 "act_re_model.VERSION_ AS version,act_re_model.META_INFO_ AS metaInfo,act_re_model.DEPLOYMENT_ID_ AS deoloymentId, "+
+				 	 "act_re_model.EDITOR_SOURCE_VALUE_ID_ AS editorSourceValueId,act_re_model.EDITOR_SOURCE_EXTRA_VALUE_ID_ AS editorSourceExtraValueId, "+
+				 	 "act_re_model.TENANT_ID_ AS tenantId,act_node_properties_expand.ACT_NODE_FORM_ID AS actNodeFormId FROM act_re_model "+
+				 	 "LEFT JOIN act_node_properties_expand ON act_re_model.id_ = act_node_properties_expand.ACT_MODEL_ID join sys_act_role on act_re_model.ID_ = sys_act_role.actid  WHERE act_re_model.ID_ NOT IN ( "+
+					 "SELECT ACT_MODEL_ID FROM act_node_properties_expand ) and sys_act_role.roleid in (SELECT SYS_USER_ROLE.ROLE_ID from SYS_USER_ROLE WHERE SYS_USER_ROLE.USER_ID = "+userId+") ) t ) a";//可发
+		}
+		
+		
+		Map map = new HashMap();
+		String[] nums = new String[3]; 
+		try {
+			map = MybatisUtil.queryOne("runtime.selectSql", sql);
+			nums[0] = map.get("num")+"";
+			HistoricTaskInstanceQuery histTaskQuery = historyService.createHistoricTaskInstanceQuery().taskAssignee(userId).finished()
+					.includeProcessVariables().orderByHistoricTaskInstanceEndTime().desc();
+			List<HistoricTaskInstance> histListx = histTaskQuery.list();
+			int totalx = histListx.size();
+			Map mapy = new HashMap();
+			for (HistoricTaskInstance historicTaskInstance : histListx) {
+				String exId = historicTaskInstance.getExecutionId();
+				String flag = mapy.get(exId)+"";
+				if (!flag.equals("null")) {
+					totalx--;
+					continue;
+				}
+				mapy.put(exId, "true");
+			}
+			nums[1]=totalx+"";
+		//	nums[1] = actTaskService.getHistoricListTotal(userId)+"";//历史
+			ActReModelExample modelExample = new ActReModelExample();
+			List<ActReModel> models = actReModelMapper.selectByExample(modelExample);
+			nums[2] = actTaskService.getTodoListTotal(userId,models)+"";//待批
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();logger.error(e.getMessage(),e);
+		}
+		return nums;
 	}
-	
 	
 	/**
 	 * 获取待办流程列表
@@ -324,7 +299,7 @@ public class ActTaskController {
 		List<ActReModel> models = actReModelMapper.selectByExample(modelExample);
 		
 		Act act = new Act();
-		String userId  = ((BigDecimal) request.getSession().getAttribute("userid"))+"";
+		String userId  = request.getSession().getAttribute("userid")+"";
 		return actTaskService.todoList(act,userId,showType,models,params);
 	}
 	
@@ -338,7 +313,7 @@ public class ActTaskController {
 	public ResultProcinstListMap myStartList(HttpServletRequest request, @RequestBody ActSaveDataParams params,Model model) throws Exception {
 		ResultProcinstListMap result = new ResultProcinstListMap();
 		Map paramsMap = params.getParamsMap();
-		String userId  = ((BigDecimal) request.getSession().getAttribute("userid"))+"";
+		String userId  = request.getSession().getAttribute("userid")+"";
 		
 		ActHiProcinstExample example = new ActHiProcinstExample();
 		example.or().andStartUserIdEqualTo(userId);
@@ -361,24 +336,8 @@ public class ActTaskController {
 	public ResultActListMap historicList(HttpServletRequest request, @RequestBody CardformInitDataParams params,Model model) throws Exception {
 		ResultActListMap result = new ResultActListMap();
 		Act act = new Act();
-		String userId  = ((BigDecimal) request.getSession().getAttribute("userid"))+"";
+		String userId  = request.getSession().getAttribute("userid")+"";
 		result = actTaskService.historicList(act,userId,params);
-		return result;
-	}
-	
-	/**
-	 * 获取自由流程已办任务
-	 * @param page
-	 * @param procDefKey 流程定义标识
-	 * @return
-	 */
-	@RequestMapping(value = "historicFree")
-	@ResponseBody
-	public ResultActListMap historicFreeList(HttpServletRequest request, @RequestBody CardformInitDataParams params,Model model) throws Exception {
-		ResultActListMap result = new ResultActListMap();
-		Act act = new Act();
-		String userId  = ((BigDecimal) request.getSession().getAttribute("userid"))+"";
-		result = actTaskService.historicFreeList(act,userId,params);
 		return result;
 	}
 
@@ -487,7 +446,7 @@ public class ActTaskController {
 		HttpSession session = request.getSession();
 		Map paramsMap = params.getParamsMap();
 		String buttonId = params.getButtonId();
-		String userId = (BigDecimal)session.getAttribute("userid")+"";
+		String userId = session.getAttribute("userid")+"";
 		Map leave =params.getParam();
 		
 		String formId =params.getFormId();
@@ -495,9 +454,8 @@ public class ActTaskController {
 
 		String businessTable = form.getFormDefSaveTable();
 		String pkColumn = form.getPkColumn().getFormFiledTablename();
-		
-		int businessId = pkService.getMaxId(businessTable, pkColumn)-1;
-		
+		int businessId=Integer.parseInt(paramsMap.get("bussinessId")+"");
+	  //int businessId = pkService.getMaxId(businessTable, pkColumn)-1;
 		Map actFlowParams=params.getActFlowParams();
 		Act act = new Act(); 
 		act.setProcDefKey((String)actFlowParams.get("key"));
@@ -686,7 +644,7 @@ public class ActTaskController {
 	@ResponseBody
 	public String claim(HttpServletRequest request,Model model) {
 		HttpSession session = request.getSession();
-		String userId = (BigDecimal)session.getAttribute("userid")+"";
+		String userId = session.getAttribute("userid")+"";
 		String taskId = request.getParameter("taskId");
 		actTaskService.claim(taskId, userId);
 		return "true";//adminPath + "/act/task";
@@ -708,7 +666,7 @@ public class ActTaskController {
 		String[] reCode = {"000000","success"};
 		try {
 			HttpSession session = request.getSession();
-			String userId = (BigDecimal)session.getAttribute("userid")+"";
+			String userId = session.getAttribute("userid")+"";
 			Map leave =params.getParam();
 			String formId =params.getFormId();
 			Map actFlowParams=params.getActFlowParams();
@@ -729,7 +687,9 @@ public class ActTaskController {
 			if (buttonType.equals("通过")) {
 				ActRuTaskExample actRuTaskExampleBefore = new ActRuTaskExample();
 				actRuTaskExampleBefore.or().andProcInstIdEqualTo(act.getProcInsId());
-				actTaskService.complete(act.getTaskId(), act.getProcInsId(), "通过|"+act.getComment(), act.getVars().getVariableMap());
+				
+					actTaskService.complete(act.getTaskId(), act.getProcInsId(), "通过|"+act.getComment(), act.getVars().getVariableMap());
+			
 					
 				//			actTaskService.complete(act.getTaskId(), act.getProcInsId(), "通过|"+act.getComment(), act.getVars().getVariableMap());
 				
@@ -980,7 +940,7 @@ public class ActTaskController {
 	@ResponseBody
 	public String addMoreTask(HttpServletRequest request,Model model) {
 		HttpSession session = request.getSession();
-		String userId = (BigDecimal)session.getAttribute("userid")+"";
+		String userId = session.getAttribute("userid")+"";
 		
 		String procDefId = request.getParameter("procDefId");
 		String procInsId = request.getParameter("procInsId");
@@ -1006,9 +966,9 @@ public class ActTaskController {
 	@ResponseBody
 	public String batchComplete(HttpServletRequest request, @RequestBody BatchApproveData params,Model model) {
 		HttpSession session = request.getSession();
-		String userId = (BigDecimal)session.getAttribute("userid")+"";
+		String userId = session.getAttribute("userid")+"";
 		String approveRemark =params.getApproveRemark();
-		List<Map> selectsParam = (List<Map>)params.getSelectsParam();
+		List<Map> selectsParam = params.getSelectsParam();
 		
 		for (int i = 0; i < selectsParam.size(); i++) {
 			Map actFlowParams = selectsParam.get(i);
@@ -1083,22 +1043,6 @@ public class ActTaskController {
 	}
 	
 	/**
-	 * 查询审批列表
-	 * @param procInsId 流程启动ID
-	 */
-	@RequestMapping(value = "queryHisApproveUserForFree")
-	@ResponseBody
-	public List<SysActfreeWay> queryHisApproveUserForFree(HttpServletRequest request) {
-		String taskId = request.getParameter("taskId");
-		String orderby = request.getParameter("orderby");
-		SysActfreeWayExample example = new SysActfreeWayExample();
-		example.or().andTaskidEqualTo(taskId).andOrderbyBetween("0", orderby);
-		example.setOrderByClause("ORDERBY");
-		List<SysActfreeWay> p = actfreeWayMapper.selectByExample(example);
-		return p;
-	}
-	
-	/**
 	 * 查询所有用户列表
 	 * @param request
 	 * @param params
@@ -1145,9 +1089,7 @@ public class ActTaskController {
 		for (int i = 0; i < preNodes.size(); i++) {
 			preNodeStrings+="'"+preNodes.get(i).get("MODEL_PRE_NODE")+"',";
 		}
-		
 		preNodeStrings=preNodeStrings.substring(0, preNodeStrings.length()-1);
-	
 		ResultMapNew resultMap = new ResultMapNew();
 		String sql3 = "select * from ACT_HI_COMMENT left join ACT_HI_TASKINST on ACT_HI_COMMENT.TASK_ID_ = ACT_HI_TASKINST.ID_ where ACT_HI_TASKINST.PROC_INST_ID_ = '"+procInsId+"' ORDER by TIME_ DESC" ;// and ACT_HI_TASKINST.TASK_DEF_KEY_ in ("+preNodeStrings+")";
 		List<Map> hisComments = null;
@@ -1157,15 +1099,6 @@ public class ActTaskController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();logger.error(e.getMessage(),e);
 		}
-	
-		for (int i = 0; i < hisComments.size(); i++) {
-			String userId = hisComments.get(i).get("ASSIGNEE_")+"";
-			SysUser user = sysformconfigService.getUserByUserid(userId);
-			hisComments.get(i).put("ASSIGNEE_NAME", user.getUserName());
-			String endTime = hisComments.get(i).get("END_TIME_")+"";
-			hisComments.get(i).put("END_TIME_DATE",endTime);
-		}
-		
 		resultMap.setRows(hisComments);
 		resultMap.setTotal(hisComments.size());
 		
@@ -1187,7 +1120,7 @@ public class ActTaskController {
 	@ResponseBody
 	public List<ActHiActinst> freeTask(HttpServletRequest request, @RequestBody ActSaveDataParams params,Model model) {
 		HttpSession session = request.getSession();
-		String userId = (BigDecimal)session.getAttribute("userid")+"";
+		String userId = session.getAttribute("userid")+"";
 		String formId =params.getFormId();
 		Map actFlowParams=params.getActFlowParams();
 		Act act = new Act(); 
@@ -1321,7 +1254,7 @@ public class ActTaskController {
 		String objId = request.getParameter("businessKey");
 		String pId = request.getParameter("pId");
 		HttpSession session = request.getSession();
-		String userId = (BigDecimal)session.getAttribute("userid")+"";
+		String userId = session.getAttribute("userid")+"";
 		return actTaskService.withdrawTaskTo(taskId,userId,objId,pId);
 	}
 	
@@ -1335,7 +1268,7 @@ public class ActTaskController {
 		String objId = request.getParameter("businessKey");
 		String pId = request.getParameter("pId");
 		HttpSession session = request.getSession();
-		String userId = (BigDecimal)session.getAttribute("userid")+"";
+		String userId = session.getAttribute("userid")+"";
 		return actTaskService.stopActTask(taskId,userId,objId,pId);
 		
 	}

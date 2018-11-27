@@ -396,10 +396,16 @@ function cardSelectInitFunction(){
 	function checkNull(id){
 		var xxx = "";
 		var flag = false;
-		$(id).find("input,select,textarea").each(function(){
+		$(id).find("input,select,textarea,.RADIOT").each(function(){
 			if($(this).attr("required")=='required'){
 				var id = this.id;
 				var value = $("[id='"+id+"']").val();
+				if($(this).attr("class") == 'RADIOT'){
+					value = $(this).find("[name='LCENTRY_DISCIPLINE']:checked").val();
+					if(value==undefined){
+					  return false;
+					}
+				}
 				if($(this).val()==""||$(this).val()==null){
 					$(this).css('border-color','red');
 					$(this).attr("placeholder","此项不能为空");
@@ -983,24 +989,7 @@ function showFormDateNew(id,arr,e,yulanButton,deleteButton,uploadButton,shangchu
 							"</div>\n"+
 							"</div>\n"+
 							"</div>\n";
-			layer.open({
-				title:'输入内容',
-				shadeClose: true,
-				zIndex:9999,
-				content: content,
-				area: ['500px', '300px'],
-				btn: ['确定', '取消'],
-				success: function(layero, index){
-					addHtml(tagCode,'fileManage_tagType');
-				},
-				yes: function(index, layero){
-					layer.close(index);
-				  
-				},
-				btn2: function(index, layero){
-				 
-				}
-			});
+			
 		});
 	}else{
 		$("button").remove(".kv-file-zoom");
@@ -1070,31 +1059,6 @@ function updateFiles(){
 	$("#newFile").find(".file-input-ajax-new").css("display","none");
 	$("#main_buttons").css("display","none");	
 	var HtmlPicture = "";
-	
-	html2canvas($("#CardAndCardForm")).then(function(canvas) {
-		var showHis = {};
-		showHis.img = canvas.toDataURL("image/png");
-		showHis.mark = param_procInsId;
-		
-		if(isApp=='APP'){
-			window.parent.postMessage('2','*');
-		}else{
-			closex();
-		}
-		$.ajax({
-			url:'/myehr/FileList/saveHtmlPicture.action',
-			type:'post',
-			cache: false,
-			data: JSON.stringify(showHis),
-			contentType: 'application/json;charset=utf-8',
-			success: function (obj) {
-			}
-		});
-    });
-	
-}
-
-function updateFilesForFree(){
 	html2canvas($("#CardAndCardForm")).then(function(canvas) {
 		var showHis = {};
 		showHis.img = canvas.toDataURL("image/png");
@@ -1731,11 +1695,7 @@ function initFileManage2His(shangchuanButton,yulanButton,deleteButton,uploadButt
 	var tableObj='<h3 class="CCFubiaoTitle CCD_TITLE">表单附件管理</h3>\n'+
 				 '<div class="wrapper wrapper-content animated fadeInRight" style="padding-top:0" id="testCheckedWall">\n'+
 				 '</div>\n';
-	if($("#"+id)!=undefined){
-		$("#"+id).after(tableObj);
-	}else{
-		$(".mainFormElement").after(tableObj);
-	}
+	$("#"+id).after(tableObj);
 	var checkedObj = '<div class="row" style="margin-left:0;margin-top:10px;text-align:left;margin-right:0px;padding:0"  id="checkedFileManage">\n'+
 					 '	 <div class="col-md-12 col-sm-12 col-lg-12 singleShow" style="border:1px solid #e7eaec;padding-top:5px;background-color: #FFF;">\n'+
 					 '			 <div class="col-sm-11">\n'+
@@ -15659,70 +15619,41 @@ function deleteElement(e,id){
 	_param.formId=id;
 	_param.params=[];
 	_param.params.push(cardGetdata2(e,id));
-	_param.tabparam = paramsMap;
-	if(isApp=='APP'){
-		layer.open({
-			    content: '确定要删除',
-    			btn: ['删除', '取消'],
-    			skin: 'footer',
-			  	yes: function(index){
-					layer.close(index);
-					$.ajax({
-						url:'/myehr/form/removeData.action',
-						type:'post',
-						data: JSON.stringify(_param),
-						cache: false,
-						contentType: 'application/json;charset=utf-8',
-						success: function (text) {
-							if(text!='1'){
-								alert('删除失败');
-							} else {
-								var id = $(e).parent().parent().parent().parent().parent().attr("id");
-								loadDataStart3(id);
-							}
-						}
-					})
-				}
-		})
-	}else{
-		_param.tabparam = paramsMap
-		var signstr = JSON.stringify(_param);
-		var rule ='\"' ;
-		var regS = new RegExp(rule,'g');
-		
-		var rule2 =':' ;
-		var regS2 = new RegExp(rule2,'g');
-		signstr = signstr.replace(regS, '');
-		signstr = signstr.replace(regS2, '=');
-		
-		var sign = md5(signstr);
-		layer.msg('确定要删除此数据', {
-			  time: 0 //不自动关闭
-			  ,btn: ['确定', '再想想']
-			  ,success: function(layero){
-					layero.find('.layui-layer-btn').css('text-align', 'center');
-				}
-			  ,yes: function(index){
-				layer.close(index);
-				$.ajax({
-					url:'/myehr/form/removeData.action?sign='+sign,
-					type:'post',
-					data: JSON.stringify(_param),
-					cache: false,
-					contentType: 'application/json;charset=utf-8',
-					success: function (text) {
-						if(text!='1'){
-							alert('删除失败');
-						} else {
-							var id = $(e).parent().parent().parent().parent().parent().attr("id");
-							loadDataStart3(id);
-						}
-						}
-					});
-				  }
-			});
-	}
+	_param.tabparam = paramsMap
+	var signstr = JSON.stringify(_param);
+	var rule ='\"' ;
+	var regS = new RegExp(rule,'g');
 	
+	var rule2 =':' ;
+	var regS2 = new RegExp(rule2,'g');
+	signstr = signstr.replace(regS, '');
+	signstr = signstr.replace(regS2, '=');
+	
+	var sign = md5(signstr);	layer.msg('确定要删除此数据', {
+		  time: 0 //不自动关闭
+		  ,btn: ['确定', '再想想']
+		  ,success: function(layero){
+				layero.find('.layui-layer-btn').css('text-align', 'center');
+			}
+		  ,yes: function(index){
+		    layer.close(index);
+			$.ajax({
+				url:'/myehr/form/removeData.action?sign='+sign,
+				type:'post',
+				data: JSON.stringify(_param),
+				cache: false,
+				contentType: 'application/json;charset=utf-8',
+				success: function (text) {
+					if(text!='1'){
+						alert('删除失败');
+					} else {
+						var id = $(e).parent().parent().parent().parent().parent().attr("id");
+						loadDataStart3(id);
+					}
+				}
+			});
+		  }
+	});
 }
 
 //判空(通用)
@@ -16417,70 +16348,107 @@ function queryHisUserComment(){
 	}
 	return objs;
 }
+
 function changeComment(){
-	var obj = queryHisUserComment();
-	var cellObj = '';
-	var arr = obj.rows;
-	if(arr!=undefined&&arr.length>0){
-		for (var i = 0; i < arr.length; i++) {
-			var NAME_ = '';
-			if(arr.length>0&&arr[i].NAME_!=null){
-				NAME_ = arr[i].NAME_;
-			}
-			var MESSAGE_ = '';
-			if(arr.length>0&&arr[i].MESSAGE_!=null){
-				MESSAGE_ = arr[i].MESSAGE_;
-			}
-			var ASSIGNEE_ = '';
-			if(arr.length>0&&arr[i].ASSIGNEE_!=null){
-				ASSIGNEE_ = getUsernameById(arr[i].ASSIGNEE_);
-			}
-			var END_TIME_ = '';
-			if(arr.length>0&&arr[i].END_TIME_!=null){
-			END_TIME_ = new Date(parseInt(arr[i].END_TIME_)).Format("yyyy/MM/dd");
-			}
-			cellObj +=    '<div class="col-md-12 col-sm-12 col-lg-12" name="fubiaoElement" >'+
-						  '    <div class="contact-box" style="min-height:110px">'+
-						  '		<form class="row cell" style="padding-right:50px">'+
-						  '			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" >'+
-						  '				<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
-						  '					<label style="float:left;font-size:14px;width:100px;line-height:25px">节点名称: </label>'+
-						  '					<input id="NAME_'+i+'" name="NAME_" dataType="text" class="CCReadText"  value="'+NAME_+'" type="text" readonly style="width:200px;height:25px;padding:0;border:none;background-color:#fff"/>'+
-						  '					<span style="color:red;"></span>'+
-						  '				</div>'+
-						  '			</div>'+
-						  '			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" >'+
-						  '				<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
-						  '					<label style="float:left;font-size:14px;width:100px;line-height:25px">审批信息: </label>'+
-						  '					<input id="MESSAGE_'+i+'" name="MESSAGE_" dataType="text" class="CCReadText"  value="'+MESSAGE_+'" type="text" readonly style="width:200px;height:25px;padding:0;border:none;background-color:#fff"/>'+
-						  '					<span style="color:red;"></span>'+
-						  '				</div>'+
-						  '			</div>'+
-						  '			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" >'+
-						  '				<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
-						  '					<label style="float:left;font-size:14px;width:100px;line-height:25px">审批人: </label>'+
-						  '					<input id="ASSIGNEE_'+i+'" name="ASSIGNEE_" dataType="text" class="CCReadText"  value="'+ASSIGNEE_+'" type="text" readonly style="width:200px;height:25px;padding:0;border:none;background-color:#fff"/>'+
-						  '					<span style="color:red;"></span>'+
-						  '				</div>'+
-						  '			</div>'+
-						  '			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" >'+
-						  '				<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
-						  '					<label style="float:left;font-size:14px;width:100px;line-height:25px">审批时间: </label>'+
-						  '					<input id="END_TIME_'+i+'" name="END_TIME_" dataType="text" class="CCReadText"  value="'+END_TIME_+'" type="text" readonly style="width:200px;height:25px;padding:0;border:none;background-color:#fff"/>'+
-						  '					<span style="color:red;"></span>'+
-						  '				</div>'+
-						  '			</div>'+
-						  '		</form>'+
-						  '		</div>'+
-						  '</div>';
-		}
-		$("#CommentContent").html(cellObj);
-	}
-	$("#Comment").find("[id='CommentContent']").css("display","block");
-	$("#Comment").find("[id='zhankaiComment']").attr("onclick","changeComment2()");
-	$("#Comment").find("[id='zhankaiComment']").attr("title","收起");
-	$("#Comment").find("[id='zhankaiComment']").attr("class","fa fa-angle-down CCD_TITLE_BUTTON");
+		
+		$("#LC_SHENPI_LIST_List").bootstrapTable({
+			url :'/myehr/act/task/queryHisUserComment.action?procInsId='+param_procInsId+'&taskId='+param_taskId,
+			contentType: 'application/json;charset=utf-8',
+			dataType:'json',
+			method:'post',
+			height : 450,
+			undefinedText : '-',
+			pagination : true,
+			striped : true,
+			queryParams : '30',
+			cache : false,
+			pageSize :30, 
+			pageList : [10,20,30,100], 
+			sidePagination : "server",
+			columns : [
+  {
+                title : '节点名称',
+                field : 'NAME_',
+                align : 'center',
+                valign : 'left',
+                formatter: function (value, row, index) {
+                    if(value==undefined){
+                        value='-';
+                    }
+                   return "<a  class=\"eli w200\" style=\"font-size:12px;text-decoration:none;color:black;width:100px;\" name=\"NAME_\" data-type=\"text\" data-pk=\""+row.Id+"\" title=\""+value+"\"  data-title=\"节点名称\">"+value+"</a>"
+                }
+            },
+  {
+                title : '审批详情',
+                field : 'MESSAGE_',
+                align : 'center',
+                valign : 'left',
+                formatter: function (value, row, index) {
+                    if(value==undefined){
+                        value='-';
+                    }
+                   return "<a  class=\"eli w300\" style=\"font-size:12px;text-decoration:none;color:black;width:100px;\" name=\"MESSAGE_\" data-type=\"text\" data-pk=\""+row.Id+"\" title=\""+value+"\"  data-title=\"审批详情\">"+value+"</a>"
+                }
+            },
+  {          
+                title : '审批人',
+                field : 'ASSIGNEE_',
+                align : 'center',
+                valign : 'left',
+                formatter: function (value, row, index) {
+                    if(value==undefined){
+                        value='-';
+                    }
+                   return "<a  class=\"eli w\" style=\"font-size:12px;text-decoration:none;color:black;width:100px;\" name=\"ASSIGNEE_\" data-type=\"text\" data-pk=\""+row.Id+"\" title=\""+value+"\"  data-title=\"审批人\">"+getUsernameById(value)+"</a>"
+                }
+            },
+    {        
+             title : '审批时间',
+                field : 'END_TIME_',
+                align : 'center',
+                valign : 'left',
+                formatter: function (value, row, index) {
+                        var date = "-";
+                    if(value!=null){
+                    var val = value+"";
+                    	if((("yyyy-MM-dd"=="hh:mm")&&val.indexOf(":")>1)||("yyyy-MM-dd"=="yyyyMM")){
+                    		date = value ;
+                    	}else{
+                        date = new Date(value).Format("yyyy-MM-dd");
+                    	}
+                    }
+              return "<a class=\"eli w\" style=\"font-size:12px;text-decoration:none;color:black;width:100px\" name=\"END_TIME_\" data-type=\"text\" data-pk=\""+row.Id+"\" data-title=\"审批时间\">"+date+"</a>";
+                }
+            },
+            ],
+         onClickRow: function (row, $element) {
+	                curRow = row;
+	               // $('#org_list_List').bootstrapTable('uncheckAll');
+	            },
+	            onLoadSuccess: function (aa, bb, cc) {
+	        /*    $("#LC_SHENPI_LIST_List a").editable({
+                    disabled: true,
+                    emptytext: "-",
+                    url: function (params) {
+                        var sName = $(this).attr("name");
+                        curRow[sName] = params.value;
+                    },
+                    type: 'text'
+                });*/
+            },
+            responseHandler : function(res) {  
+                return {  
+                    total : res.total,  
+                    rows : res.rows  
+                };
+            }
+        });
+        window.operateEvents = {  
+            
+        }
+	changeCssForApp1();
 }
+
 function changeComment2(e){
 	Currentpage2 = 0;
 	$("#Comment").find("[id='CommentContent']").css("display","none");
@@ -21645,7 +21613,6 @@ function showFreeActLines(){
 	$("#lineElement").html("");
 	 var objs = getFreeActLinesByTaskId(param_taskId);
 		for(var i=0;i<objs.length;i++){
-			var userName = getUsernameById(objs[i].assigreeid);
 			var cellObj = '';
 			if(i==0){
 				cellObj += 	'<div class="col-md-12 col-sm-12 col-lg-12 CCM_ELEMENT" id="choosePerson" >'+
@@ -21658,9 +21625,8 @@ function showFreeActLines(){
 						'				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 CCM_COL" >'+
 						'					<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
 						'						<label class="CCM_LABEL">发起人: </label>'+
-						'						<input title="发起人" class="form-control CCF_ADD_INPUT" readonly value="'+userName+'"/>'+
-						'						<input id="chooseman'+i+'" class="userId" type="hidden" value="'+objs[i].assigreeid+'"/>'+
-						//'						<span style="color:red;"> * </span>'+
+						'						<select id="chooseman'+i+'" title="发起人" styleType="select" disabled  name="SYSUSER_OPERATOR_NAME" columnId="47999"  class="chooseman form-control CCM_SELECT selectpicker bla bla bli" data-live-search="true" styleType2="search" emptyText=""  dataField1 = "sql"  required="true"  style="float:left;width:200px;" textField="text" valueField="id" DictName="sql4" dataField="data_form_47999"initParam = "_"></select>'+
+						'						<span style="color:red;"> * </span>'+
 						'					</div>'+
 						'				</div>'+
 		 				'			<div>'+
@@ -21679,9 +21645,8 @@ function showFreeActLines(){
 						'				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 CCM_COL" >'+
 						'					<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
 						'						<label class="CCM_LABEL">选择审批人: </label>'+
-						'						<input title="选择审批人" id="chooseman'+i+'_name" class="form-control CCF_ADD_INPUT" readonly value="'+userName+'"/><span onclick="choosePerson(\'chooseman'+i+'\')" class="glyphicon glyphicon-plus CCF_ADD"></span>'+
-						'						<input id="chooseman'+i+'" class="userId"  type="hidden" value="'+objs[i].assigreeid+'"/>'+
-						//'						<span style="color:red;"> * </span>'+
+						'						<select id="chooseman'+i+'" title="选择审批人" styleType="select" disabled  name="SYSUSER_OPERATOR_NAME" columnId="47999"  class="chooseman form-control CCM_SELECT selectpicker bla bla bli" data-live-search="true" styleType2="search" emptyText=""  dataField1 = "sql"  required="true"  style="float:left;width:200px;" textField="text" valueField="id" DictName="sql4" dataField="data_form_47999"initParam = "_"></select>'+
+						'						<span style="color:red;"> * </span>'+
 						'					</div>'+
 						'				</div>'+
 		 				'			<div>'+
@@ -21692,6 +21657,10 @@ function showFreeActLines(){
 			}
 			$("#lineElement").append(cellObj);
 		}
+		elementsListSelectInitFunction('#choosePerson');//初始化新增下拉控件
+		for(var i=0;i<objs.length;i++){
+			$("#chooseman"+i).selectpicker('val',objs[i].assigreeid);
+		}
 }
 
 function showComment(){
@@ -21699,72 +21668,40 @@ function showComment(){
 		 var objs = getFreeActHisByTaskId(param_taskId);
 			for(var i=objs.length-1;i>-1;i--){
 				var cellObj = '';
-				if(i==0){
-					cellObj += 	'<div class="col-md-12 col-sm-12 col-lg-12 CCM_ELEMENT" id="choosePerson" >'+
-							'    <div class="contact-box">'+
-							'		<form class="row cell CCM_ELEMENT_ROW choosePerson" id="choosePerson0">'+
-							'    		<h3 class="CCFubiaoTitle CCD_TITLE">详情</h3>'+
-							'			<div class="row cell">'+
-							'				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 CCM_COL" >'+
-							'					<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
-							'						<label class="CCM_LABEL">发起人: </label>'+
-							'						<input title="发起人" class="CCM_DISABLE_INPUT" type="text" readonly value="'+objs[i].cname+'">'+
-							'					</div>'+
-							'				</div>'+
-							'				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 CCM_COL" >'+
-							'					<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
-							'						<label class="CCM_LABEL">发起时间: </label>'+
-							'						<input title="发起时间" class="CCM_DISABLE_INPUT" type="text" readonly value="'+objs[i].endTime+'">'+
-							'					</div>'+
-							'				</div>'+
-							'				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 CCM_COL" >'+
-							'					<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
-							'						<label class="CCM_LABEL">审批结果: </label>'+
-							'						<input title="审批结果" class="CCM_DISABLE_INPUT" type="text" readonly value="'+objs[i].freeHis.result+'">'+
-							'					</div>'+
-							'				</div>'+
-							'			<div>'+
-							'			<input id="id" type="hidden" value="'+objs[i].id+'" />'+
-							'		</form>'+
-							'	</div>'+
-							'</div>';
-				}else{
-					cellObj += 	'<div class="col-md-12 col-sm-12 col-lg-12 CCM_ELEMENT" id="choosePerson" >'+
-							'    <div class="contact-box">'+
-							'		<form class="row cell CCM_ELEMENT_ROW choosePerson" id="choosePerson0">'+
-							'    		<h3 class="CCFubiaoTitle CCD_TITLE">详情</h3>'+
-							'			<div class="row cell">'+
-							'				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 CCM_COL" >'+
-							'					<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
-							'						<label class="CCM_LABEL">审批人: </label>'+
-							'						<input title="审批人" class="CCM_DISABLE_INPUT" type="text" readonly value="'+objs[i].cname+'">'+
-							'					</div>'+
-							'				</div>'+
-							'				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 CCM_COL" >'+
-							'					<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
-							'						<label class="CCM_LABEL">审批时间: </label>'+
-							'						<input title="审批时间" class="CCM_DISABLE_INPUT" type="text" readonly value="'+objs[i].endTime+'">'+
-							'					</div>'+
-							'				</div>'+
-							'				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 CCM_COL" >'+
-							'					<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
-							'						<label class="CCM_LABEL">审批结果: </label>'+
-							'						<input title="审批结果" class="CCM_DISABLE_INPUT" type="text" readonly value="'+objs[i].freeHis.result+'">'+
-							'					</div>'+
-							'				</div>'+
-							'				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 CCM_COL" >'+
-							'					<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
-							'						<label class="CCM_LABEL">审批意见: </label>'+
-							'						<input title="审批意见" class="CCM_DISABLE_INPUT" type="text" readonly value="'+objs[i].freeHis.coment+'">'+
-							'					</div>'+
-							'				</div>'+
-							'			<div>'+
-							'			<input id="id" type="hidden" value="'+objs[i].id+'" />'+
-							'		</form>'+
-							'	</div>'+
-							'</div>';
-				}
-				
+				cellObj += 	'<div class="col-md-12 col-sm-12 col-lg-12 CCM_ELEMENT" id="choosePerson" >'+
+					    '    <div class="contact-box">'+
+						'		<form class="row cell CCM_ELEMENT_ROW choosePerson" id="choosePerson0">'+
+		    			'    		<h3 class="CCFubiaoTitle CCD_TITLE">详情</h3>'+
+						'			<div class="row cell">'+
+						'				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 CCM_COL" >'+
+						'					<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
+						'						<label class="CCM_LABEL">审批人: </label>'+
+						'						<input title="审批人" class="CCM_DISABLE_INPUT" type="text" readonly value="'+objs[i].cname+'">'+
+						'					</div>'+
+						'				</div>'+
+						'				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 CCM_COL" >'+
+						'					<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
+						'						<label class="CCM_LABEL">审批时间: </label>'+
+						'						<input title="审批时间" class="CCM_DISABLE_INPUT" type="text" readonly value="'+objs[i].endTime+'">'+
+						'					</div>'+
+						'				</div>'+
+						'				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 CCM_COL" >'+
+						'					<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
+						'						<label class="CCM_LABEL">审批结果: </label>'+
+						'						<input title="审批结果" class="CCM_DISABLE_INPUT" type="text" readonly value="'+objs[i].freeHis.result+'">'+
+						'					</div>'+
+						'				</div>'+
+						'				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 CCM_COL" >'+
+						'					<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
+						'						<label class="CCM_LABEL">审批意见: </label>'+
+						'						<input title="审批意见" class="CCM_DISABLE_INPUT" type="text" readonly value="'+objs[i].freeHis.coment+'">'+
+						'					</div>'+
+						'				</div>'+
+		 				'			<div>'+
+						'			<input id="id" type="hidden" value="'+objs[i].id+'" />'+
+						'		</form>'+
+						'	</div>'+
+						'</div>';
 				$("#hisComment").append(cellObj);
 			}
 }
@@ -21811,8 +21748,8 @@ function addFunctions1(e){
 				'				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 CCM_COL" >'+
 				'					<div class="ui search selection dropdown entitybox field-control" style="display: inline-block;width:100%">'+
 				'						<label class="CCM_LABEL">选择审批人: </label>'+
-				'						<input title="选择审批人" id="chooseman'+count+'_name" class="form-control CCF_ADD_INPUT" readonly /><span onclick="choosePerson(\'chooseman'+count+'\')" class="glyphicon glyphicon-plus CCF_ADD"></span>'+
-				'						<input id="chooseman'+count+'" class="userId" type="hidden"/>'+
+				'						<select id=\"chooseman_'+count+'\" title="选择审批人" styleType="select" name="SYSUSER_OPERATOR_NAME" columnId="47999"  class="chooseman form-control CCM_SELECT selectpicker bla bla bli"  data-live-search="true" styleType2="search" emptyText=""  dataField1 = "sql"  required="true"  style="float:left;width:200px;" textField="text" valueField="id" DictName="sql4" dataField="data_form_47999"initParam = "_"></select>'+
+				'						<span style="color:red;"> * </span>'+
 				'					</div>'+
 				'				</div>'+
 				'			<div>'+
@@ -21821,10 +21758,20 @@ function addFunctions1(e){
 				'		</form>'+
 				'	</div>'+
 				'</div>';
+	
+	
 	$(e).parent().parent().parent().after(cellObj);
+	elementsListSelectInitFunction('#id_'+count+'');//初始化新增下拉控件
 }
 
 function saveFreeLines(){
+/*
+	var cell = "         <div class=\"ibox-content\">\n"+
+	           "             <div class=\"spiner-example\">\n"+
+	           "                 <div class=\"sk-spinner sk-spinner-rotating-plane\"></div>\n"+
+	           "             </div>\n"+
+	           "         </div>\n";
+*/
 	showLoadingx("body");
 	var taskId = param_taskId;
 	var objs = $(".choosePerson");
@@ -21836,7 +21783,8 @@ function saveFreeLines(){
 		}
 		freeWay.taskid = taskId;
 		freeWay.orderby = i+"";
-		freeWay.assigreeid = objs.eq(i).find(".userId").val();
+		objs.eq(i).find("select.chooseman").attr("disabled",false);
+		freeWay.assigreeid = objs.eq(i).find("select.chooseman").val();
 		_params[i] = freeWay;
 	}
 	saveLines(_params);
@@ -21871,7 +21819,18 @@ function saveLines(e){
 		data: JSON.stringify(e),
         contentType: 'application/json;charset=utf-8',
 		success: function (text) {
-			
+			if(text[0]=='success'){
+				layer.open({
+				    content: '保存成功',
+				    btn: '确定'
+				});
+				showFreeActLines();
+			}else{
+				layer.open({
+				    content: text[1],
+				    btn: '确定'
+				});
+			}
 		}
 	});
 }
@@ -21887,50 +21846,7 @@ function changeReadonly(e){
 	$("#"+e).find(".CCM_DATE_INPUT").removeClass("CCM_DATE_INPUT");
 	$("#"+e).find(".CCM_INPUT").removeClass("CCM_INPUT");
 	$("#"+e).find(".CCM_SELECT").removeClass("CCM_SELECT");
-	$("#"+e).find(".CCM_TEXTAREA").addClass("CCM_DISABLE");
-	$("#"+e).find(".CCM_TEXTAREA").removeClass("CCM_TEXTAREA");
 	$("#"+e).find(".CCM_DISABLE").attr("disabled",true);
+	//$("#"+e).find(".CCM_DISABLE").css("border","none");
 	
-}
-
-function choosePerson(e){
-	var id = e;
-	var url = '/myehr/form/toForm.action?formId=5103'+"&idField=EMPVORGANIZATIONA_ID&textField=EMPVORGANIZATIONA_cname&fatherId="+id+"";
-	layer.open({
-		type:2,
-		closeBtn:1,
-		shadeClose:true,
-		area:['500','600'],
-		title:'选择',
-		content:url,
-		success:function(layero,index){
-			
-			//$(".sidebar").css("height",$(".sidebar").css("height")-90);
-		},
-		end:function(){			}
-	 }); 
-}
-/*
-function getActTitle(){
-	var regex2 = /\[(.+?)\]/g;
-	var params = titleModel.match(regex2);
-	for(var i=0;i<params.length-1;i++){
-		var param = params[i].split(":");
-		var value = "";
-		if(param[0]=="[p"){
-			value = $("[id='"+param[1].substring(0,param[1].length-1)+"']").val();
-		}else if(param[0]=="[c"){
-			value = "'"+param[1].substring(0,param[1].length-1)+"'";
-		}else if(param[0]=="[a"){
-			value = xxx[param[1].substring(0,param[1].length-1)];
-		}
-		var reValue = "\\["+params[i].substring(1,params[i].length-1)+"\\]";
-		var reg = new RegExp(reValue,"g");//g,表示全部替换。
-		titleModel = titleModel.replace(reg,value);
-	}
-}
-*/
-
-function deleteFunctions(e){
-	$(e).parent().parent().parent().remove();
 }

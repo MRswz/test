@@ -54,9 +54,12 @@ import com.myehr.mapper.formmanage.form.SysFormFolderTreeMapper;
 import com.myehr.mapper.formmanage.form.SysFormGeneralParamMapper;
 import com.myehr.mapper.formmanage.form.SysFormGroupMapper;
 import com.myehr.mapper.formmanage.form.SysFormWhereMapper;
+import com.myehr.mapper.formmanage.form.SysFormYkReportMapper;
+import com.myehr.mapper.formmanage.form.SysFormYkReportQueryparamsMapper;
 import com.myehr.mapper.formmanage.form.SysFormconfigMapper;
 import com.myehr.mapper.formmanage.form.SysGridFilterColumnMapper;
 import com.myehr.mapper.formmanage.form.SysGridFilterMapper;
+import com.myehr.mapper.formmanage.form.SysSqlParamsMapper;
 import com.myehr.mapper.formmanage.question.SysExamtemplateMapper;
 import com.myehr.mapper.formmanage.question.SysExamtemplateQuestionMapper;
 import com.myehr.mapper.formmanage.question.SysQuestionMapper;
@@ -75,6 +78,7 @@ import com.myehr.mapper.sysdict.SysDictEntryMapper;
 import com.myehr.mapper.sysdict.SysDictTypeMapper;
 import com.myehr.mapper.sysmenu.SysMenuMapper;
 import com.myehr.mapper.sysmenu.SysMenuMapperExpand;
+import com.myehr.mapper.sysuser.EmpVEmp1basicMapper;
 import com.myehr.mapper.sysuser.SysUserMapper;
 import com.myehr.mapper.task.SysTaskMapper;
 import com.myehr.pojo.activiti.ActHiProcinst;
@@ -146,12 +150,17 @@ import com.myehr.pojo.formmanage.form.SysFormGroup;
 import com.myehr.pojo.formmanage.form.SysFormGroupExample;
 import com.myehr.pojo.formmanage.form.SysFormWhere;
 import com.myehr.pojo.formmanage.form.SysFormWhereExample;
+import com.myehr.pojo.formmanage.form.SysFormYkReport;
+import com.myehr.pojo.formmanage.form.SysFormYkReportExample;
+import com.myehr.pojo.formmanage.form.SysFormYkReportQueryparams;
+import com.myehr.pojo.formmanage.form.SysFormYkReportQueryparamsExample;
 import com.myehr.pojo.formmanage.form.SysFormconfig;
 import com.myehr.pojo.formmanage.form.SysFormconfigExample;
 import com.myehr.pojo.formmanage.form.SysFormconfigWithBLOBs;
 import com.myehr.pojo.formmanage.form.SysGridFilter;
 import com.myehr.pojo.formmanage.form.SysGridFilterColumn;
 import com.myehr.pojo.formmanage.form.SysGridFilterExample;
+import com.myehr.pojo.formmanage.form.SysSqlParams;
 import com.myehr.pojo.formmanage.question.SysExamtemplate;
 import com.myehr.pojo.formmanage.question.SysExamtemplateQuestion;
 import com.myehr.pojo.formmanage.question.SysExamtemplateQuestionExample;
@@ -178,6 +187,8 @@ import com.myehr.pojo.sysParam.SysSystemParamExample;
 import com.myehr.pojo.sysUserRole.SysUserRole;
 import com.myehr.pojo.sysUserRole.SysUserRoleExample;
 import com.myehr.pojo.sysmenu.SysMenu;
+import com.myehr.pojo.sysuser.EmpVEmp1basic;
+import com.myehr.pojo.sysuser.EmpVEmp1basicExample;
 import com.myehr.pojo.sysuser.SysUser;
 import com.myehr.pojo.sysuser.SysUserExample;
 import com.myehr.pojo.sysuser.SysUserExpand;
@@ -185,6 +196,7 @@ import com.myehr.pojo.task.SysTask;
 import com.myehr.pojo.task.SysTaskExample;
 import com.myehr.service.formmanage.form.IFilterService;
 import com.myehr.service.formmanage.form.ISysformconfigService;
+import com.myehr.service.menu.SysMenuService;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 public class SysformconfigService implements   ISysformconfigService {
 	private static Logger logger = LoggerFactory.getLogger(SysformconfigService.class);
@@ -243,7 +255,9 @@ public class SysformconfigService implements   ISysformconfigService {
 	
 	@Autowired
 	SysFormComboboxMapper sysFormComboboxMapper;
-	
+
+	@Autowired 
+	private SysMenuService sMService;
 	@Autowired
 	SysFormRadiobuttonlistMapper sysFormRadiobuttonlistMapper;
 	
@@ -296,6 +310,8 @@ public class SysformconfigService implements   ISysformconfigService {
 	SysExamtemplateMapper sExamtemplateMapper;
 	
 	@Autowired
+	EmpVEmp1basicMapper empVEmp1basicMapper;
+	@Autowired
 	IFilterService IFilterService;
 	@Autowired
 	C11Mapper cMapper;
@@ -341,7 +357,12 @@ public class SysformconfigService implements   ISysformconfigService {
 	SysGridbycardTemplateColumnMapper gridbycardTemplateColumnMapper;
 	@Autowired
 	private SysTaskMapper sysTaskMapper;
-	
+	@Autowired
+	SysFormYkReportQueryparamsMapper ykReportQueryparamsMapper;
+	@Autowired
+	SysFormYkReportMapper ykReportMapper;
+	@Autowired
+	SysSqlParamsMapper sqlParamsMapper;
 	private static Map<String,SysFormconfigCache> formMap  =new ConcurrentHashMap<String, SysFormconfigCache>();
 	private static Map<String,Map> entityMap = new ConcurrentHashMap<String, Map>();
 	private static Map<String,JSONArray> dictsGridMap = new ConcurrentHashMap<String, JSONArray>();
@@ -3444,8 +3465,140 @@ public class SysformconfigService implements   ISysformconfigService {
 			}
 			return taskList;
 	}
+
+	@Override
+	public String getMainframeMenuWithSchemex(String code, String userId) {
+		JedisFactory factory = new  JedisFactory( new  JedisPoolConfig());  
+    	Jedis jedis = factory.getJedis(); 
+    	byte[] menusByte = jedis.get(("sysCustomMenus_"+code+userId).getBytes());
+    	if (menusByte!=null) {
+    		String result = new String(menusByte);
+    		return result;
+		}else {
+			String result = sMService.queryMainframeMenuWithSchemex(code,userId,null,"N");
+			jedis.set(("sysCustomMenus_"+code+userId).getBytes(), result.getBytes());
+			return result;
+		}
+	}
 	
+	@Override
+	public int setMainframeMenuWithSchemex(String code, String userId) {
+		try {
+			JedisFactory factory = new  JedisFactory( new  JedisPoolConfig());  
+	    	Jedis jedis = factory.getJedis(); 
+	    	String result = sMService.queryMainframeMenuWithSchemex(code,userId,null,"N");
+			jedis.set(("sysCustomMenus_"+code+userId).getBytes(), result.getBytes());
+		} catch (Exception e) {
+			return 1;
+		}
+		return 0;
+	}
+
+	@Override
+	public EmpVEmp1basic getPersonInfoByuserId(String userId) {
+		JedisFactory factory = new  JedisFactory( new  JedisPoolConfig());  
+    	Jedis jedis = factory.getJedis(); 
+    	byte[] personInfoByte = jedis.get(("personInfo_"+userId).getBytes());
+    	if (personInfoByte!=null) {
+    		EmpVEmp1basic person = (EmpVEmp1basic) SerializeUtil.unserialize(personInfoByte);
+    		return person;
+		}else {
+			String sql = "SELECT * from EMP_V_EMP1BASIC WHERE isnull(userid,0)="+userId;
+			Map map;
+			try {
+				map = MybatisUtil.queryOne("runtime.selectSql", sql);
+				EmpVEmp1basic personInfo = new EmpVEmp1basic();
+				//{BIRTHDAY=null, CNAME=王A骏, WORKPHONE=null, EMPID=7, MOBILE=null, SEX=女, JOBID=D1.CNAME, WORKEMAIL=null, DEPID=D.CNAME, EMPCODE=E07, USERID=17275}
+				if (map!=null) {
+					String BIRTHDAY = map.get("BIRTHDAY")==null?"生日":map.get("BIRTHDAY")+"";
+					String CNAME = map.get("CNAME")==null?"姓名":map.get("CNAME")+"";
+					String DEPID = map.get("DEPID")==null?"部门":map.get("DEPID")+"";
+					String EMPCODE = map.get("EMPCODE")==null?"工号":map.get("EMPCODE")+"";
+					String EMPID = map.get("EMPID")==null?"未维护":map.get("EMPID")+"";
+					String JOBID = map.get("JOBID")==null?"岗位":map.get("JOBID")+"";
+					String MOBILE = map.get("MOBILE")==null?"手机号码":map.get("MOBILE")+"";
+					String SEX = map.get("SEX")==null?"性别":map.get("SEX")+"";
+					String USERID = map.get("USERID")==null?"未维护":map.get("USERID")+"";
+					String WORKEMAIL = map.get("WORKEMAIL")==null?"工作邮箱":map.get("WORKEMAIL")+"";
+					String WORKPHONE = map.get("WORKPHONE")==null?"工作电话":map.get("WORKPHONE")+"";
+					personInfo.setBirthday(BIRTHDAY);
+					personInfo.setCname(CNAME);
+					personInfo.setDepid(DEPID);
+					personInfo.setEmpcode(EMPCODE);
+					personInfo.setEmpid(EMPID);
+					personInfo.setJobid(JOBID);
+					personInfo.setMobile(MOBILE);
+					personInfo.setSex(SEX);
+					personInfo.setUserid(USERID);
+					personInfo.setWorkemail(WORKEMAIL);
+					personInfo.setWorkphone(WORKPHONE);
+					jedis.set(("personInfo_"+userId).getBytes(), SerializeUtil.serialize(personInfo));
+				}else {
+					personInfo.setBirthday("生日");
+					personInfo.setCname("姓名");
+					personInfo.setDepid("部门");
+					personInfo.setEmpcode("工号");
+					personInfo.setEmpid("未维护");
+					personInfo.setJobid("岗位");
+					personInfo.setMobile("手机号码");
+					personInfo.setSex("性别");
+					personInfo.setUserid("未维护");
+					personInfo.setWorkemail("工作邮箱");
+					personInfo.setWorkphone("工作电话");
+				}
+				return personInfo;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+			
+		}
+	}
 	
+	@Override
+	public int setPersonInfoByuserId(String userId) {
+		try {
+			JedisFactory factory = new  JedisFactory( new  JedisPoolConfig());  
+	    	Jedis jedis = factory.getJedis(); 
+	    	byte[] personInfoByte = jedis.get(("personInfo_"+userId).getBytes());
+	    	EmpVEmp1basicExample example = new EmpVEmp1basicExample();
+			example.or().andUseridEqualTo(Integer.valueOf(userId));
+			List<EmpVEmp1basic> persons = empVEmp1basicMapper.selectByExample(example);
+			if (persons!=null&&persons.size()>0) {
+				jedis.set(("personInfo_"+userId).getBytes(), SerializeUtil.serialize(persons.get(0)));
+			}else {
+				jedis.del(("personInfo_"+userId).getBytes());
+			}
+		} catch (Exception e) {
+			return 1;
+		}
+		return 0;
+	}
+
+	@Override
+	public List<SysSqlParams> getYkParamsByreportId(Long reportId) {
+		SysFormYkReportQueryparamsExample example = new SysFormYkReportQueryparamsExample();
+		example.or().andReportIdEqualTo(reportId);
+		List<SysFormYkReportQueryparams> ykParamsEs = ykReportQueryparamsMapper.selectByExample(example);
+		List<SysSqlParams> params = new ArrayList<SysSqlParams>();
+		for (SysFormYkReportQueryparams sysFormYkReportQueryparams : ykParamsEs) {
+			SysSqlParams param = sqlParamsMapper.selectByPrimaryKey(new BigDecimal(sysFormYkReportQueryparams.getParamsId()));
+			params.add(param);
+		}
+		return params;
+	}
 	
+	@Override
+	public SysFormYkReport getYkreportByformId(String formId) {
+		SysFormYkReportExample example0 = new SysFormYkReportExample();
+		example0.or().andReportFormIdEqualTo(Long.valueOf(formId));
+		if (ykReportMapper.selectByExample(example0)!=null&&ykReportMapper.selectByExample(example0).size()>0) {
+			SysFormYkReport report = ykReportMapper.selectByExample(example0).get(0);
+			return report;
+		}
+		return null;
+		
+	}
 	
 }

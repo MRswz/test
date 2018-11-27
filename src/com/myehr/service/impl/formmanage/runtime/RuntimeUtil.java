@@ -1372,7 +1372,6 @@ public class RuntimeUtil {
 		return new String[]{"-1",null};
 	}
 	
-	
 	/**
 	 * 解析容器参数并执行自定义存储过程
 	 * @param formId
@@ -1382,7 +1381,11 @@ public class RuntimeUtil {
 	 * @return
 	 */
 	public static String[] execPrepare(SysFormGeneralExecSqlCache buttonExecSql,PrimaryKeyService pkService,Map<String, Object> p,Connection conn,Map<String, String> containerParam){
-		String[] sql = buttonExecSql.getSqlList();
+		String[] sqlDatas = buttonExecSql.getSqlList();
+		String[] sql = new String[sqlDatas.length];
+		for(int i=0;i<sqlDatas.length;i++){
+			sql[i] = sqlDatas[i];
+		}
 		List<String[]> ps = buttonExecSql.getParams();
 		int num = 1;
 		if (ps.size()>0) {

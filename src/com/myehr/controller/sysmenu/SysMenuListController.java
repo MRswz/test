@@ -29,6 +29,7 @@ import com.myehr.common.util.ResultMap;
 import com.myehr.controller.dict.param.ResultMapNew;
 import com.myehr.controller.form.parambean.CardformInitDataParams;
 import com.myehr.controller.form.parambean.SaveButtonParams;
+import com.myehr.mapper.formmanage.form.SysParamsComboboxsMapper;
 import com.myehr.mapper.sysRole.SysRoleMapper;
 import com.myehr.mapper.sysmenu.SysIconMapper;
 import com.myehr.mapper.sysmenu.SysIconResourceExpandMapper;
@@ -40,6 +41,8 @@ import com.myehr.mapper.sysmenu.SysSystemSchemeMapperExpand;
 import com.myehr.mapper.sysmenu.SysSystemSchemeMenuMapper;
 import com.myehr.mapper.sysuser.SysUserMapper;
 import com.myehr.pojo.dict.DictData;
+import com.myehr.pojo.formmanage.form.SysParamsComboboxs;
+import com.myehr.pojo.formmanage.form.SysParamsComboboxsExample;
 import com.myehr.pojo.sysRole.SysRole;
 import com.myehr.pojo.sysRole.SysRoleExample;
 import com.myehr.pojo.sysmenu.SysIcon;
@@ -106,6 +109,9 @@ public class SysMenuListController {
 	private SysIconResourceExpandMapper sysIconResourceExpandMapper;
 	@Autowired
 	private ISysformconfigService sysformconfigService;
+	@Autowired
+	private SysParamsComboboxsMapper paramsMapper;
+
 //	@Autowired
 	@Resource(name = "TMapperExt")
 	private TMapperExt tMapperExt;
@@ -2074,11 +2080,37 @@ public class SysMenuListController {
 					if (paramGuiType.equals("2")) {
 						String paramsId = (BigDecimal)t2.get(0).get("SQL_PARAMS_ID")+"";
 						String sql1 = "select * from sys_menu_param join sys_sql_params on sys_menu_param.menu_param_value = sys_sql_params.sql_params_code join sys_form_combobox on sys_form_combobox.combobox_form_column_id = sys_sql_params.SQL_PARAMS_ID where sys_sql_params.sql_params_folder_id = 7 and sys_menu_param.menu_id ="+menuId+" and combobox_form_column_id = "+paramsId;
-						List<Map> t1 = (List<Map>) tMapperExt.queryByFormDefSql(sql1);
-						if (t1.size()>0) {
-							list.add(t1.get(0));
-						}
+						List<Map> t1=MybatisUtil.queryList("runtime.selectSql", sql1);
 						
+
+						//String paramsId = (BigDecimal)t2.get(0).get("SQL_PARAMS_ID")+"";
+						SysParamsComboboxsExample example=new SysParamsComboboxsExample();
+						example.or().andSqlParamsIdEqualTo(new BigDecimal(paramsId));
+					    List<SysParamsComboboxs> t6=  paramsMapper.selectByExample(example);
+					    String names= t6.get(0).getComboboxGuiInitValue();
+					    String type= t6.get(0).getComboboxGuiInitType();
+				     List<DictData> a =  sysformconfigService.getCardDictDataByDictTypeCode(names, type);
+				     List<Map> b = new ArrayList<Map>();
+				     if (a.size()>0) {
+				    	Map map0 = new HashMap();
+					    map0.put("MENU_PARAM_TYPE", t1.get(0).get("MENU_PARAM_TYPE"));
+					    map0.put("MENU_PARAM_CLASS", t1.get(0).get("MENU_PARAM_CLASS"));
+						map0.put("MENU_PARAM_NAME", t1.get(0).get("MENU_PARAM_NAME"));
+						map0.put("MENU_PARAM_VALUE", t1.get(0).get("MENU_PARAM_VALUE"));
+						map0.put("SQL_PARAMS_NAME", t1.get(0).get("SQL_PARAMS_NAME"));
+						map0.put("SQL_PARAMS_GUI_TYPE", t1.get(0).get("SQL_PARAMS_GUI_TYPE"));
+						map0.put("MENU_PARAM_FROM",names);
+						List<Map> maps = new ArrayList<Map>();
+				        for (DictData dictData : a) {
+				        	Map map1= new HashMap();
+							map1.put("COMBOBOX_GUI_INIT_VALUE", dictData.getName());
+							map1.put("SQL_PARAM_SCHEMA_ID",dictData.getCode());
+							maps.add(map1);
+						}
+						map0.put("dictDatas", maps);
+						b.add(map0);
+				    }
+			                return b;
 					}else if (paramGuiType.equals("6")) {
 						String paramsId = (BigDecimal)t2.get(0).get("SQL_PARAMS_ID")+"";
 						String sql1 = "select * from sys_menu_param join sys_sql_params on sys_menu_param.menu_param_value = sys_sql_params.sql_params_code join sys_form_datepicker on sys_form_datepicker.datepicker_form_column_id = sys_sql_params.SQL_PARAMS_ID where sys_sql_params.sql_params_folder_id = 2 and sys_menu_param.menu_id ="+menuId+" and datepicker_form_column_id = "+paramsId;

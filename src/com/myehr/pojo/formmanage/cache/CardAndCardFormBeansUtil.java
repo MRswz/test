@@ -43,7 +43,7 @@ public class CardAndCardFormBeansUtil implements Serializable {
 	static
 	EhCacheTestService EhCacheService;*/
 	private static final long serialVersionUID = 1L;
-	
+
 	public static String formGridByCardHead(){
 		String jspBuildString = "<%@ page language=\"java\" import=\"java.util.*\" import=\"com.myehr.common.util.LangUtil\" pageEncoding=\"UTF-8\"%>\n"+
 								"<%@ include file=\"/common/gridbycard.jsp\" %>\n"+
@@ -93,7 +93,7 @@ public class CardAndCardFormBeansUtil implements Serializable {
 								"<script>";
 		return jspBuildString;
 	}
-	
+
 	public static String getCardAndCardColumnProperty(String fieldName,String lableName,String vtype,String width,String rendereHtml,String alignHtml,String otherHtml,String showtypeString,String colorCondition,String color,SysTextBoxCache textbox,String widgetType){
 		String temp = "";
 		if (widgetType!=null&&widgetType.equals("TEXTBOX")) {
@@ -164,17 +164,17 @@ public class CardAndCardFormBeansUtil implements Serializable {
 		String isDisabledHtml = isDisabled ? " readonly=\"true\"" : "";
 		String widthHtml = width != null ? "width:" + width + ";" : "";
 		String heightHtml = height != null ? "height:" + height + ";" : "";
-		String styleHtml = " style=\"" + widthHtml + heightHtml + "\"";
+		String styleHtml = " style=\"" + widthHtml + heightHtml +"font-weight:900;"+ "\"";
 		if (isDisabled==true) {
-			styleHtml = " style=\"" + widthHtml + heightHtml + " border:none;float:left\"";
+			styleHtml = " style=\"" + widthHtml + heightHtml + "font-weight:900;"+ " border:none;float:left\"";
 		} else {
-			styleHtml = " style=\"" + widthHtml + heightHtml + " float:left\"";
+			styleHtml = " style=\"" + widthHtml + heightHtml + "font-weight:900;"+ " float:left\"";
 		}
 		String tb = "";
 		if (classType!=null&&classType.equals("hidden")) {
 			tb  =	"  '	<input id=\""+id+"\" name=\""+name+"\" value=\"'+"+name+"+'\"  type=\""+classType+"\" >'+\n";
 		}else if (classType!=null&&classType.equals("textarea")) {
-			tb  =	 "  '	<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12\" >'+\n"
+			tb  =	 "  '	<div class=\"col-lg-3 col-md-3 col-sm-6 col-xs-12\" >'+\n"
 					+"  '		<div class=\"ui search selection dropdown entitybox field-control\" style=\"display: inline-block;width:100%\">'+\n"
 					+"  '			<label class=\"CCM_LABEL\">"+lableName+": </label>'+\n"
 					+"  '			<textarea id=\""+id+"_'+i+'\" name=\""+name+"\" dataType=\"text\" class=\"CCReadText\"  value=\"'+"+name+"+'\" type=\""+classType+"\" readonly oninput=\"myFunction(this,\\'"+name+"\\')\" "+emptyTextHtml + vtypeHtml + errorTextHtml + valueChangeFunName + checkTypeHtml + valueClickFunName + requiredHtml + isValidationFunName + isDisabledHtml + "  style=\"width:200px;height:25px;padding:0;border:none;background-color:#fff\"><textarea/>'+\n"
@@ -182,7 +182,7 @@ public class CardAndCardFormBeansUtil implements Serializable {
 					+"  '		</div>'+\n"
 					+"  '	</div>'+\n";
 		} else {
-			tb  =	 "  '	<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12\" >'+\n"
+			tb  =	 "  '	<div class=\"col-lg-3 col-md-3 col-sm-6 col-xs-12\" >'+\n"
 					+"  '		<div class=\"ui search selection dropdown entitybox field-control\" style=\"display: inline-block;width:100%\">'+\n"
 					+"  '			<label class=\"CCM_LABEL\">"+lableName+": </label>'+\n"
 					+"  '			<input id=\""+id+"_'+i+'\" name=\""+name+"\" dataType=\"text\" class=\"CCReadText\"  value=\"'+"+name+"+'\" type=\""+classType+"\" readonly oninput=\"myFunction(this,\\'"+name+"\\')\" "+emptyTextHtml + vtypeHtml + errorTextHtml + valueChangeFunName + checkTypeHtml + valueClickFunName + requiredHtml + isValidationFunName + isDisabledHtml + "  style=\"width:200px;height:25px;padding:0;border:none;background-color:#fff\"/>'+\n"
@@ -190,7 +190,7 @@ public class CardAndCardFormBeansUtil implements Serializable {
 					+"  '		</div>'+\n"
 					+"  '	</div>'+\n";
 		}
-			
+
 		return tb;
 	}
 	/**
@@ -229,10 +229,10 @@ public class CardAndCardFormBeansUtil implements Serializable {
 		String isDisabledHtml = isDisabled ? " readonly=\"true\"" : "";
 		String widthHtml = width != null ? "width:" + width + ";" : "";
 		String heightHtml = height != null ? "height:" + height + ";" : "";
-		String styleHtml = " style=\"" + widthHtml + heightHtml + "\"";
+		String styleHtml = " style=\"" + widthHtml + heightHtml +"font-weight:900;"+ "\"";
 		String disabledCSS = "";
 		if (isDisabled==true) {
-			disabledCSS = "CCM_DISABLE_INPUT";
+			//disabledCSS = "CCM_DISABLE_INPUT";
 		}else {
 			disabledCSS = "CCM_INPUT";
 		}
@@ -248,7 +248,7 @@ public class CardAndCardFormBeansUtil implements Serializable {
 					+"  '		</div>'+\n"
 					+"  '	</div>'+\n";
 		}  else {
-			   tb  = "  '	<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 CCM_COL\" >'+\n"
+			   tb  = "  '	<div class=\"col-lg-3 col-md-3 col-sm-6 col-xs-12 CCM_COL\" >'+\n"
 					+"  '		<div class=\"ui search selection dropdown entitybox field-control\" style=\"display: inline-block;width:100%\">'+\n"
 					+"  '			<label style=\"float:left;font-size:14px;width:100px;\">"+lableName+": </label>'+\n"
 					+"  '			<input id=\""+id+"_add_'+newElementNum+'\" name=\""+name+"\" dataType=\"text\" type=\""+classType+"\" class=\"form-control "+disabledCSS+"\" oninput=\"myFunction(this,\\'"+name+"\\')\" "+emptyTextHtml + vtypeHtml + errorTextHtml + valueChangeFunName + checkTypeHtml + valueClickFunName + requiredHtml + isValidationFunName + isDisabledHtml + styleHtml +" />'+\n"
@@ -256,10 +256,10 @@ public class CardAndCardFormBeansUtil implements Serializable {
 					+"  '		</div>'+\n"
 					+"  '	</div>'+\n";
 		}
-			
+
 		return tb;
 	}
-	
+
 	public static String getTextBoxHtmlForCC2_MAIN(String classType, String id, String name, String vtype,String othervtype, String errorText, String emptyText,boolean isRequired,boolean isValueChange,boolean isClick,boolean isValidation,boolean isDisabled,String entityName,String width,String height,long formId,String isApp,String textboxCheckType,String lableName){
 		name = name.toUpperCase();
 		String baseName = (entityName + "_" + name).replaceAll("\\.", "_");  //增加formDefCode;
@@ -293,20 +293,20 @@ public class CardAndCardFormBeansUtil implements Serializable {
 		String isDisabledHtml = isDisabled ? " readonly=\"true\"" : "";
 		String widthHtml = width != null ? "width:" + width + ";" : "";
 		String heightHtml = height != null ? "height:" + height + ";" : "";
-		String styleHtml = " style=\"" + widthHtml + heightHtml + "\"";
+		String styleHtml = " style=\"" + widthHtml + heightHtml +"font-weight:900;"+ "\"";
 		String disabledClass = "";
 		if (isDisabled==true) {
-			styleHtml = " style=\"" + widthHtml + heightHtml + "\"";
-			disabledClass = "CCM_DISABLE_INPUT";
+			styleHtml = " style=\"" + widthHtml + heightHtml +"font-weight:900;"+ "\"";
+			//disabledClass = "CCM_DISABLE_INPUT";
 		}else if (classType!=null&&classType.equals("textarea")) {
-			styleHtml = " style=\"" + widthHtml + heightHtml + " \"";
+			styleHtml = " style=\"" + widthHtml + heightHtml +"font-weight:900;"+ " \"";
 			disabledClass = "CCM_TEXTAREA";
 		} else {
-			styleHtml = " style=\"" + widthHtml + heightHtml + " \"";
+			styleHtml = " style=\"" + widthHtml + heightHtml +"font-weight:900;"+ " \"";
 			disabledClass = "CCM_INPUT";
 		}
 		String tb = "";
-		String shortNum = "4";
+		String shortNum = "3";
 		String middleNum = "6";
 		if (Integer.valueOf(width.substring(0,width.length()-2))>300) {
 			shortNum = "12";
@@ -331,22 +331,22 @@ public class CardAndCardFormBeansUtil implements Serializable {
 					+"  '		</div>'+\n"
 					+"  '	</div>'+\n";
 		}
-			
+
 		return tb;
 	}
-	
+
 	/**
 	 *获取CC表单中combox控件的html代码
-	 * @param data 
-	 * @param url 
-	 * @param nullItemText 
-	 * @param dictTypeId 
-	 * @param showNullItem2 
-	 * @param allowInput 
-	 * @param valueField 
-	 * @param textField 
-	 * @param showNullItem 
-	 * @param multiselect 
+	 * @param data
+	 * @param url
+	 * @param nullItemText
+	 * @param dictTypeId
+	 * @param showNullItem2
+	 * @param allowInput
+	 * @param valueField
+	 * @param textField
+	 * @param showNullItem
+	 * @param multiselect
 	 */
 	public static String getComboboxHtmlForCC(String classType , String id,String name,String title,String vtype,String emptyText,boolean isRequired,boolean isValueChange,boolean isClick,boolean isValidation,boolean isDisabled,String entityName,String width
 			, boolean showNullItem, String textField, String valueField, boolean allowInput, String dictTypeId, String nullItemText, String url, String data,String dataField, boolean multiselect,long formId,String isApp,String formColumnId,String paramType,String paramValue,String isFilter,String isSearch){
@@ -361,10 +361,10 @@ public class CardAndCardFormBeansUtil implements Serializable {
 		String showNullItemHtml = showNullItem==true?" showNullItem=\"true\"":"";
 		String textFieldHtml = textField!=null?" textField=\""+textField+"\"":"";
 		String valueFieldHtml = valueField!=null?" valueField=\""+valueField+"\"":"";
-		String allowInputHtml = allowInput==true?" allowInput=\"true\"":"";	
+		String allowInputHtml = allowInput==true?" allowInput=\"true\"":"";
 		//String dictTypeIdHtml = dictTypeId!=null?" dictTypeId=\""+dictTypeId+"\"":"";
 		String isSearchHtml1 = isSearch=="Y"?"selectpicker bla bla bli":"";
-		String isSearchHtml2 = isSearch=="Y"?" data-live-search=\"true\" styleType2=\"search\"":"";		
+		String isSearchHtml2 = isSearch=="Y"?" data-live-search=\"true\" styleType2=\"search\"":"";
 		String requiredMark = isRequired == true ? " * " : "";//fa fa-asterisk
 		// 修复dict下拉的查询条件选择问题 begin
 		String dictTypeIdHtml = "";
@@ -385,24 +385,24 @@ public class CardAndCardFormBeansUtil implements Serializable {
 		String dataHtml = data!=null?" data=\""+data+"\"":"";
 		String dataFieldHtml = dataField!=null?" dataField=\""+dataField+"_form_"+formColumnId+"\"":"";
 		String multiselectHtml = multiselect==true?" multiSelect=\"true\"":"";
-		
+
 		String widthHtml = width != null ? "width:" + width + ";" : "";
-		String styleHtml = " style=\"float:left;" + widthHtml + "\"";
+		String styleHtml = " style=\"float:left;" + widthHtml +"font-weight:900;"+ "\"";
 		String tb = "";
 		String initParam = "";
 		if(paramType!=null&&paramValue!=null){
 			initParam = "initParam = \""+paramType + "_" + paramValue+"\"";
 		}
-		
+
 		if (isDisabledHtml!=null && !isDisabledHtml.equals("")) {
-			tb = 	 "  '	<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 CCM_COL\" >'+\n"
+			tb = 	 "  '	<div class=\"col-lg-3 col-md-3 col-sm-6 col-xs-12 CCM_COL\" >'+\n"
 					+"  '		<div class=\"ui search selection dropdown entitybox field-control\" style=\"display: inline-block;width:100%\">'+\n"
 					+"  '			<label class=\"CCM_LABEL\">"+title+": </label>'+\n"
 					+"  '			<input id=\"" + id + "_'+newElementNum+'\" title=\""+title+"\" styleType=\"select\" name=\"" + name + "\"  class=\"form-control CCM_DISABLE_INPUT\"  " +isSearchHtml2 + emptyTextHtml + vtypeHtml + valueChangeFunName + valueClickFunName + requiredHtml + isValidationFunName + " readonly " + styleHtml + showNullItemHtml + textFieldHtml + valueFieldHtml + allowInputHtml + dictTypeIdHtml + nullItemTextHtml + urlHtml + dataHtml + dataFieldHtml + multiselectHtml + initParam +"/>'+\n"
 					+"  '		</div>'+\n"
 					+"  '	</div>'+\n";
 		}else {
-			tb = 	 "  '	<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 CCM_COL\" >'+\n"
+			tb = 	 "  '	<div class=\"col-lg-3 col-md-3 col-sm-6 col-xs-12 CCM_COL\" >'+\n"
 					+"  '		<div class=\"ui search selection dropdown entitybox field-control\" style=\"display: inline-block;width:100%\">'+\n"
 					+"  '			<label class=\"CCM_LABEL\">"+title+": </label>'+\n"
 					+"  '			<select id=\"" + id + "_add_'+newElementNum+'\" title=\""+title+"\" styleType=\"select\" name=\"" + name + "\"  columnId=\""+formColumnId+"\" class=\"form-control "+isSearchHtml1+"\"" +isSearchHtml2 + emptyTextHtml + vtypeHtml + valueChangeFunName + valueClickFunName + requiredHtml + isValidationFunName + isDisabledHtml + styleHtml + showNullItemHtml +dataFieldHtml1 + textFieldHtml + valueFieldHtml + allowInputHtml + dictTypeIdHtml + nullItemTextHtml + urlHtml + dataHtml + dataFieldHtml + multiselectHtml + initParam +"></select>'+\n"
@@ -412,7 +412,7 @@ public class CardAndCardFormBeansUtil implements Serializable {
 		}
 		return tb;
 	}
-	
+
 	public static String getComboboxHtmlForCC_MAIN(String classType , String id,String name,String title,String vtype,String emptyText,boolean isRequired,boolean isValueChange,boolean isClick,boolean isValidation,boolean isDisabled,String entityName,String width
 			, boolean showNullItem, String textField, String valueField, boolean allowInput, String dictTypeId, String nullItemText, String url, String data,String dataField, boolean multiselect,long formId,String isApp,String formColumnId,String paramType,String paramValue,String isFilter,String isSearch){
 		name = name.toUpperCase();
@@ -427,10 +427,10 @@ public class CardAndCardFormBeansUtil implements Serializable {
 		String showNullItemHtml = showNullItem==true?" showNullItem=\"true\"":"";
 		String textFieldHtml = textField!=null?" textField=\""+textField+"\"":"";
 		String valueFieldHtml = valueField!=null?" valueField=\""+valueField+"\"":"";
-		String allowInputHtml = allowInput==true?" allowInput=\"true\"":"";	
+		String allowInputHtml = allowInput==true?" allowInput=\"true\"":"";
 		//String dictTypeIdHtml = dictTypeId!=null?" dictTypeId=\""+dictTypeId+"\"":"";
 		String isSearchHtml1 = isSearch=="Y"?"selectpicker bla bla bli":"";
-		String isSearchHtml2 = isSearch=="Y"?" data-live-search=\"true\" styleType2=\"search\"":"";		
+		String isSearchHtml2 = isSearch=="Y"?" data-live-search=\"true\" styleType2=\"search\"":"";
 		String requiredMark = isRequired == true ? " * " : "";//fa fa-asterisk
 		// 修复dict下拉的查询条件选择问题 begin
 		String dictTypeIdHtml = "";
@@ -440,20 +440,20 @@ public class CardAndCardFormBeansUtil implements Serializable {
 			dictTypeIdHtml = dictTypeId!=null?" DictName=\""+dictTypeId+"\"":"";
 		}
 		// 修复dict下拉的查询条件选择问题 end
-		
+
 		String nullItemTextHtml = nullItemText!=null?" nullItemText=\""+nullItemText+"\"":"";
 		String urlHtml = url!=null?" url=\""+url+"\"":"";
 		String dataHtml = data!=null?" data=\""+data+"\"":"";
 		String dataFieldHtml = dataField!=null?" dataField=\""+dataField+"_form_"+formColumnId+"\"":"";
 		String multiselectHtml = multiselect==true?" multiSelect=\"true\"":"";
-		
+
 		String widthHtml = width != null ? "width:" + width + ";" : "";
-		String styleHtml = " style=\"float:left;" + widthHtml + "\"";
+		String styleHtml = " style=\"float:left;" + widthHtml +"font-weight:900;"+ "\"";
 		String disableCss = "";
 		if (isDisabled==true) {
 			styleHtml = " style=\"" + widthHtml + " \"";
-			disableCss = "CCM_DISABLE_INPUT";
-		} 
+			//disableCss = "CCM_DISABLE_INPUT";
+		}
 		String tb = "";
 		String initParam = "";
 		if(paramType!=null&&paramValue!=null){
@@ -466,7 +466,7 @@ public class CardAndCardFormBeansUtil implements Serializable {
 			dataFieldHtml1 = " dataField1 = \"sql\" ";
 		}
 		if (multiselect==true) {
-			tb = 	"  '	<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 CCM_COL\" >'+\n"+
+			tb = 	"  '	<div class=\"col-lg-3 col-md-3 col-sm-6 col-xs-12 CCM_COL\" >'+\n"+
 					"  '		<div class=\"ui search selection dropdown entitybox field-control\" style=\"display: inline-block;width:100%\">'+\n"+
 					"  '			<label class=\"CCM_LABEL\">"+title+": </label>'+\n"+
 					"	'<label for=\"" + id + "\"></label>'+\n" +
@@ -478,10 +478,10 @@ public class CardAndCardFormBeansUtil implements Serializable {
 					+ dataHtml + dataFieldHtml + multiselectHtml + initParam +"></select><span style=\"color:red;line-height:35px;font-size:27px\">"+requiredMark+"</span>'+\n"
 					+"  '		</div>'+\n"
 					+"  '	</div>'+\n";
-			
+
 		}else {
 			if (isDisabledHtml!=null && !isDisabledHtml.equals("")) {
-				tb = 	 "  '	<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 CCM_COL\" >'+\n"
+				tb = 	 "  '	<div class=\"col-lg-3 col-md-3 col-sm-6 col-xs-12 CCM_COL\" >'+\n"
 						+"  '		<div class=\"ui search selection dropdown entitybox field-control\" style=\"display: inline-block;width:100%\">'+\n"
 						+"  '			<label class=\"CCM_LABEL\">"+title+": </label>'+\n"
 						+"  '			<input id=\"" + id + "\" title=\""+title+"\" styleType=\"select\" name=\"" + name + "\" value=\"'+"+name+"_DICTNAME+'\" class=\"form-control "+disableCss+"\" columnId=\""+formColumnId+"\" style=\"width:200px;float:left;height:25px;padding:0;border:none;background-color:#fff\" " + emptyTextHtml + vtypeHtml + valueChangeFunName + valueClickFunName + requiredHtml +dataFieldHtml1+ isValidationFunName + " readonly " + styleHtml + showNullItemHtml + textFieldHtml + valueFieldHtml + allowInputHtml + dictTypeIdHtml + nullItemTextHtml + urlHtml + dataHtml + dataFieldHtml + multiselectHtml + initParam +"/>'+\n"
@@ -489,7 +489,7 @@ public class CardAndCardFormBeansUtil implements Serializable {
 						+"  '		</div>'+\n"
 						+"  '	</div>'+\n";
 			}else {
-				tb = 	 "  '	<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 CCM_COL\" >'+\n"
+				tb = 	 "  '	<div class=\"col-lg-3 col-md-3 col-sm-6 col-xs-12 CCM_COL\" >'+\n"
 						+"  '		<div class=\"ui search selection dropdown entitybox field-control\" style=\"display: inline-block;width:100%\">'+\n"
 						+"  '			<label class=\"CCM_LABEL\">"+title+": </label>'+\n"
 						+"  '			<select id=\"" + id + "\" title=\""+title+"\" styleType=\"select\" name=\"" + name + "\" columnId=\""+formColumnId+"\"  class=\"form-control CCM_SELECT "+isSearchHtml1+"\"" +isSearchHtml2 + emptyTextHtml + vtypeHtml + valueChangeFunName + valueClickFunName +dataFieldHtml1 + requiredHtml + isValidationFunName + isDisabledHtml + styleHtml + showNullItemHtml + textFieldHtml + valueFieldHtml + allowInputHtml + dictTypeIdHtml + nullItemTextHtml + urlHtml + dataHtml + dataFieldHtml + multiselectHtml + initParam +"></select>'+\n"
@@ -500,7 +500,7 @@ public class CardAndCardFormBeansUtil implements Serializable {
 		}
 		return tb;
 	}
-	
+
 	public static String getComboboxHtmlForCC2(String classType , String id,String name,String title,String vtype,String emptyText,boolean isRequired,boolean isValueChange,boolean isClick,boolean isValidation,boolean isDisabled,String entityName,String width
 			, boolean showNullItem, String textField, String valueField, boolean allowInput, String dictTypeId, String nullItemText, String url, String data,String dataField, boolean multiselect,long formId,String isApp,String formColumnId,String paramType,String paramValue,String isFilter,String isSearch){
 		name = name.toUpperCase();
@@ -515,10 +515,10 @@ public class CardAndCardFormBeansUtil implements Serializable {
 		String showNullItemHtml = showNullItem==true?" showNullItem=\"true\"":"";
 		String textFieldHtml = textField!=null?" textField=\""+textField+"\"":"";
 		String valueFieldHtml = valueField!=null?" valueField=\""+valueField+"\"":"";
-		String allowInputHtml = allowInput==true?" allowInput=\"true\"":"";	
+		String allowInputHtml = allowInput==true?" allowInput=\"true\"":"";
 		//String dictTypeIdHtml = dictTypeId!=null?" dictTypeId=\""+dictTypeId+"\"":"";
 		String isSearchHtml1 = isSearch=="Y"?"selectpicker bla bla bli":"";
-		String isSearchHtml2 = isSearch=="Y"?" data-live-search=\"true\" styleType2=\"search\"":"";		
+		String isSearchHtml2 = isSearch=="Y"?" data-live-search=\"true\" styleType2=\"search\"":"";
 		String requiredMark = isRequired == true ? " * " : "";//fa fa-asterisk
 		// 修复dict下拉的查询条件选择问题 begin
 		String dictTypeIdHtml = "";
@@ -528,18 +528,18 @@ public class CardAndCardFormBeansUtil implements Serializable {
 			dictTypeIdHtml = dictTypeId!=null?" DictName=\""+dictTypeId+"\"":"";
 		}
 		// 修复dict下拉的查询条件选择问题 end
-		
+
 		String nullItemTextHtml = nullItemText!=null?" nullItemText=\""+nullItemText+"\"":"";
 		String urlHtml = url!=null?" url=\""+url+"\"":"";
 		String dataHtml = data!=null?" data=\""+data+"\"":"";
 		String dataFieldHtml = dataField!=null?" dataField=\""+dataField+"_form_"+formColumnId+"\"":"";
 		String multiselectHtml = multiselect==true?" multiSelect=\"true\"":"";
-		
+
 		String widthHtml = width != null ? "width:" + width + ";" : "";
 		String styleHtml = " style=\"float:left;" + widthHtml + "\"";
 		if (isDisabled==true) {
 			styleHtml = " style=\"border:none;" + widthHtml + " \"";
-		} 
+		}
 		String tb = "";
 		String initParam = "";
 		if(paramType!=null&&paramValue!=null){
@@ -584,7 +584,7 @@ public class CardAndCardFormBeansUtil implements Serializable {
 		} else {
 			width = Integer.valueOf(widthL) - 66 + "px";
 		}
-		
+
 		String widthHtml = width != null ? "width:" + width + ";" : "";
 		String styleHtml = " style=\"" + widthHtml + "float:left;border-radius: 4px 0 0 4px;\"";
 		String flag="readonly";
@@ -601,7 +601,7 @@ public class CardAndCardFormBeansUtil implements Serializable {
 						+"  '		</div>'+\n"
 						+"  '	</div>'+\n";
 		} else {
-			tb=		"  '	<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12\" >'+\n"
+			tb=		"  '	<div class=\"col-lg-3 col-md-3 col-sm-6 col-xs-12 CCM_COL\" >'+\n"
 					+"  '		<div class=\"ui search selection dropdown entitybox field-control\" style=\"display: inline-block;width:100%\">'+\n"
 					+"  '			<label style=\"float:left;font-size:14px;width:100px;\">"+lableName+": </label>'+\n"
 					+"  '			<div class=\""+ classType + " input-group\" data-date=\"\"  data-link-field=\"dtp_input2\" data-link-format=\"yyyy-mm-dd\" style=\"float:left;width: "+width+";\">'+\n"
@@ -643,23 +643,23 @@ public class CardAndCardFormBeansUtil implements Serializable {
 		} else {
 			width = Integer.valueOf(widthL) - 66 + "px";
 		}
-		
+
 		String widthHtml = width != null ? "width:" + width + ";" : "";
-		String styleHtml = " style=\"" + widthHtml + "\"";
+		String styleHtml = " style=\"" + widthHtml +"font-weight:900;"+ "\"";
 		String flag="readonly";
 		if("controls input-append date form_date3".equals(classType)){
 			flag="";
 		}
 		String tb = "";
 		if (isDisabled) {
-			tb="  '	<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 CCM_COL\" >'+\n"
+			tb="  '	<div class=\"col-lg-3 col-md-3 col-sm-6 col-xs-12 CCM_COL\" >'+\n"
 					+"  '		<div class=\"ui search selection dropdown entitybox field-control\" style=\"display: inline-block;width:100%\">'+\n"
 					+"  '			<label class=\"CCM_LABEL\">"+lableName+": </label>'+\n"
 					+"  '			<input id=\""+id+"\" name=\""+name+"\" type=\"text\" dateType=\""+ classType +"\" class=\"form-control CCM_DISABLE_INPUT\" value=\"'+"+name+"+'\" styleType=\"dateTime\" readonly "+emptyTextHtml + valueChangeFunName + valueClickFunName + requiredHtml + styleHtml + formatHtml +"/>'+\n"
            			+"  '		</div>'+\n"
 					+"  '	</div>'+\n";
 		} else {
-			tb=		"  '	<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 CCM_COL\" >'+\n"
+			tb=		"  '	<div class=\"col-lg-3 col-md-3 col-sm-6 col-xs-12 CCM_COL\" >'+\n"
 					+"  '		<div class=\"ui search selection dropdown entitybox field-control\" style=\"display: inline-block;width:100%\">'+\n"
 					+"  '			<label class=\"CCM_LABEL\">"+lableName+": </label>'+\n"
 					+"  '			<div class=\""+ classType + " input-group\" data-date=\"\"  data-link-field=\"dtp_input2\" data-link-format=\"yyyy-mm-dd\" style=\"float:left;width: "+width+";\">'+\n"
@@ -718,7 +718,7 @@ public class CardAndCardFormBeansUtil implements Serializable {
 		}
 		return tb;
 	}
-	
+
 	public static String addFunctionJsForCC1(){
 		String jspBuildString = "	 function addFunction(e){\n";
 		return jspBuildString;
@@ -730,7 +730,7 @@ public class CardAndCardFormBeansUtil implements Serializable {
 								"					'    <div class=\"contact-box CCAdd CCD_ADD\">'+\n"+
 								"					'<form class=\"row cell add_element\" style=\"padding-right:50px\">';\n"+
 								"		 cellObj += '	<span class=\"fa fa-trash-o deleteButton CCD_DELET_BUTTON\" onclick=\"removeElement('+newElementNum+')\"></span>'+\n"+
-								"					'	<span class=\"fa fa-save saveButton CCD_SAVE_BUTTON\" onclick=\"saveElement(this,\\\'"+formId+"\\\')\"></span>'+\n"+	
+								"					'	<span class=\"fa fa-save saveButton CCD_SAVE_BUTTON\" onclick=\"saveElement(this,\\\'"+formId+"\\\')\"></span>'+\n"+
 								jsHtml+
 								"					'</form>'+\n"+
 								"					'	</div>'+\n"+
@@ -747,7 +747,7 @@ public class CardAndCardFormBeansUtil implements Serializable {
 		String jspBuildString = "	}\n";
 		return jspBuildString;
 	}
-	
+
 	public static String showDate_3864JsForCC1(){
 		String jspBuildString = "	 var newElementNum = 0;\n"+
 								"	 function showDate_3864(arr,total,e){\n";
@@ -798,10 +798,20 @@ public class CardAndCardFormBeansUtil implements Serializable {
 		String jspBuildString = "	 function initAddValue(e,num){\n";
 		return jspBuildString;
 	}
-	
-	
-	public static String showDate_3864JsForCC2(String Num,StringBuffer varJs,StringBuffer jsHtml1,StringBuffer jsHtml2,String formId){
-		String jspBuildString = "	 if(e=='fubiao"+Num+"'){\n"+
+
+
+	public static String showDate_3864JsForCC2(String Num,StringBuffer varJs,StringBuffer jsHtml1,StringBuffer jsHtml2,String formId,String peizhi){
+		String[] peizhis=peizhi.split(",");
+		String update="";
+		String delete="";
+		String saves="";	
+		if(peizhis[3].equals("Y")){
+		    update="							'		<span class=\"fa fa-edit updateButton\" id=\"updateButton_'+i+'\" title=\"修改\" style=\"position: absolute;right: 25px;font-size: 25px;top: 77px;\" onclick=\"updateElement(this,\\''+i+'\\',\\''+e+'\\')\"></span>'+\n";
+			saves ="							'		<span class=\"fa fa-save saveButton\" id=\"saveButton_'+i+'\" title=\"保存\" style=\"position: absolute;right: 29px;font-size: 25px;top: 40px;\" onclick=\"saveElement(this,\\'"+formId+"\\')\"></span>'+\n";
+		}
+		if(peizhis[4].equals("Y")){
+			delete="							'		<span class=\"fa fa-trash-o deleteButton\" id=\"deleteButton_'+i+'\" title=\"删除\" style=\"position: absolute;right: 30px;font-size: 25px;top: 5px;\" onclick=\"deleteElement(this,\\'"+formId+"\\')\"></span>'+\n";
+		  }		String jspBuildString = "	 if(e=='fubiao"+Num+"'){\n"+
 								"		 var cellObj = '';\n"+
 								"		 if(arr.length>0){\n"+
 								"		 for (var i = arr.length - 1; i >= 0; i--) {\n"+
@@ -809,9 +819,9 @@ public class CardAndCardFormBeansUtil implements Serializable {
 								"			cellObj += 		'<div class=\"col-md-12 col-sm-12 col-lg-12\" name=\"fubiaoElement\" >'+\n"+
 								"							'    <div class=\"contact-box\" style=\"min-height:110px\">'+\n"+
 								"							'		<form class=\"row cell\" style=\"padding-right:50px\">'+\n"+
-								"							'		<span class=\"fa fa-trash-o deleteButton\" id=\"deleteButton_'+i+'\" title=\"删除\" style=\"position: absolute;right: 30px;font-size: 25px;top: 5px;\" onclick=\"deleteElement(this,\\'"+formId+"\\')\"></span>'+\n"+
-								"							'		<span class=\"fa fa-save saveButton\" id=\"saveButton_'+i+'\" title=\"保存\" style=\"position: absolute;right: 29px;font-size: 25px;top: 40px;\" onclick=\"saveElement(this,\\'"+formId+"\\')\"></span>'+\n"+
-								"							'		<span class=\"fa fa-edit updateButton\" id=\"updateButton_'+i+'\" title=\"修改\" style=\"position: absolute;right: 25px;font-size: 25px;top: 77px;\" onclick=\"updateElement(this,\\''+i+'\\',\\''+e+'\\')\"></span>'+\n"+
+								delete+
+								saves+
+							    update+
 								jsHtml1+
 								jsHtml2+
 								"							'		</form>'+\n"+
@@ -823,7 +833,7 @@ public class CardAndCardFormBeansUtil implements Serializable {
 								"}\n";
 		return jspBuildString;
 	}
-	
+
 	public static String showDate_MainJsForCC2_ACT(StringBuffer varJs,StringBuffer jsHtml1,String formId,StringBuffer submitButtonJs,StringBuffer approvedJs){
 		logger.info(jsHtml1+"");
 		String jspBuildString = "		 var cellObj = '';\n"+
@@ -860,7 +870,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 								"	cardDateWidInitFunction();//初始化新增日期控件\n" ;
 		return jspBuildString;
 	}
-	
+
 	public static String showDate_MainJsForCC2(StringBuffer varJs,StringBuffer jsHtml1,String formId){
 		String jspBuildString = "		 var cellObj = '';\n"+
 								"		 for (var i = 0; i == 0; i--) {\n"+
@@ -884,7 +894,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 								"	cardDateWidInitFunction();//初始化新增日期控件\n" ;
 		return jspBuildString;
 	}
-	
+
 	public static String showAccountJsForCC2(String Num,StringBuffer varJs,StringBuffer jsHtml){
 		String jspBuildString = "	 if(e=='fubiao"+Num+"'){\n"+
 								"		 var cellObj = '';\n"+
@@ -900,7 +910,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 								"}\n";
 		return jspBuildString;
 	}
-	
+
 	public static String showAccountJsForCG2(String Num,StringBuffer varJs,StringBuffer jsHtml){
 		String jspBuildString = "	 if(e=='fubiao"+Num+"'){\n"+
 								"		 var cellObj = '';\n"+
@@ -916,7 +926,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 								"}\n";
 		return jspBuildString;
 	}
-	
+
 	public static String initAddValueJsForCC2(String Num,StringBuffer varJs){
 		String jspBuildString = "	 if(e=='fubiao"+Num+"'){\n" +
 								"	 	num--;\n"+
@@ -979,8 +989,8 @@ jspBuildString				+=	"							'	</div>';\n"+
 								"	 }\n";
 		return jspBuildString;
 	}
-	
-	
+
+
 	public static String loadDataStart2JsForCG2(String Num,String GridName){
 		String jspBuildString = "	 if(e=='fubiao"+Num+"'){\n"+
 								"		 $.ajax({\n"+
@@ -1000,7 +1010,13 @@ jspBuildString				+=	"							'	</div>';\n"+
 		return jspBuildString;
 	}
 	public static StringBuffer loadDataStart3JsForCG2(String Num,String GridName,StringBuffer js,String pageSize,String pageSizeList){
-		StringBuffer jspBuildString = new StringBuffer();
+		//判断卡列合计
+		String shoot="";
+		/*StringBuffer shoots = new StringBuffer();
+		shoots.append("footerFormatter");*/
+		if(js.toString().contains("footerFormatter")){
+			shoot="            showFooter: true,"+"\n";
+		}		StringBuffer jspBuildString = new StringBuffer();
 		jspBuildString.append("if(e=='fubiao"+Num+"'){\n");
 		jspBuildString.append("		var cellObj = '<table id=\""+GridName+"_List\"></table>';\n");
 		jspBuildString.append("		$(\"#\"+e).find(\"[id='TEST_FEE_INFO_FORM']\").html(cellObj);\n");
@@ -1019,7 +1035,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 		jspBuildString.append("			height : 450,\n");
 		jspBuildString.append("			undefinedText : '-',\n");
 		jspBuildString.append("			pagination : true,\n");
-		jspBuildString.append("			striped : true,\n");
+		jspBuildString.append(shoot);		jspBuildString.append("			striped : true,\n");
 		jspBuildString.append("			queryParams : grid_"+GridName+"_funx,\n");
 		jspBuildString.append("			cache : false,\n");
 		jspBuildString.append("			pageSize : "+pageSize+", \n");
@@ -1053,8 +1069,8 @@ jspBuildString				+=	"							'	</div>';\n"+
 								"	 }\n";
 		return jspBuildString;
 	}
-	
-	
+
+
 	public static String showDate_3863JsForCC2(String Num,StringBuffer varJs,StringBuffer jsHtml1,StringBuffer jsHtml2){
 		String jspBuildString = "	 if(e=='fubiao"+Num+"'){\n"+
 								"		 var cellObj = '';\n"+
@@ -1100,14 +1116,14 @@ jspBuildString				+=	"							'	</div>';\n"+
 								"}\n";
 		return jspBuildString;
 	}
-	
+
 	public static String endFunction(){
 		String jspBuildString = "	changeCssForApp1();\n" +
 								//"	changeCssForApp2();\n" +
 								"}\n";
 		return jspBuildString;
 	}
-	
+
 	public static String talkandreply(){
 		String jspBuildString = "	<div class=\"commentbox\">\n"+
 								/*"		<div class=\"col-sm-11\">\n"+
@@ -1143,7 +1159,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 	}
 	/**
      * 将接收的二进制流转换成图片保存
-     * 
+     *
      * @param imgByte
      *            二进制流
      * @param imgPath
@@ -1205,14 +1221,14 @@ jspBuildString				+=	"							'	</div>';\n"+
 							"</div>\n";
 		return fubiaoHtml;
 	}
-    
-    
+
+
     public static String fubiaoHtml(String Num,String Title){
 //    	String[] color = {"f0ad4e","307DE9","d9534f","5cb85c","5bc0de"};
 //    	int columnNum = Integer.valueOf(Num)%5;
     	String fubiaoHtml = "<div id=\"fubiao"+Num+"\" name=\"fubiao\" class=\"CCFubiao\">\n"+
     						"<h3 class=\"CCFubiaoTitle CCD_TITLE\" >"+Title+"</h3><span id=\"zhankai\" class=\"fa fa-angle-right CCD_TITLE_BUTTON\" onclick=\"changeFunction('fubiao"+Num+"') \" title=\"展开\"></span><span id=\"xinzeng\" class=\"fa fa-plus-square-o CCD_TITLE_BUTTON\" onclick=\"addFunction('fubiao"+Num+"')\" title=\"新增\"></span>\n"+
-    						
+
     						"<!--展示部分-->\n"+
 							"<div class=\"row\" style=\"margin-left:0;padding: 0 15px 0 0;margin-bottom:20px;\" id=\"TEST_FEE_INFO_FORM\">\n"+
 							"</div>\n"+
@@ -1222,7 +1238,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 							"</div>\n";
 		return fubiaoHtml;
 	}
-    
+
     public static String CommentTextarea() {
     	String fubiaoHtml = "<div id=\"Comment\" name=\"Comment\" class=\"CCFubiao\">\n"+
 							"		<h3 class=\"CCFubiaoTitle CCD_TITLE\">审批意见</h3>\n"+
@@ -1230,20 +1246,21 @@ jspBuildString				+=	"							'	</div>';\n"+
 							"</div>\n";
     	return fubiaoHtml;
 	}
-    
+
     public static String CommentHtml(){
     	String[] color = {"5bc0de"};
     	int columnNum = 0;
     	String fubiaoHtml = "<div id=\"Comment\" name=\"Comment\" class=\"CCFubiao\">\n"+
     						"<h3 class=\"CCFubiaoTitle CCD_TITLE\">审批记录</h3><span id=\"zhankaiComment\" class=\"fa fa-angle-right CCD_TITLE_BUTTON\" onclick=\"changeComment()\" title=\"展开\"></span>\n"+
-    						
+
 							"<!--展开部分-->\n"+
 							"<div class=\"row TEST_FEE_INFO_FORM2 CCD_ROW\" id=\"CommentContent\">\n"+
+							"<table id=\"LC_SHENPI_LIST_List\"></table>\n"+
 							"</div>\n"+
 							"</div>\n";
 		return fubiaoHtml;
 	}
-    
+
     public static String ParamByFubiao(String Num){
     	String fubiaoHtml = "//当前页和一次显示多少条数据(单条记录默认一条)\n"+
 							"var Currentpage1"+Num+" = 0;\n"+
@@ -1265,6 +1282,9 @@ jspBuildString				+=	"							'	</div>';\n"+
 							"var pagesize1"+Num+" = 1;\n"+
 							"var Currentpage2"+Num+" = 0;//(展开数据最大100条)\n"+
 							"var pagesize2"+Num+" = 1000;\n"+
+							"//当前页和一次显示多少条数据\n"+
+							"var Currentpage0"+Num+" = 0;\n"+
+							"var pagesize0"+Num+" = 1;\n"+
 							"//状态变量\n"+
 							"var youxiao"+Num+" = 'Y';\n"+
 							"var zuixin"+Num+" = null;\n"+
@@ -1281,7 +1301,7 @@ jspBuildString				+=	"							'	</div>';\n"+
     		fubiaoHtml.append("		youxiao"+i+"='Y';\n");
     		fubiaoHtml.append("	}\n");
 		}
-    	fubiaoHtml.append("	loadDataStart2(e);\n}\n");	
+    	fubiaoHtml.append("	loadDataStart2(e);\n}\n");
     	fubiaoHtml.append("function zuixinFunction(e){\n");
     	for (int i = 1; i <= Integer.valueOf(Num); i++) {
     		fubiaoHtml.append("	if(e=='fubiao"+i+"'){\n");
@@ -1290,7 +1310,7 @@ jspBuildString				+=	"							'	</div>';\n"+
     		fubiaoHtml.append("		zuixin"+i+"='Y';\n");
     		fubiaoHtml.append("	}\n");
 		}
-    	fubiaoHtml.append("	loadDataStart2(e);\n}\n");	
+    	fubiaoHtml.append("	loadDataStart2(e);\n}\n");
     	fubiaoHtml.append("function allFunction(e){\n");
     	for (int i = 1; i <= Integer.valueOf(Num); i++) {
     		fubiaoHtml.append("	if(e=='fubiao"+i+"'){\n");
@@ -1299,7 +1319,7 @@ jspBuildString				+=	"							'	</div>';\n"+
     		fubiaoHtml.append("		zuixin"+i+"=null;\n");
     		fubiaoHtml.append("	}\n");
 		}
-    	fubiaoHtml.append("	loadDataStart2(e);\n}\n");	
+    	fubiaoHtml.append("	loadDataStart2(e);\n}\n");
     	fubiaoHtml.append("function next(e){\n");
     	for (int i = 1; i <= Integer.valueOf(Num); i++) {
     		fubiaoHtml.append("	if(e=='fubiao"+i+"'){\n");
@@ -1307,7 +1327,7 @@ jspBuildString				+=	"							'	</div>';\n"+
     		fubiaoHtml.append("		loadDataStart2(e);\n");
     		fubiaoHtml.append("	}\n");
 		}
-    	fubiaoHtml.append("	loadDataStart2(e);\n}\n");	
+    	fubiaoHtml.append("	loadDataStart2(e);\n}\n");
     	fubiaoHtml.append("function last(e){\n");
     	for (int i = 1; i <= Integer.valueOf(Num); i++) {
     		fubiaoHtml.append("	if(e=='fubiao"+i+"'){\n");
@@ -1329,7 +1349,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 			for(SysFormWhereCache where:wheres){
 				sbs[48].append(SysCardFormBeansUtil.getNbsp(0)+"var "+where.getFormWhereValue()+"='';"+SysCardFormBeansUtil.NEW_LINE_ONLY);
 			}
-			
+
 			temp+=SysCardFormBeansUtil.getNbsp(0)+"function grid_"+formconfig.getFormDefCode()+"_fun(pageReqeust){"+SysCardFormBeansUtil.NEW_LINE_ONLY;
 			temp+=SysCardFormBeansUtil.getNbsp(1)+"var _filterdata={}"+SysCardFormBeansUtil.NEW_LINE;
 			for(int i=0;i<formconfig.getFilter().getFilterColumns().size();i++){
@@ -1348,7 +1368,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 					}else if (i==1) {
 						temp +=SysCardFormBeansUtil.getNbsp(3)+"var "+ChangeCode.getUniqueCode(formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormEntityTablename(),formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormFieldTablename())+"=zuixin"+Num+";\n";
 					}
-					filterdata +=ChangeCode.getUniqueCode(formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormEntityTablename(),formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormFieldTablename())+":"+ChangeCode.getUniqueCode(formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormEntityTablename(),formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormFieldTablename())+",";																			
+					filterdata +=ChangeCode.getUniqueCode(formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormEntityTablename(),formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormFieldTablename())+":"+ChangeCode.getUniqueCode(formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormEntityTablename(),formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormFieldTablename())+",";
 				}
 			}
 			if (filterdata.length()>0) {
@@ -1357,12 +1377,12 @@ jspBuildString				+=	"							'	</div>';\n"+
 			String whereObj = getParamStringJson(wheres,request,null);
 			String whereObjMst = SysCardFormBeansUtil.getParamStringJsonMst(wheres,request);
 			logger.info(formconfig.getParams()+"");
-			
+
 			//过滤参数定义
 			String whereParams = getWhereParams(wheres,request,null);
 			//过滤参数赋值
 			String requestParam = getRequestParam(wheres,request);
-			
+
 			temp  += SysCardFormBeansUtil.getNbsp(1)+SysFormGeneralExecSqlCache.getDataGridParamsJsStr(formconfig.getParams(), null, request);
 			temp  +=SysCardFormBeansUtil.getNbsp(1)+"var requestParam={};"+SysCardFormBeansUtil.NEW_LINE_ONLY;
 			if (wheres.size()>0) {
@@ -1387,9 +1407,9 @@ jspBuildString				+=	"							'	</div>';\n"+
 			temp  +=SysCardFormBeansUtil.getNbsp(0)+"}"+SysCardFormBeansUtil.NEW_LINE_ONLY;
 			return temp;
 	}
-    
-    
-    
+
+
+
     public static String getGridFormInitFunctionx(SysRequestParam request, SysFormconfigCache formconfig, StringBuffer[] sbs,String isApp,String Num) {
 		// TODO 自动生成方法存根
     	String isView = request.getIsView();
@@ -1401,10 +1421,10 @@ jspBuildString				+=	"							'	</div>';\n"+
 		for(SysFormWhereCache where:wheres){
 			sbs[48].append(SysCardFormBeansUtil.getNbsp(0)+"var "+where.getFormWhereValue()+"='';"+SysCardFormBeansUtil.NEW_LINE_ONLY);
 		}
-		
+
 		temp+=SysCardFormBeansUtil.getNbsp(0)+"function grid_"+formconfig.getFormDefCode()+"_funx(pageReqeust){"+SysCardFormBeansUtil.NEW_LINE_ONLY;
 		temp+=SysCardFormBeansUtil.getNbsp(1)+"var _filterdata={}"+SysCardFormBeansUtil.NEW_LINE;
-		
+
 		for(int i=0;i<formconfig.getFilter().getFilterColumns().size();i++){
 			if (formconfig.getFilter().getFilterColumns().get(i).getPojo().getGridColumnColSpan()!=null&&formconfig.getFilter().getFilterColumns().get(i).getPojo().getGridColumnColSpan().equals("1")) {
 				temp +=SysCardFormBeansUtil.getNbsp(2)+"var "+formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormFieldTablename()+" = \"\";\n";
@@ -1421,7 +1441,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 				}else if (i==1) {
 					temp +=SysCardFormBeansUtil.getNbsp(3)+"var "+ChangeCode.getUniqueCode(formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormEntityTablename(),formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormFieldTablename())+"=zuixin"+Num+";\n";
 				}
-				filterdata +=ChangeCode.getUniqueCode(formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormEntityTablename(),formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormFieldTablename())+":"+ChangeCode.getUniqueCode(formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormEntityTablename(),formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormFieldTablename())+",";																			
+				filterdata +=ChangeCode.getUniqueCode(formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormEntityTablename(),formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormFieldTablename())+":"+ChangeCode.getUniqueCode(formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormEntityTablename(),formconfig.getFilter().getFilterColumns().get(i).getColumn().getPojo().getFormFieldTablename())+",";
 			}
 		}
 		if (filterdata.length()>0) {
@@ -1430,12 +1450,12 @@ jspBuildString				+=	"							'	</div>';\n"+
 		String whereObj = getParamStringJson(wheres,request,null);
 		sbs[68].append(getParamStringJson2(wheres,request,null));
 		String whereObjMst = SysCardFormBeansUtil.getParamStringJsonMst(wheres,request);
-		
+
 		//过滤参数定义
 		String whereParams = getWhereParams(wheres,request,null);
 		//过滤参数赋值
 		String requestParam = getRequestParam(wheres,request);
-		
+
 		logger.info(formconfig.getParams()+"");
 		temp  += SysCardFormBeansUtil.getNbsp(1)+SysFormGeneralExecSqlCache.getDataGridParamsJsStr(formconfig.getParams(), null, request);
 		temp  +=SysCardFormBeansUtil.getNbsp(1)+"var requestParam={};"+SysCardFormBeansUtil.NEW_LINE_ONLY;
@@ -1456,7 +1476,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 				temp+=SysCardFormBeansUtil.getNbsp(1)+"pageReqeust.offset=Currentpage2"+Num+"*pagesize2"+Num+";"+SysCardFormBeansUtil.NEW_LINE;
 				temp+=SysCardFormBeansUtil.getNbsp(1)+"pageReqeust.limit=pagesize2"+Num+";"+SysCardFormBeansUtil.NEW_LINE;
 			}
-			
+
 			temp  +=SysCardFormBeansUtil.getNbsp(1)+"if(heightGadedata_"+formconfig.getFormDefId()+"!=null&&heightGadedata_"+formconfig.getFormDefId()+"!=undefined){"+SysCardFormBeansUtil.NEW_LINE_ONLY;
 			temp  +=SysCardFormBeansUtil.getNbsp(2)+"pageReqeust.heightGrade = heightGadedata_"+formconfig.getFormDefId()+";"+SysCardFormBeansUtil.NEW_LINE_ONLY;
 			temp  +=SysCardFormBeansUtil.getNbsp(1)+"}"+SysCardFormBeansUtil.NEW_LINE_ONLY;
@@ -1488,7 +1508,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 		if(_workflowBusPrimaryKeyParamName!=null&&!_workflowBusPrimaryKeyParamName.equals("")&&!"null".equals(_workflowBusPrimaryKeyParamName)){
 			whereObj += "_workflowBusPrimaryKeyParamName:"+_workflowBusPrimaryKeyParamName+",";
 		}
-		
+
 		if(!"".equals(whereObj)){
 			whereObj = whereObj.substring(0,whereObj.length()-1);
 			whereObj = "{"+whereObj+"}";
@@ -1538,7 +1558,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 					  "<div class=\"container-fluid\" id=\"CardAndCardForm\" style=\"height: 94%;overflow-y: auto;overflow-x:  hidden;padding: 0px;\">";
 		return temp;
 	}
-	
+
 	public static String formCardAndCardJsHead(){
 		String jspBuildString = "<script>\n";
 		return jspBuildString;
@@ -1582,7 +1602,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 		if(_workflowBusPrimaryKeyParamName!=null&&!_workflowBusPrimaryKeyParamName.equals("")&&!"null".equals(_workflowBusPrimaryKeyParamName)){
 			whereObj += "_workflowBusPrimaryKeyParamName:"+_workflowBusPrimaryKeyParamName+",";
 		}
-		
+
 		if(!"".equals(whereObj)){
 			whereObj = whereObj.substring(0,whereObj.length()-1);
 			whereObj = "{"+whereObj+"}";
@@ -1666,7 +1686,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 			String _value = dataFromValue.toUpperCase()+"_urlparam";
 			return _value;
 		}
-		
+
 		return null;
 	}
 	public static String getSessionValue(SysRequestParam request,String param,UserObject user){
@@ -1683,7 +1703,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 		if (session.getAttribute(param)!=null) {
 			user1 = session.getAttribute(param)+"";
 		}
-		
+
 		return user1;
 		/*UserObject user = null;
 		if(puser!=null){
@@ -1693,7 +1713,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 			HttpSession session  = request.getSession();
 			user = (UserObject)session.getAttribute("userObject");
 		}
-	
+
 		//解析参数
 		String [] arr = param.split("/");
 		if(arr.length==1){ //区标准userObject里属性 或者某个attribute下的属性
@@ -1716,9 +1736,9 @@ jspBuildString				+=	"							'	</div>';\n"+
 				//return (String)attributes.get(arr[1]);
 			}
 		}*/
-		
+
 	}
-	
+
 	public static String setValueJs(String ColumnId,String value){
 		String temp = "var value = "+value+";\n"+
 					  "var obj0 = obj.find(\"[name='"+ColumnId+"']\");\n"+
@@ -1802,10 +1822,10 @@ jspBuildString				+=	"							'	</div>';\n"+
 		temp.append("<body class=\"gray-bg\">\n");
 	return temp;
 	}
-	
+
 	public static Object getDictInfoByForm(SysFormconfigCache form,ISysformconfigService sysformconfigService) {
 		List<SysFormColumnCache> columns = form.getColumns();
-		StringBuffer dicts = new StringBuffer(); 
+		StringBuffer dicts = new StringBuffer();
 		Map map = new HashMap();
 		for (SysFormColumnCache sysFormColumn : columns) {
 			if (sysFormColumn.getFormColumnGuiType()!=null&&sysFormColumn.getFormColumnGuiType().equals("2")) {
@@ -1819,13 +1839,13 @@ jspBuildString				+=	"							'	</div>';\n"+
 		}
 		return dicts;
 	}
-	
+
 	public static Object getDictInfoByForms(List<SysFormconfigCache> forms,ISysformconfigService sysformconfigService) {
 		List<SysFormColumnCache> columns = new ArrayList<SysFormColumnCache>();
 		for (SysFormconfigCache formCache : forms) {
 			columns.addAll(formCache.getColumns());
 		}
-		StringBuffer dicts = new StringBuffer(); 
+		StringBuffer dicts = new StringBuffer();
 		Map map = new HashMap();
 		for (SysFormColumnCache sysFormColumn : columns) {
 			if (sysFormColumn.getFormColumnGuiType()!=null&&sysFormColumn.getFormColumnGuiType().equals("2")) {
@@ -1839,13 +1859,13 @@ jspBuildString				+=	"							'	</div>';\n"+
 		}
 		return dicts;
 	}
-	
+
 	public static Object getDictNameByForms(List<SysFormconfigCache> forms,ISysformconfigService sysformconfigService) {
 		List<SysFormColumnCache> columns = new ArrayList<SysFormColumnCache>();
 		for (SysFormconfigCache formCache : forms) {
 			columns.addAll(formCache.getColumns());
 		}
-		StringBuffer dicts = new StringBuffer(); 
+		StringBuffer dicts = new StringBuffer();
 		Map map = new HashMap();
 		for (SysFormColumnCache sysFormColumn : columns) {
 			if (sysFormColumn.getFormColumnGuiType()!=null&&sysFormColumn.getFormColumnGuiType().equals("2")) {
@@ -1859,7 +1879,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 		}
 		return dicts;
 	}
-	
+
 	private static String getDictDatas(SysFormComboboxCache combobox, ISysformconfigService sysformconfigService) {
 		String dictStr = "var "+combobox.getComboboxGuiInitValue()+"={";
 		try {
@@ -1896,7 +1916,7 @@ jspBuildString				+=	"							'	</div>';\n"+
 			return "";
 		}
 	}
-	
+
 	private static String getDictNameDatas(SysFormComboboxCache combobox, ISysformconfigService sysformconfigService) {
 		String dictStr = "var "+combobox.getComboboxGuiInitValue()+"_ByName={";
 		try {
@@ -1979,20 +1999,20 @@ jspBuildString				+=	"							'	</div>';\n"+
 		String repeatItemsHtml = repeatItems!=null?" repeatItems=\""+repeatItems+"\"":"";
 		String repeatdirectionHtml = repeatdirection!=null?" repeatDirection=\""+repeatdirection+"\"":"";
 		String repeatLayoutHtml = repeatLayout!=null?" repeatLayout=\""+repeatLayout+"\"":"";
-		
+
 		String widthHtml = width != null ? "width:" + width + ";" : "";
 		String styleHtml = " style=\"" + widthHtml + "\"";
-		
+
 		String tb = "  '	<div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\" >'+\n"+
 					"  '		<div class=\"ui search selection dropdown entitybox field-control\" style=\"display: inline-block;width:100%\">'+\n"+
 					"  '			<label style=\"float:left;font-size:14px;width:100px;\">"+lableName+": </label>'+\n"+
-					"  '			<ul id=\"" + id + "\" name=\"" + name + "\" class=\"RADIOT\" " + emptyTextHtml 
+					"  '			<ul id=\"" + id + "\" name=\"" + name + "\" class=\"RADIOT\" " + emptyTextHtml
 						+ vtypeHtml+ valueChangeFunName + valueClickFunName + requiredHtml
 						+ isValidationFunName + isDisabledHtml + styleHtml+ repeatItemsHtml + textFieldHtml + valueFieldHtml
 						+ repeatdirectionHtml + dictTypeIdHtml + repeatLayoutHtml+ urlHtml + dataHtml + dataFieldHtml + "></ul>'+\n"+
 					"  '		</div>'+\n"+
 					"  '	</div>'+\n";
-		
+
 		return tb;
 	}
 

@@ -487,7 +487,6 @@ public class RuntimeButtonServiceImpl  implements  IRuntmeButtonService {
 						try {
 							pk = keyserviceImpl.getMaxId(tablename,ChangeCode.getRealCode(pkField));
 						} catch (SQLException e) {
-							// TODO Auto-generated catch block
 							throw new DcfException(e);
 						}
 						if(productName.equalsIgnoreCase("Oracle")){
@@ -999,7 +998,7 @@ public class RuntimeButtonServiceImpl  implements  IRuntmeButtonService {
 	 */
 	@SuppressWarnings("unchecked")
 	public String[] getAndExcuteSqlSave(List<SysField> fields,String tablename,Map param,List<Map> busPkField,HttpSession session,String formId,String sourceType) throws RuntimeException{
-		String productName =(String)session.getAttribute("productName");
+ 		String productName =(String)session.getAttribute("productName");
 		String[] retcode = new String[2];
 		//1 确定主键字段 
 		String pkField = getPkField(fields).toUpperCase(); 
@@ -1238,7 +1237,12 @@ public class RuntimeButtonServiceImpl  implements  IRuntmeButtonService {
 					if(param.containsKey(filedTablename)){ //传入的参数中包含此字段
 						update.add(filedTablename);
 						logger.info(param.get(filedTablename)+"");
+						String fieldType = getFieldByFieldTablename(filedTablename,fields);
+						if(fieldType.equals("DATETIME")||fieldType.equals("datetime")){
+							values.add(param.get(filedTablename+"_NEWDATE")+"");
+						}else{
 						values.add(param.get(filedTablename)+"");
+						}
 						String islog =fields.get(i).getFieldIsLog();
 						if("Y".equalsIgnoreCase(islog)){ //判断是否要记录操作记录
 							//ISysFieldLogService service = (ISysFieldLogService)SpringContextUtils.getBeanById("ISysFieldLogService");
@@ -1255,7 +1259,7 @@ public class RuntimeButtonServiceImpl  implements  IRuntmeButtonService {
 							if(before.size()>0){
 								String realField = ChangeCode.getRealCode(filedTablename);
 								beforValue = before.get(0).get(realField)+"";
-							}
+							} 
 							if(!(afterFieldValue==null&&beforValue==null)){
 								
 								boolean isLog = (afterFieldValue==null&&beforValue!=null)||(afterFieldValue!=null&&beforValue==null)
@@ -1316,6 +1320,7 @@ public class RuntimeButtonServiceImpl  implements  IRuntmeButtonService {
 	
 	public static String getPkField(List<SysField> fields){
 		for(SysField f:fields){
+			System.out.println(f.getFieldIsKey());
 			if("Y".equalsIgnoreCase(f.getFieldIsKey())){
 				return f.getFieldTablename();
 			}
@@ -2173,6 +2178,15 @@ public class RuntimeButtonServiceImpl  implements  IRuntmeButtonService {
 					}
 				
 		return errorN;
+	}
+	public static String getFieldByFieldTablename(String fieldTablename,List<SysField> fields ){
+		for(int i=0;i<fields.size(); i++){
+			if(fieldTablename.equalsIgnoreCase(fields.get(i).getFieldTablename().toUpperCase())){
+				return fields.get(i).getFieldType();
+			}
+		}
+		
+		return null;
 	}
 
 } 

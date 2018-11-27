@@ -1,5 +1,6 @@
 package com.myehr.service.impl.menu;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,12 +12,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.myehr.common.exception.DcfException;
 import com.myehr.common.util.LangUtil;
 import com.myehr.common.util.ResultMap;
+import com.myehr.mapper.formmanage.form.SysFormconfigMapper;
 import com.myehr.mapper.sysmenu.SysMenuMapper;
 import com.myehr.mapper.sysmenu.SysMenuMapperExpand;
 import com.myehr.mapper.sysuser.SysUserMapper;
 import com.myehr.pojo.dict.DictData;
+import com.myehr.pojo.formmanage.cache.SysFormconfigCache;
+import com.myehr.pojo.formmanage.form.SysFormconfig;
 import com.myehr.pojo.sysmenu.SysMenu;
 import com.myehr.pojo.sysmenu.SysMenuExample;
 import com.myehr.pojo.sysmenu.SysMenuExpand;
@@ -26,6 +31,7 @@ import com.myehr.service.menu.SysMenuService;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class SysMenuServiceImpl implements SysMenuService {
+	String pathX = "/myehrpath/form/";
 	@Autowired
 	private SysMenuMapper sysMenuMapper;
 	@Autowired
@@ -38,6 +44,8 @@ public class SysMenuServiceImpl implements SysMenuService {
 	private ISysformconfigService sysformconfigService;
 	private static Map<String,String> menusStringMap  =new ConcurrentHashMap<String, String>();
 
+	@Autowired
+	private SysFormconfigMapper sysFormconfigMapper;
 	@Override
 	public SysMenu findSysMenuById(int id) throws Exception {
 		return sysMenuMapper.selectByPrimaryKey(id);
@@ -368,9 +376,11 @@ public class SysMenuServiceImpl implements SysMenuService {
 	 * @param userId 用户ID 
 	 * 2017-07-29 
 	 * @return
+	 * @throws Exception 
+	 * @throws DcfException 
 	 */
 	@SuppressWarnings("unchecked")
-	public String  queryMainframeMenuByPcode(String userId,String schemeId,String menuCode) {
+	public String  queryMainframeMenuByPcode(String userId,String schemeId,String menuCode,boolean isApp) throws DcfException, Exception {
 		//一级
 		SysMenuExample example = new SysMenuExample();
 		example.or().andMenuCodeEqualTo(menuCode);
@@ -383,7 +393,7 @@ public class SysMenuServiceImpl implements SysMenuService {
 		//二级
 		List<SysMenu> m2 = new ArrayList<SysMenu>();
 		//三级
-		List<SysMenu> m3 = new ArrayList<SysMenu>();
+		List<SysMenuExpand> m3 = new ArrayList<SysMenuExpand>();
 		List<SysMenu>[] results = new ArrayList[4];
 		long start = new Date().getTime();
 		
@@ -405,7 +415,6 @@ public class SysMenuServiceImpl implements SysMenuService {
 					nLMenuList.add(nLMenus.get(i));
 					nLMenus.get(i).setMenuName(nLMenus.get(i).getMenuName());
 				}
-				
 				while (nLMenuList.size() > 0) {
 					String menuSeq = nLMenuList.get(0).getMenuSeq();//二级菜单序列
 					for (int j = 0; j < powerMenu.size(); j++) {
@@ -419,8 +428,6 @@ public class SysMenuServiceImpl implements SysMenuService {
 			}
 			m2 = nLMenus;
 		}
-		results[1] = m2;
-		results[2] = m3;
 		StringBuffer sBuffer = new StringBuffer("{\"data\":[\n");
 		String jsonString = "{\"data\":[\n";
 		System.out.println("***************"+(new Date().getTime()-start));
@@ -441,8 +448,8 @@ public class SysMenuServiceImpl implements SysMenuService {
 				jsonString = jsonString+"[\n";
 				for (SysMenu sysMenu2 : menus1) {
 					jsonString = jsonString+"{\n";
-					List<SysMenu> menus2 = new ArrayList<SysMenu>();
-					for (SysMenu sysMenu3 : m3) {
+					List<SysMenuExpand> menus2 = new ArrayList<SysMenuExpand>();
+					for (SysMenuExpand sysMenu3 : m3) {
 						if(sysMenu3.getMenuSeq().indexOf(sysMenu2.getMenuSeq()+".") > -1){
 							menus2.add(sysMenu3);//当前一级根下子项
 						}
@@ -460,13 +467,23 @@ public class SysMenuServiceImpl implements SysMenuService {
 												" \"childrens\":";
 						
 						jsonString = jsonString+"[\n";
-						for (SysMenu sysMenu5 : menus2) {
+						for (SysMenuExpand sysMenu5 : menus2) {
+							String url = sysMenu5.getMenuUrl();
+							if (sysMenu5.getMenuIsDynamicForm()!=null&&sysMenu5.getMenuIsDynamicForm().equals("Y")) {
+								SysFormconfig form = sysFormconfigMapper.selectByPrimaryKey(new BigDecimal(sysMenu5.getMenuFormId()));
+								if (form!=null) {
+									String path11 = sysformconfigService.findSysFormFolderTreeById(Integer.valueOf(form.getFormDefFolderId()+""), "");
+									url = pathX+path11+form.getFormDefCode()+".vue";
+								}
+							}
+							
 							jsonString = jsonString+"{\n";
 							jsonString = jsonString+" \"menuCode\":\""+sysMenu5.getMenuCode()+"\",\n"+
 									 				" \"menuName\":\""+sysMenu5.getMenuName()+"\",\n"+
 									 				" \"menuId\":\""+sysMenu5.getMenuId()+"\",\n"+
 									 				" \"menuTitle\":\""+sysMenu5.getMenuDesc()+"\",\n"+
-									 				" \"menuUrl\":\""+sysMenu5.getMenuUrl()+"\",\n"+
+									 				" \"menuUrl\":\""+url+"\",\n"+
+									 				" \"menuIcon\":\""+sysMenu5.getImgFileId()+"\",\n"+
 									 				" \"menuType\":\""+sysMenu5.getMenuType()+"\",\n"+
 									 				" \"menuDictCode\":\""+sysMenu5.getMenuDicCode()+"\",\n"+
 									 				" \"menuIsDynamicForm\":\""+sysMenu5.getMenuIsDynamicForm()+"\",\n"+
@@ -1153,9 +1170,21 @@ public class SysMenuServiceImpl implements SysMenuService {
 		List<DictData> datas = sysformconfigService.getCardDictDataByDictTypeCode("sysCustomMenus", "dict");
 		Map map = new HashMap();
 		for (DictData dictData : datas) {
-			map.put(dictData.getName(),queryMainframeMenuWithSchemex(dictData.getCode(),userId,null,"N"));
+			String menus = sysformconfigService.getMainframeMenuWithSchemex(dictData.getCode(),userId);
+//			map.put(dictData.getName(),queryMainframeMenuWithSchemex(dictData.getCode(),userId,null,"N"));
+			map.put(dictData.getName(),menus);
 		}
 		return map;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void setMenuWithSchemeAllx(String userId) throws Exception {
+		List<DictData> datas = sysformconfigService.getCardDictDataByDictTypeCode("sysCustomMenus", "dict");
+		Map map = new HashMap();
+		for (DictData dictData : datas) {
+			int menus = sysformconfigService.setMainframeMenuWithSchemex(dictData.getCode(),userId);
+			map.put(dictData.getName(),menus);
+		}
 	}
 	
 	/**

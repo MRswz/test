@@ -5,7 +5,7 @@ String contextPath = request.getContextPath();
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<script type="text/javascript" src="${pageContext.request.contextPath }/common/js/newcardandcard.js?v1.0.0.12"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/common/js/newcardandcard.js?v1.0.0.13"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/common/js/date-format.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/common/js/md5.js?v1.0.0.1"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/common/css/newcardandcard.css" type="text/css"></link>
@@ -14,7 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" href="${pageContext.request.contextPath }/commonTable/bootstrap-3.3.7-dist/bootstrapTable/bootstrap-table.css" type="text/css"></link>
 <script type="text/javascript" src="${pageContext.request.contextPath }/commonTable/bootstrap-3.3.7-dist/bootstrapTable/bootstrap-table.js"></script>	
 <script type="text/javascript" src="${pageContext.request.contextPath }/commonTable/bootstrap-3.3.7-dist/bootstrapTable/locale/bootstrap-table-zh-CN.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath }/common/css/CC.css?v1.0.0.0.5" type="text/css"></link><!-- µ¯¿ò-->
+<link rel="stylesheet" href="${pageContext.request.contextPath }/common/css/CC.css?v1.0.0.0.5" type="text/css"></link><!-- ï¿½ï¿½ï¿½ï¿½-->
 
 
 

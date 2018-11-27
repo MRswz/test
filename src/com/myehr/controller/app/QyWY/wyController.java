@@ -27,7 +27,7 @@ import com.myehr.service.impl.formmanage.form.SysformconfigService;
 @Controller
 @RequestMapping("/wy")
 public class wyController {
-	String access_token = QywxUtil.getTokenx("2fMtEvuK0O_8oBwudmkSIyMs8bqn9abpYLHDIfwMusc");
+	String access_token = "";//QywxUtil.getTokenx("2fMtEvuK0O_8oBwudmkSIyMs8bqn9abpYLHDIfwMusc");
 	Map mapx = new HashMap();
 	@Autowired
 	private SysformconfigService sysformconfigService;

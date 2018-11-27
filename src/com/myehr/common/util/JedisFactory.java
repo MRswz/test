@@ -66,9 +66,9 @@ public   class  JedisFactory {
     }
     
     public static String getKeyProperties(String keyName){
-//		String path =  System.getProperty("user.dir").replace("\\", "/").replace("bin", "");
-//		path = path+"webapps/myehr/WEB-INF/classes/redis.properties";
-    	String path = "E:/workspace/Myeclipse/.metadata/.me_tcat/webapps/myehr/WEB-INF/classes/redis.properties";
+		String path =  System.getProperty("user.dir").replace("\\", "/").replace("bin", "");
+		path = path+"webapps/myehr/WEB-INF/classes/redis.properties";
+ //   	String path = "E:/workspace/Myeclipse/.metadata/.me_tcat/webapps/myehr/WEB-INF/classes/redis.properties";
 		//             E:/workspace/Myeclipse/myehr_0_SQLSERVERwebapps/myehr/WEB-INF/classes/redis.properties
 		String keyValue = GetDBPropertiesValue.readValue(path,keyName);
 		return keyValue;

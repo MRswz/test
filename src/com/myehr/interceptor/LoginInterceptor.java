@@ -81,7 +81,7 @@ public class LoginInterceptor implements Filter  {
 		  }
 		  
 		  // 登陆页面无需过滤(移动端访问)
-		  if(path.indexOf("/cardformInitData.action") > -1||path.indexOf("/syncDepartment.action") > -1||path.indexOf("/getDictDatasAll.action") > -1||path.indexOf("/getselectdatasAll.action")>-1||path.indexOf("/getOrgAndPerInfo.action")>-1||path.indexOf("/getWaitSendInfo.action")>-1||path.indexOf("/setWaitSendInfo.action")>-1||path.indexOf("/loginApp.jsp")>-1||path.indexOf("/loginIm.jsp")>-1) {
+		  if(path.indexOf("/getOrgAndPerInfo.action")>-1||path.indexOf("/getWaitSendInfo.action")>-1||path.indexOf("/setWaitSendInfo.action")>-1||path.indexOf("/loginApp.jsp")>-1||path.indexOf("/loginIm.jsp")>-1) {
 			  chain.doFilter(servletRequest, servletResponse);
 			  return;
 		  }

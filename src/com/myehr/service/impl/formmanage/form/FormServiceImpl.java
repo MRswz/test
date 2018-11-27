@@ -122,6 +122,7 @@ import com.myehr.pojo.formmanage.form.SysFormWhere;
 import com.myehr.pojo.formmanage.form.SysFormWhereExample;
 import com.myehr.pojo.formmanage.form.SysFormYkReport;
 import com.myehr.pojo.formmanage.form.SysFormYkReportExample;
+import com.myehr.pojo.formmanage.form.SysFormYkReportQueryparams;
 import com.myehr.pojo.formmanage.form.SysFormconfig;
 import com.myehr.pojo.formmanage.form.SysFormconfigGrid;
 import com.myehr.pojo.formmanage.form.SysFormconfigGridExample;
@@ -132,6 +133,7 @@ import com.myehr.pojo.formmanage.form.SysFormconfigMstTabExample;
 import com.myehr.pojo.formmanage.form.SysFormconfigTree;
 import com.myehr.pojo.formmanage.form.SysFormconfigTreeExample;
 import com.myehr.pojo.formmanage.form.SysFormconfigWithBLOBs;
+import com.myehr.pojo.formmanage.form.SysSqlParams;
 import com.myehr.pojo.formmanage.form.SysTreeNodeType;
 import com.myehr.pojo.formmanage.form.SysTreeNodeTypeExample;
 import com.myehr.pojo.formmanage.form.SysTreeSolutionColumn;
@@ -160,7 +162,7 @@ import com.myehr.test.dao.TMapperExt;
 @Service("FormServiceImpl")
 public class FormServiceImpl implements IFormService{
 	private static Logger logger = LoggerFactory.getLogger(FormServiceImpl.class);
-	
+	String pathX = "E:/vueWork/github/mobile/src/myehrpath/form/";
 	@Autowired
 	SysFormGroupMapper  sysFormGroupMapper;
 	
@@ -2856,7 +2858,7 @@ public class FormServiceImpl implements IFormService{
 				output1.write("<div class=\"row mainFormElement\" style=\"margin-left:0;padding: 0 15px 0 0;position:relative;\" id=\""+mainform.getFormDefCode()+"\">\n");
 				output1.write("<input type=\"button\" id=\"zhankai_main\"  class=\"btn btn-info CCButtonelement\" value=\"展开\" style=\"position:absolute;right:30px;bottom:10px;z-index:999\" onclick=\"showDate_Main(main_Datas,0,this)\"/>\n");
 				output1.write("</div>\n");
-				output1.write(detailMst[24].toString());
+				output1.write(detailMst[1].toString());
 
 				output1.write("</div>\n");
 				output1.write("<div class=\"container-fluid\" id=\"editPerson\" style=\"height:98%;width:29%;overflow-y: hidden;overflow-x:hidden;padding:0px;margin-top:1%;float:right;padding-bottom:50px;position:relative;\">\n");
@@ -2995,7 +2997,7 @@ public class FormServiceImpl implements IFormService{
 				}
 				OutputStreamWriter write3 = new OutputStreamWriter(new FileOutputStream(f3),"utf-8");
 				BufferedWriter output3=new BufferedWriter(write3);
-				output3.write(detailMst[25].toString());
+				output3.write(detailMst[23].toString());
 				output3.write(detailMst[6].toString());
 				
 				output3.write("var indexApprove;\n");
@@ -3017,7 +3019,98 @@ public class FormServiceImpl implements IFormService{
 				output3.write(detailMst[15].toString());
 				output3.write(detailMst[16].toString());
 				output3.close();  
-				 
+				if (f.exists()) {  
+					System.out.print("文件存在");  
+				} else {  
+					System.out.print("文件不存在");  
+					f.createNewFile();// 不存在则创建
+				}
+				OutputStreamWriter write = new OutputStreamWriter(new FileOutputStream(f),"utf-8");
+				BufferedWriter output=new BufferedWriter(write);
+				output.write(CardAndCardFormBeansUtil.formCardAndCardHead1(form.getPojoform().getFormDefCode(),path11,isApp2).toString());
+				if (form.getCardtocardConfig()!=null&&form.getCardtocardConfig().getIsDivLink().equals("Y")) {
+					output.write("<div style=\"position:absolute;left:8%;z-index:999px\" id=\"maodianS\">\n"+
+						 	     "<div style=\"position:absolute\">\n"+
+						 	     "<a href=\"#"+mainform.getFormDefCode()+"\" class=\"maodianA\"><input type=\"text\" readonly class=\"maodian form-control\" value=\"置顶\"/></a>\n");
+					output.write(detailMst[22].toString());
+					if (form.getCardtocardConfig().getIsPrint().equals("Y")) {
+						output.write("<input type=\"button\" class=\"btn btn-info\" value=\"打印\" onclick=\"initPrint()\"/>\n");
+					}
+					output.write("</div>\n");
+					output.write("</div>\n");
+					output.write("<div class=\"container-fluid\" id=\"CardAndCardForm\" style=\"height: 94%;overflow-y: auto;overflow-x:  hidden;padding: 0px;width:"+form.getCardtocardConfig().getMainWidth()+";\">\n");
+				}else {
+					if (form.getCardtocardConfig()!=null&&form.getCardtocardConfig().getIsPrint().equals("Y")) {
+						output.write("<div style=\"position:absolute;left:8%;z-index:999px\" id=\"maodianS\">\n"+
+							 	     "<div style=\"position:absolute\">\n"+
+							 	     "<a href=\"#"+mainform.getFormDefCode()+"\" class=\"maodianA\"><input type=\"text\" readonly class=\"maodian form-control\" value=\"置顶\"/></a>\n");
+						output.write(detailMst[22].toString());
+						output.write("<input type=\"button\" class=\"btn btn-info\" value=\"打印\" onclick=\"initPrint()\"/>\n");
+						output.write("</div>\n");
+						output.write("</div>\n");
+					}
+					output.write("<div class=\"container-fluid\" id=\"CardAndCardForm\" style=\"height:98%;width:70%;overflow-y: auto;overflow-x:hidden;padding: 0px;float:left;\">\n");
+				}
+				
+				output.write("<div class=\"row mainFormElement\" style=\"margin-left:0;padding: 0 15px 0 0;position:relative;\" id=\""+mainform.getFormDefCode()+"\">\n");
+				output.write("<input type=\"button\" id=\"zhankai_main\"  class=\"btn btn-info CCButtonelement\" value=\"展开\" style=\"position:absolute;right:30px;bottom:10px;z-index:999\" onclick=\"showDate_Main(main_Datas,0,this)\"/>\n");
+				output.write("</div>\n");
+				output.write(detailMst[1].toString());
+				output.write("</div>\n");
+				output.write("<div class=\"container-fluid\" id=\"editPerson\" style=\"height:98%;width:29%;overflow-y: hidden;overflow-x:hidden;padding:0px;margin-top:1%;float:right;padding-bottom:50px;position:relative;\">\n");
+				output.write("<h3 class=\"CCFubiaoTitle CCD_TITLE\">编辑流程路线</h3>\n");
+				output.write("<div class=\"row \" style=\"margin-left:0;padding: 0 15px 0 0;position:relative;\" id=\"lineElement\">\n");
+				output.write("</div>\n");
+				output.write("<input type=\"button\" class=\"btn btn-info \" onclick=\"saveActLine()\" value=\"保存\" style=\"position:absolute;bottom:10px;left:50%;-webkit-transform: translate(-50%, -50%);\">\n");
+				output.write("</div>\n");
+				
+				output.write(CardAndCardFormBeansUtil.formCardAndCardJsHead());
+				output.write(detailMst[14].toString());
+				output.write(sbs[30].toString());
+				output.write(mainMst[70].toString());
+				output.write("var param_empIds = '${param.empIds}';\n");
+				output.write("var isApp = '${param.formType}';\n");
+				output.write("var formId_main = '"+mainform.getPojoform().getFormDefId()+"';\n");
+				output.write("var flowAction = '${param.flowAction}';\n");
+				
+				output.write("var actFree_taskId= '${param.taskId}';\n");
+				output.write("var actFree_orderBy = \"${param.orderBy}\"\n");
+				output.write("if(flowAction=='start'){\n");
+				output.write("	actFree_orderBy = '0';\n");
+				output.write("}else{\n");
+				output.write("	actFree_orderBy = '${param.actFree_orderBy}';\n");
+				output.write("}\n");
+				
+				output.write("$(document).ready(function () {\n");
+				output.write("loadDataStart();\n");
+				output.write("$(\"#zhankai_main\").click();\n");
+				output.write(detailMst[17].toString());
+				output.write(detailMst[12].toString());
+				output.write(detailMst[18].toString());
+				output.write(detailMst[19].toString());
+				output.write(detailMst[20].toString());
+				output.write("showFreeActLines();\n");
+				output.write("changeFileCss();\n");
+				output.write(form.getPojoform().getFormDefInitQzJs()+"\n");
+//				output.write("$(\"#zhankaiComment\").click();\n");
+				output.write("})\n");
+				output.write(detailMst[21].toString());
+				output.write(sbs[40].toString());
+				output.write(sbs[55].toString());
+				output.write(detailMst[13].toString());
+				output.write(sbs[8].toString());
+				output.write(SysGridFormBeansUtil.formGridByCardFunction1());
+				output.write(SysGridFormBeansUtil.getEmpPhotoSYS());
+				output.write(SysGridFormBeansUtil.formGridByCardFunction5());
+				output.write(SysGridFormBeansUtil.formGridByCardFunction2_x(mainform.getFormDefId()+"",mainform.getFormDefCode(),paramas[1].toString()));
+				output.write(SysGridFormBeansUtil.formGridByCardFunction3(sList,mainform));
+				output.write(CardAndCardFormBeansUtil.endFunction());
+				output.write(CardAndCardFormBeansUtil.showDate_MainJsForCC1());
+				output.write(CardAndCardFormBeansUtil.showDate_MainJsForCC2_ACT(mainMst[60], mainMst[0], mainform.getPojoform().getFormDefId()+"",mainMst[2],mainMst[4]));
+				output.write(mainMst[67].toString());
+				output.write(CardAndCardFormBeansUtil.endFunction());
+				output.write("</script>\n</body>\n</html>");
+				output.close();  
 				if (f1.exists()) {  
 					System.out.print("文件存在");  
 				} else {  
@@ -3054,7 +3147,7 @@ public class FormServiceImpl implements IFormService{
 				output1.write("<div class=\"row mainFormElement\" style=\"margin-left:0;padding: 0 15px 0 0;position:relative;\" id=\""+mainform.getFormDefCode()+"\">\n");
 				output1.write("<input type=\"button\" id=\"zhankai_main\"  class=\"btn btn-info CCButtonelement\" value=\"展开\" style=\"position:absolute;right:30px;bottom:10px;z-index:999\" onclick=\"showDate_Main(main_Datas,0,this)\"/>\n");
 				output1.write("</div>\n");
-				output1.write(detailMst[24].toString());
+				output1.write(detailMst[23].toString());
 
 				output1.write("</div>\n");
 				output1.write("<div class=\"container-fluid\" id=\"editPerson\" style=\"height:98%;width:29%;overflow-y: hidden;overflow-x:hidden;padding:0px;margin-top:1%;float:right;padding-bottom:50px;position:relative;\">\n");
@@ -3201,7 +3294,7 @@ public class FormServiceImpl implements IFormService{
 				}
 				OutputStreamWriter write3 = new OutputStreamWriter(new FileOutputStream(f3),"utf-8");
 				BufferedWriter output3=new BufferedWriter(write3);
-				output3.write(detailMst[25].toString());
+			// output3.write(detailMst[25].toString());
 				output3.write(detailMst[6].toString());
 				
 				output3.write("var indexApprove;\n");
@@ -3281,7 +3374,7 @@ public class FormServiceImpl implements IFormService{
 				output.write(detailMst[19].toString());
 				output.write(detailMst[20].toString());
 				output.write("changeFileCss();\n");
-				output.write(form.getPojoform().getFormDefInitQzJs()+"\n");
+			  //output.write(form.getPojoform().getFormDefInitQzJs()+"\n");
 				output.write("$(\"#zhankaiComment\").click();\n");
 				output.write("})\n");
 				output.write(detailMst[21].toString());
@@ -3365,7 +3458,7 @@ public class FormServiceImpl implements IFormService{
 				output1.write(detailMst[19].toString());
 				output1.write(detailMst[20].toString());
 				output1.write("$(\"#zhankaiComment\").click();\n");
-				output1.write(form.getPojoform().getFormDefInitQzJs()+"\n");
+//				output1.write(form.getPojoform().getFormDefInitQzJs()+"\n");
 				output1.write("changeFileCss();\n");
 				if (isApp2!=null&&isApp2.equals("APP")) {
 					output1.write("changeCssForApp1();\n");
@@ -3482,6 +3575,7 @@ public class FormServiceImpl implements IFormService{
 				output3.write(detailMst[7].toString());
 				output3.write(detailMst[8].toString());
 				output3.write(detailMst[9].toString());
+				output3.write(detailMst[21].toString());
 				output3.write(detailMst[10].toString());
 				output3.write(detailMst[11].toString());
 				output3.write(detailMst[15].toString());
@@ -3545,9 +3639,10 @@ public class FormServiceImpl implements IFormService{
 				output.write(detailMst[19].toString());
 				output.write(detailMst[20].toString());
 				output.write("changeFileCss();\n");
+				output.write(form.getPojoform().getFormDefInitQzJs()+"\n");
 				output.write("$(\"#zhankaiComment\").click();\n");
 				output.write("})\n");
-				output.write(detailMst[21].toString());
+			  //output.write(detailMst[21].toString());
 				output.write(sbs[40].toString());
 				output.write(sbs[55].toString());
 				output.write(detailMst[13].toString());
@@ -3631,7 +3726,7 @@ public class FormServiceImpl implements IFormService{
 				output1.write(form.getPojoform().getFormDefInitQzJs()+"\n");
 				output1.write("$(\"#zhankaiComment\").click();\n");
 				output1.write("})\n");
-				output1.write(detailMst[21].toString());
+			//	output1.write(detailMst[21].toString());
 				output1.write(sbs[40].toString());
 				output1.write(sbs[55].toString());
 				output1.write(detailMst[13].toString());
@@ -4624,6 +4719,7 @@ public class FormServiceImpl implements IFormService{
 		detailMst[10].append(CardAndCardFormBeansUtil.loadDataStart4JsForCC1());
 		detailMst[15].append(CardAndCardFormBeansUtil.initAddValueJsForCC1());
 		detailMst[5].append("console.time('updateElementJs');\n");
+		String peizhi =sDetailMsts.get(0).getPojo().getTabDetailConfig();
 		for (SysFormconfigMstTabDetailCache sDetail : sDetailMsts) {
 			SysFormconfigCache sCache = sDetail.getForm();
 			String detailMstFormId = String.valueOf(sDetail.getTabDetailFormId());
@@ -4633,7 +4729,7 @@ public class FormServiceImpl implements IFormService{
 			detailMst[0].append(CardAndCardFormBeansUtil.addFunctionJsForCC2(i+"",mst[0],detailMstFormId));//
 			detailMst[1].append(CardAndCardFormBeansUtil.fubiaoHtml(i+"",sDetail.getTabDetailFormTitle()));
 			detailMst[2].append(CardAndCardFormBeansUtil.showDate_3863JsForCC2(i+"",mst[69],mst[62],mst[61]));
-			detailMst[3].append(CardAndCardFormBeansUtil.showDate_3864JsForCC2(i+"",mst[69],mst[62],mst[61],detailMstFormId));
+			detailMst[3].append(CardAndCardFormBeansUtil.showDate_3864JsForCC2(i+"",mst[69],mst[62],mst[61],detailMstFormId,peizhi));
 			detailMst[4].append(CardAndCardFormBeansUtil.showAccountJsForCC2(i+"",mst[63],mst[64]));
 			detailMst[5].append(CardAndCardFormBeansUtil.updateElementJsForCC2(i+"",mst[65],mst[66],mst[67]));
 			detailMst[6].append(CardAndCardFormBeansUtil.ParamByFubiao(i+""));
@@ -4794,11 +4890,13 @@ public class FormServiceImpl implements IFormService{
 			StringBuffer[] mst = formCache.showPage(request,"CARDANDCARD",null,"follow",i);
 			
 			String[] configs =  sDetail.getTabDetailConfig().split(",");
-			if(configs[2].equals("Y")){//默认有效
+		//	[Y, N, Y, Y, Y, N, Y, N]
+			if(configs.length>5){
+			if(configs[5].equals("Y")){//默认有效
 				detailMst[17].append("$(\"#fubiao"+i+" #showType\").val('youxiao');\n");
-			}else if(configs[3].equals("Y")){//默认最新
+			}else if(configs[6].equals("Y")){//默认最新
 				detailMst[17].append("$(\"#fubiao"+i+" #showType\").val('zuixin');\n");
-			}else if(configs[4].equals("Y")){//默认所有
+			}else if(configs[7].equals("Y")){//默认所有
 				detailMst[17].append("$(\"#fubiao"+i+" #showType\").val('all');\n");
 			}
 			if (configs[1].equals("N")) {//是否合计
@@ -4808,16 +4906,38 @@ public class FormServiceImpl implements IFormService{
 			if (configs[0].equals("Y")) {//是否展开
 				detailMst[18].append("changeFunction('fubiao"+i+"');\n");
 			}
-			if (configs.length>5&&configs[5].equals("N")) {//是否新增
+			if (configs.length>5&&configs[2].equals("N")) {//是否新增
 				detailMst[18].append("$(\"#fubiao"+i+" #xinzeng\").remove();\n");
 			}else{
 				detailMst[0].append(CardAndCardFormBeansUtil.addFunctionJsForCC2(i+"",mst[0],detailMstFormId));//
 			}
-			
+			}else{
+				if(configs[2].equals("Y")){//默认有效
+					detailMst[17].append("$(\"#fubiao"+i+" #showType\").val('youxiao');\n");
+				}else if(configs[3].equals("Y")){//默认最新
+					detailMst[17].append("$(\"#fubiao"+i+" #showType\").val('zuixin');\n");
+				}else if(configs[4].equals("Y")){//默认所有
+					detailMst[17].append("$(\"#fubiao"+i+" #showType\").val('all');\n");
+				}
+				if (configs[1].equals("N")) {//是否合计
+					detailMst[18].append("$(\"#fubiao"+i+" #showContent\").remove();\n");
+					detailMst[18].append("$(\"#fubiao"+i+" #TEST_FEE_INFO_FORM\").remove();\n");
+				}
+				if (configs[0].equals("Y")) {//是否展开
+					detailMst[18].append("changeFunction('fubiao"+i+"');\n");
+				}
+				if (configs.length>5&&configs[5].equals("N")) {//是否新增
+					detailMst[18].append("$(\"#fubiao"+i+" #xinzeng\").remove();\n");
+				}else{
+					detailMst[0].append(CardAndCardFormBeansUtil.addFunctionJsForCC2(i+"",mst[0],detailMstFormId));//
+				}
+
+			}
+			String peizhi=sDetailMsts.get(0).getTabDetailConfig();
 			detailMst[23].append(CardAndCardFormBeansUtil.fubiaoHtml(i+"",sDetail.getTabDetailFormTitle()));
 			detailMst[1].append(CardAndCardFormBeansUtil.fubiaoHtml(i+"",sDetail.getTabDetailFormTitle()));
 			detailMst[2].append(CardAndCardFormBeansUtil.showDate_3863JsForCC2(i+"",mst[69],mst[62],mst[61]));
-			detailMst[3].append(CardAndCardFormBeansUtil.showDate_3864JsForCC2(i+"",mst[69],mst[62],mst[61],detailMstFormId));
+			detailMst[3].append(CardAndCardFormBeansUtil.showDate_3864JsForCC2(i+"",mst[69],mst[62],mst[61],detailMstFormId,peizhi));
 			detailMst[4].append(CardAndCardFormBeansUtil.showAccountJsForCC2(i+"",mst[63],mst[64]));
 			detailMst[5].append(CardAndCardFormBeansUtil.updateElementJsForCC2(i+"",mst[65],mst[66],mst[67]));
 			detailMst[6].append(CardAndCardFormBeansUtil.ParamByFubiao(i+""));
@@ -4848,7 +4968,7 @@ public class FormServiceImpl implements IFormService{
 		detailMst[9].append(CardAndCardFormBeansUtil.endFunction());
 		detailMst[10].append(CardAndCardFormBeansUtil.endFunction());
 		detailMst[15].append(CardAndCardFormBeansUtil.endFunction());
-		detailMst[24].append(detailMst[1]);
+//		detailMst[24].append(detailMst[1]);
 		detailMst[1].append(CardAndCardFormBeansUtil.CommentTextarea());
 		detailMst[1].append(CardAndCardFormBeansUtil.CommentHtml());
 		//detailMst[25].append(CardAndCardFormBeansUtil.getDictInfoByForms(formList, sysformconfigService));
@@ -4924,6 +5044,7 @@ public class FormServiceImpl implements IFormService{
 		detailMst[3].append(CardAndCardFormBeansUtil.showDate_3864JsForCC1());
 		detailMst[4].append(CardAndCardFormBeansUtil.showAccountJsForCC1());
 		detailMst[8].append(CardAndCardFormBeansUtil.loadDataStart2JsForCG1());
+		detailMst[21].append(CardAndCardFormBeansUtil.loadDataStart3JsForCC1());
 		detailMst[9].append(CardAndCardFormBeansUtil.loadDataStart3JsForCG1());
 		detailMst[10].append(CardAndCardFormBeansUtil.loadDataStart4JsForCG1());
 		for (SysFormconfigMstTabDetail sDetail : sDetailMsts) {
@@ -4948,6 +5069,8 @@ public class FormServiceImpl implements IFormService{
 			detailMst[4].append(CardAndCardFormBeansUtil.showAccountJsForCG2(i+"",mst[63],mst[64]));
 			detailMst[6].append(CardAndCardFormBeansUtil.ParamByFubiaoForGrid(i+""));
 			detailMst[8].append(CardAndCardFormBeansUtil.loadDataStart2JsForCG2(i+"",sCache.getFormDefCode()));
+			detailMst[21].append(CardAndCardFormBeansUtil.loadDataStart3JsForCC2(i+"",sCache.getFormDefCode()));
+
 			detailMst[9].append(CardAndCardFormBeansUtil.loadDataStart3JsForCG2(i+"",sCache.getFormDefCode(),mst[57],formCache.getGrid().getPojo().getFormPageSize()+"",formCache.getGrid().getPojo().getFormPageSizeList()));
 //			detailMst[10].append(CardAndCardFormBeansUtil.loadDataStart4JsForCG2(i+"",sCache.getFormDefCode()));
 			detailMst[11].append(mst[8]);
@@ -4964,6 +5087,7 @@ public class FormServiceImpl implements IFormService{
 		detailMst[3].append(CardAndCardFormBeansUtil.endFunction());
 		detailMst[4].append(CardAndCardFormBeansUtil.endFunction());
 		detailMst[8].append(CardAndCardFormBeansUtil.endFunction());
+		detailMst[21].append(CardAndCardFormBeansUtil.endFunction());
 		detailMst[9].append(CardAndCardFormBeansUtil.endFunction());
 		detailMst[10].append(CardAndCardFormBeansUtil.endFunction());
 
@@ -5293,26 +5417,12 @@ public class FormServiceImpl implements IFormService{
 	
 			logger.info(path11);
 			//获取文件路径和文件名
-			//String path="E:/workspace/Myeclipse/myehr_17_2_19/WebRoot/jsp/formbuild/"+path11;
 			String path1 =  request.getPath()+"\\"+path11;
-//			String path1= "E:/SqlServer/myeclipse/apache-tomcat-6.0.45/webapps/myehr/jsp/formbuild/"+path11;
-			//生成文件
-			//SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			
-			/*CreateFileUtil.createDir(path);*/
 			CreateFileUtil.createDir(path1);
 			
 			try {  
 				//File f = new File(path+"/"+form.getPojoform().getFormDefCode()+".jsp");
 				File f1 = new File(path1+"/"+form.getPojoform().getFormDefCode()+".jsp"); 
-				/*if (f.exists()) {  
-					System.out.print("文件存在");  
-				} else {  
-					System.out.print("文件不存在");  
-					f.createNewFile();// 不存在则创建
-				}
-				OutputStreamWriter write = new OutputStreamWriter(new FileOutputStream(f),"utf-8");
-				BufferedWriter output=new BufferedWriter(write);*/
 				
 				String url = this.getReportUrl(form, request);
 				String jspReport="<%@ page language=\"java\" import=\"java.util.*\" import=\"com.myehr.common.util.LangUtil\" pageEncoding=\"UTF-8\"%>\n"
@@ -5321,8 +5431,14 @@ public class FormServiceImpl implements IFormService{
 						+"<html>\n"
 						+"<body>\n"
 						+"<div id=\"iframepage\">\n"
-						+"<iframe src=\""+url+"\" align=\"middle\" id=\"iframepage\"  width=\"100%\" height=\"700\" frameborder=\"0\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\"></iframe>\n"
+						+"<iframe align=\"middle\" id=\"iframepage\"  width=\"100%\" height=\"700\" frameborder=\"0\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\"></iframe>\n"
 						+"</div>\n"
+						+"<script>\n"
+						+"$(function() {\n"
+						+"	var url = '"+url+"';\n"
+						+"	$(\"#iframepage\").attr(\"src\",url);\n"
+						+"})\n"
+						+"</script>\n"
 						+"</body>\n"
 						+"</html>\n";
 				/*output.write(jspReport);
@@ -5359,14 +5475,17 @@ public class FormServiceImpl implements IFormService{
 		
 		SysSystemParam param = ISysParamService.getParamValueByParamName("Report_URL");
 		
-		SysFormYkReportExample example = new SysFormYkReportExample();
-		com.myehr.pojo.formmanage.form.SysFormYkReportExample.Criteria criteria = example.createCriteria();
-		criteria.andReportFormIdEqualTo(Long.valueOf(form.getPojoform().getFormDefId()+""));
-		List<SysFormYkReport> sysParams = sysFormYKReportMapper.selectByExample(example);
-		String reportRelId = sysParams.get(0).getReportRelId();
-		String reportActual = sysParams.get(0).getReportType();
-		
-		String url = param.getSysParamValue1()+"fileName="+reportRelId+"&targetVolume="+reportActual+"&authId="+param.getSysParamValue2();
+		SysFormYkReport report= form.getYKreport();
+		String reportRelId = report.getReportRelId();
+		String reportActual = report.getReportType();
+		List<SysSqlParams> params = form.getYkParams();
+		String expandParams = "&variants=";
+		for (SysSqlParams sqlParam : params) {
+			if (sqlParam.getSqlParamsType().equals("session")) {
+				expandParams += sqlParam.getSqlParamsName()+"=${sessionScope."+sqlParam.getSqlParamsCode()+"};";
+			}
+		}
+		String url = param.getSysParamValue1()+"fileName="+reportRelId+"&targetVolume="+reportActual+"&authId="+param.getSysParamValue2()+expandParams;
 		
 		return url;
 	}
@@ -6239,8 +6358,10 @@ return null;
 			//通过主表Id获取html
 
 			StringBuffer[] mst = sCache.showPage(request,isApp,actNodePropertiesExpand,null,0);
-			detailMst[1].append(mst[24]);
+			detailMst[1].append(SysCardFormBeansUtil.getNbsp(3)+"<div class=\"container-tabs\">\n");
+ 		    detailMst[1].append(mst[24]);
 			detailMst[1].append(mst[6]);
+			detailMst[1].append(SysCardFormBeansUtil.getNbsp(2)+"</div>\n");
 			detailMst[1].append(mst[33]);
 			detailMst[1].append(mst[17]);
 			detailMst[1].append(SysCardFormBeansUtil.getNbsp(2)+"</div>\n</div>\n</div>\n");
@@ -7862,7 +7983,7 @@ return null;
 			Map map = new HashMap();
 			logger.info(path11);
 			//获取文件路径和文件名
-			String path="E:/vueWork/github/mobile/src/myehrpath/form/"+path11;
+			String path=pathX+path11;
 			CreateFileUtil.createDir(path);
 			try {  
 				File f = new File(path+"/"+formCache.getPojoform().getFormDefCode()+".vue");
@@ -7904,7 +8025,7 @@ return null;
 			Map map = new HashMap();
 			logger.info(path11);
 			//获取文件路径和文件名
-			String path="E:/vueWork/github/mobile/src/myehrpath/form/"+path11;
+			String path=pathX+path11;
 			CreateFileUtil.createDir(path);
 			try {  
 				File f = new File(path+"/"+formCache.getPojoform().getFormDefCode()+".vue");
@@ -7949,7 +8070,7 @@ return null;
 			Map map = new HashMap();
 			logger.info(path11);
 			//获取文件路径和文件名
-			String path="E:/vueWork/github/mobile/src/myehrpath/form/"+path11;
+			String path=pathX+path11;
 			CreateFileUtil.createDir(path);
 			SysFormconfigMstTabCache mstCache = formCache.getMstTab();
 			SysFormconfigCache mainForm = mstCache.getMainFrom();
@@ -8027,9 +8148,7 @@ return null;
 	}
 
 	@Override
-	public void createCCSFormVue(SysFormconfigCache formCache,
-			HttpServletRequest request) {
-		// TODO Auto-generated method stub
+	public void createCCSFormVue(SysFormconfigCache formCache,HttpServletRequest request) {
 		
 	}
 	

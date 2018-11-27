@@ -1327,10 +1327,10 @@ public class SysFormColumnCache implements Serializable {
 					htmls[13] = SysGridFormBeansUtil.getTextLinkAlertJs(textbox).toString();//textbox
 				
 					htmls[26]  = str + SysGridFormBeansUtil.getTextBoxHtmlForGrid(classType,this.getJsId("fun",this.getPojo().getFormColumnFormDefId().toString()),fieldName,vtype ,othervtype, emptyText, isRequired,
-							isValidation,isDisable,entityName,this.pojo.getFormColumnWidth(),this.pojo.getFormColumnLable(),isRender,this.getForm().getFormDefCode(),readonly,this.pojo.getFormColumnAlign(),textboxCheckSelf,this.pojo.getFormColumnHeight(),showtypeString,this.pojo.getFormColumnShowType(),this.pojo.getFormColumnColor(),textbox,isApp,columnPosition);
+							isValidation,isDisable,entityName,this.pojo.getFormColumnWidth(),this.pojo.getFormColumnLable(),isRender,this.getForm().getFormDefCode(),readonly,this.pojo.getFormColumnAlign(),textboxCheckSelf,this.pojo.getFormColumnHeight(),showtypeString,this.pojo.getFormColumnShowType(),this.pojo.getFormColumnColor(),textbox,isApp,columnPosition,isAccount);
 					
 					str += SysGridFormBeansUtil.getTextBoxHtml(classType,this.getJsId("fun",this.getPojo().getFormColumnFormDefId().toString()),fieldName,vtype ,othervtype, emptyText, isRequired,
-							isValidation,isDisable,entityName,this.pojo.getFormColumnWidth(),this.pojo.getFormColumnLable(),isRender,this.getForm().getFormDefCode(),readonly,this.pojo.getFormColumnAlign(),textboxCheckSelf,this.pojo.getFormColumnHeight(),showtypeString,this.pojo.getFormColumnColorCondition(),this.pojo.getFormColumnColor(),textbox,isApp,columnPosition);
+							isValidation,isDisable,entityName,this.pojo.getFormColumnWidth(),this.pojo.getFormColumnLable(),isRender,this.getForm().getFormDefCode(),readonly,this.pojo.getFormColumnAlign(),textboxCheckSelf,this.pojo.getFormColumnHeight(),showtypeString,this.pojo.getFormColumnColorCondition(),this.pojo.getFormColumnColor(),textbox,isApp,columnPosition,isAccount);
 					htmls[0] = str;
 					
 				}else if("10".equals(guiType)){ //富文本框
@@ -1338,7 +1338,7 @@ public class SysFormColumnCache implements Serializable {
 					String textboxCheckSelf = null;
 					SysFormRichtextCache richtextCache = (SysFormRichtextCache)this.formColumGui;
 					str += SysGridFormBeansUtil.getTextBoxHtml("richText",this.getJsId("fun",this.getPojo().getFormColumnFormDefId().toString()),fieldName,vtype ,othervtype, emptyText, isRequired,
-							isValidation,isDisable,entityName,this.pojo.getFormColumnWidth(),this.pojo.getFormColumnLable(),isRender,this.getForm().getFormDefCode(),readonly,this.pojo.getFormColumnAlign(),textboxCheckSelf,this.pojo.getFormColumnHeight(),showtypeString,this.pojo.getFormColumnColorCondition(),this.pojo.getFormColumnColor(),null,isApp,columnPosition);
+							isValidation,isDisable,entityName,this.pojo.getFormColumnWidth(),this.pojo.getFormColumnLable(),isRender,this.getForm().getFormDefCode(),readonly,this.pojo.getFormColumnAlign(),textboxCheckSelf,this.pojo.getFormColumnHeight(),showtypeString,this.pojo.getFormColumnColorCondition(),this.pojo.getFormColumnColor(),null,isApp,columnPosition,isAccount);
 					htmls[26] = str;
 					htmls[0] = str;
 				}else if("5".equals(guiType)){ //复选框
@@ -1527,7 +1527,7 @@ public class SysFormColumnCache implements Serializable {
 						textboxCheckSelf = textbox.getPojo().getTextboxCheckSelf();
 					}
 					str += SysGridFormBeansUtil.getPicHtml(classType,this.getJsId("fun",this.getPojo().getFormColumnFormDefId().toString()),fieldName,vtype ,othervtype, emptyText, isRequired,
-							isValidation,isDisable,entityName,this.pojo.getFormColumnWidth(),this.pojo.getFormColumnLable(),isRender,this.getForm().getFormDefCode(),readonly,this.pojo.getFormColumnAlign(),textboxCheckSelf,this.pojo.getFormColumnHeight(),showtypeString,this.pojo.getFormColumnColorCondition(),this.pojo.getFormColumnColor(),textbox,isApp,columnPosition);
+							isValidation,isDisable,entityName,this.pojo.getFormColumnWidth(),this.pojo.getFormColumnLable(),isRender,this.getForm().getFormDefCode(),readonly,this.pojo.getFormColumnAlign(),textboxCheckSelf,this.pojo.getFormColumnHeight(),showtypeString,this.pojo.getFormColumnColorCondition(),this.pojo.getFormColumnColor(),textbox,isApp,columnPosition,isAccount);
 					htmls[0] = str;
 					htmls[26] = str;
 				}

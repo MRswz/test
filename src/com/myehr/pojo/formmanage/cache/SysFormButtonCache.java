@@ -1402,7 +1402,7 @@ public class SysFormButtonCache implements Serializable {
 							"}\n"+
 							"function "+this.getFormButtonType()+"_refer_"+this.getFormButtonId()+"(buttonType){\n"+
 							"	if(checkedPointRequire()){\n");
-			if(buttonName.equals("通过")){
+			if(buttonName.equals("通过")||buttonName.equals("提交")){
 			  sbs[7].append("			if(!"+this.getFormButtonType()+"_save_"+this.getFormButtonId()+"()){\n");
 			  sbs[7].append("				var approveRemark=document.getElementById(\"approveRemark\").value;\n");
 			  sbs[7].append("				var rejectType;\n");

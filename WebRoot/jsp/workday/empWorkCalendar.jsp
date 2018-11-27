@@ -103,11 +103,13 @@
 	            success: function(json) { // 获取当前月的数据
 	                var events = [];
 	                	for(var i=0;i<json.length;i++){
-	                		var date = new Date(json[i].d9999).Format("yyyy-MM-dd hh:mm:ss");
-							var id = new Date(json[i].d9999).Format("yyyy-MM-dd");
+	                		var date = new Date(json[i].obj.begintime1).Format("yyyy-MM-dd hh:mm:ss");
+							var id = new Date(json[i].obj.begintime1).Format("yyyy-MM-dd");
+							//var sql = "select as_cname from ATTEND_SHIFTTYPE where as_id="+json[i].shifttype;
+							var tt = json[i].shifttype_cname;
 							events.push({
 								id:id,
-								title: json[i].k1500,
+								title: tt,
 								start: date
 	                        });
 	                	}

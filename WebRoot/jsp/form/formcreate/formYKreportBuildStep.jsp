@@ -393,30 +393,31 @@ function formInit(){
 function saveFormInfo(){
 	var param = {};
 	var flag = false;
-	param.formDefId = $("#formDefId").val();
-	param.formDefFolderId = $("#formDefFolderId").val();
-	param.formDefLayoutType = $("#formDefLayoutType").val();
-	param.formDefName = $("#formDefName").val();
-	param.formDefCode = $("#formDefCode").val();				
-	param.formDefIsProcess = $("#formDefIsProcess").val();
-	param.isApp = $("#isApp").val();
 	param.formAuthorityIsControl = $("#formAuthorityIsControl").val();
-	param.powerSql = $("#powerSql").val();
-	param.orderSql = $("#orderSql").val();
-	param.formDefEntitySql = formSql;
-	param.formDefSql = realSql;
+	param.formDefCode = $("#formDefCode").val();				
 	param.formDefDesc = $("#formDefDesc").val();
+	param.formDefEntitySql = "null";
+	param.formDefFolderId = $("#formDefFolderId").val();
+	param.formDefId = $("#formDefId").val();
 	param.formDefInitQzJs = $("#formDefInitQzJs").val();
 	param.formDefInitQzSql = $("#formDefInitQzSql").val();
+	param.formDefIsProcess = $("#formDefIsProcess").val();
+	param.formDefLayoutType = $("#formDefLayoutType").val();
+	param.formDefName = $("#formDefName").val();
+	param.formDefSql = "null";
+	param.isApp = $("#isApp").val();
+	param.orderSql = $("#orderSql").val();
+	param.powerSql = $("#powerSql").val();
 	
+
 	var sysFormYkReport = {};
-	sysFormYkReport.reportId = reportId;
-	sysFormYkReport.reportFormId = '${param.formDefId}';
-	if($("#reportRowCount").val()!=null&&$("#reportRowCount").val()!=""){
-		sysFormYkReport.reportRowCount = $("#reportRowCount").val();
+	if($("#reportButtonName").val()!=null&&$("#reportButtonName").val()!=""){
+		sysFormYkReport.reportButtonName = $("#reportButtonName").val();
 	}else{
-		sysFormYkReport.reportRowCount = '2';
+		sysFormYkReport.reportButtonName = '查询';
 	}
+	sysFormYkReport.reportFormId = '${param.formDefId}';
+	sysFormYkReport.reportId = reportId;
 	if($("#reportLableWidth").val()!=null&&$("#reportLableWidth").val()!=""){
 		sysFormYkReport.reportLableWidth = $("#reportLableWidth").val();
 	}else{
@@ -427,16 +428,18 @@ function saveFormInfo(){
 	}else{
 		sysFormYkReport.reportRelId = '';
 	}
+	if($("#reportRowCount").val()!=null&&$("#reportRowCount").val()!=""){
+		sysFormYkReport.reportRowCount = $("#reportRowCount").val();
+	}else{
+		sysFormYkReport.reportRowCount = '2';
+	}
+	
 	if($("#reportType").val()!=null&&$("#reportType").val()!=""){
 		sysFormYkReport.reportType = $("#reportType").val();
 	}else{
 		sysFormYkReport.reportType = 'DDYW';
 	}
-	if($("#reportButtonName").val()!=null&&$("#reportButtonName").val()!=""){
-		sysFormYkReport.reportButtonName = $("#reportButtonName").val();
-	}else{
-		sysFormYkReport.reportButtonName = '查询';
-	}
+
 	
 	if(updataForm(param)){
 		$.ajax({
@@ -457,9 +460,19 @@ function saveFormInfo(){
 }
 
 function updataForm(param){
+	
 	var flag = false;
+	var signstr = JSON.stringify(param);
+	var rule ='\"' ;
+	var regS = new RegExp(rule,'g');
+	var rule2 =':' ;
+	var regS2 = new RegExp(rule2,'g');
+	signstr = signstr.replace(regS, '');
+	signstr = signstr.replace(regS2, '=');
+	var sign = md5(signstr);
+
 	$.ajax({
-		url:'${pageContext.request.contextPath }/form/updataGridFormParam1.action',
+		url:'${pageContext.request.contextPath }/form/updataGridFormParam1.action?sign='+sign,
 		type:'POST',
 		data: JSON.stringify(param),
 	    cache: false,

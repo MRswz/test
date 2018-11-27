@@ -28,6 +28,7 @@ import com.myehr.mapper.calendar.KbasecodeMapper;
 import com.myehr.pojo.calendar.AttendCalendar;
 import com.myehr.pojo.calendar.AttendEmpshiftgroupSchedue;
 import com.myehr.pojo.calendar.AttendEmpshiftgroupSchedueExample;
+import com.myehr.pojo.calendar.AttendEmpshiftgroupSchedueExpand;
 import com.myehr.pojo.calendar.AttendShifttype;
 import com.myehr.pojo.calendar.AttendZone;
 import com.myehr.pojo.calendar.AttendZoneExample;
@@ -115,9 +116,8 @@ public class CalendarController {
 		return  list;
 	}
 	
-	//排班详情
 	@RequestMapping("/queryEmpWorkDay2")
-	public @ResponseBody List<AttendEmpshiftgroupSchedue> queryEmpWorkDay2(HttpServletRequest request) throws Exception{
+	public @ResponseBody List<AttendEmpshiftgroupSchedueExpand> queryEmpWorkDay2(HttpServletRequest request) throws Exception{
 		String K15A1090 =request.getParameter("K15A1090");
 		AttendEmpshiftgroupSchedueExample Example = new AttendEmpshiftgroupSchedueExample();
 		SysUserExample  example = new SysUserExample();
@@ -125,9 +125,10 @@ public class CalendarController {
 		SysUser list2 = sysuerMapper.selectByExample(example).get(0);
 		Example.or().andEmpidEqualTo(list2.getEmpId());
 		Map map = calendarService.queryWorkDatas("",list2.getEmpId());
-		List<AttendEmpshiftgroupSchedue> list = (List<AttendEmpshiftgroupSchedue>) map.get("workDatas");
+		List<AttendEmpshiftgroupSchedueExpand> list = (List<AttendEmpshiftgroupSchedueExpand>) map.get("workDatas");
 		return  list;
 	}
+
 	
 	//模糊查询
 	@RequestMapping("/queryRestDayByMonth")

@@ -27,10 +27,12 @@ import com.myehr.mapper.calendar.KbasecodeMapper;
 import com.myehr.mapper.calendar.KcalclassMapper;
 import com.myehr.mapper.calendar.KcalendarMapper;
 import com.myehr.mapper.sysuser.SysUserMapper;
+import com.myehr.mapper.task.SysTaskMapper;
 import com.myehr.pojo.calendar.AttendCalendar;
 import com.myehr.pojo.calendar.AttendCalendarExample;
 import com.myehr.pojo.calendar.AttendEmpshiftgroupSchedue;
 import com.myehr.pojo.calendar.AttendEmpshiftgroupSchedueExample;
+import com.myehr.pojo.calendar.AttendEmpshiftgroupSchedueExpand;
 import com.myehr.pojo.calendar.AttendShifttype;
 import com.myehr.pojo.calendar.AttendShifttypeExample;
 import com.myehr.pojo.calendar.AttendZone;
@@ -46,7 +48,10 @@ import com.myehr.pojo.calendar.KcalendarExample;
 import com.myehr.pojo.calendar.Testcalendar;
 import com.myehr.pojo.sysuser.SysUser;
 import com.myehr.pojo.sysuser.SysUserExample;
+import com.myehr.pojo.task.SysTask;
+import com.myehr.pojo.task.SysTaskExample;
 import com.myehr.service.calendar.CalendarService;
+import com.myehr.service.formmanage.form.ISysformconfigService;
 @Service("CalendarServiceImpl")
 public class CalendarServiceImpl implements CalendarService {
 	private static Logger logger = LoggerFactory.getLogger(CalendarServiceImpl.class);
@@ -76,6 +81,10 @@ public class CalendarServiceImpl implements CalendarService {
 	
 	@Autowired
 	private SysUserMapper userMapper;
+	@Autowired
+	private SysTaskMapper sysTaskMapper;
+	@Autowired
+	private ISysformconfigService sysformconfigService;
 	
 	@Override
 	public List<Testcalendar> getAllCalendar(Testcalendar test) throws Exception {
@@ -762,6 +771,7 @@ public class CalendarServiceImpl implements CalendarService {
 	@Override
 	public Map queryWorkDatas(String userId, int empId) {
 		Map map = new HashMap();
+		Map mapScheduling = new HashMap();
 		if (empId == 0) {
 			SysUser user = userMapper.selectByPrimaryKey(Integer.valueOf(userId));
 			empId = user.getEmpId();
@@ -771,10 +781,30 @@ public class CalendarServiceImpl implements CalendarService {
 		//排班详情
 		List<AttendEmpshiftgroupSchedue> list = attendEmpshiftgroupSchedueMapper.selectByExample(Example);
 		//翻译排班信息
+		AttendShifttypeExample example = new AttendShifttypeExample();
+		List<AttendEmpshiftgroupSchedueExpand> listexpand = new ArrayList<AttendEmpshiftgroupSchedueExpand>();
+		for (int i = 0; i < list.size(); i++) {
+			AttendEmpshiftgroupSchedueExpand attendexpand = new AttendEmpshiftgroupSchedueExpand();
+
+			Map map2 = sysformconfigService.getDictValueMap("PAIBAN");
+			attendexpand.setShifttype_cname(map2.get(list.get(i).getShifttype()+"")+"");
+			attendexpand.setObj(list.get(i));
+			System.out.println(attendexpand.getShifttype_cname());
+			listexpand.add(attendexpand);
+		}
 		//任务
+		SysTaskExample exampletask = new SysTaskExample();
+		if(!userId.equals("")||!userId.equals("null")){
+		}else{
+		//exampletask.or().andSysTaskStatusEqualTo("0").andSysTaskIdentifierEqualTo("unconnected");
+		exampletask.or().andSysTaskStatusEqualTo("0").andSysTaskIdentifierEqualTo("unconnected").andSysTaskCompleteUseridEqualTo(Long.parseLong(userId));
+
+		}
+		List<SysTask> taskList = sysTaskMapper.selectByExample(exampletask);
+		map.put("taskDatas", taskList);
 		//排班异常提醒
 		
-		map.put("workDatas", list);
+		map.put("workDatas", listexpand);
 		return  map;
 	}
 

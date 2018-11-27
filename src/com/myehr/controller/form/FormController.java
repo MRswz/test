@@ -278,6 +278,7 @@ import com.myehr.service.primaryKey.PrimaryKeyService;
 import com.myehr.service.sysdict.SysDictService;
 import com.myehr.service.sysdict.SysDictTypeService;
 import com.myehr.test.dao.TMapperExt;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 @Controller
 @RequestMapping("/form")
@@ -1087,6 +1088,7 @@ public class FormController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.info(e.getMessage());
+			
 		}
 		return reCode;
 	}
@@ -1368,7 +1370,6 @@ public class FormController {
 					com.myehr.pojo.formmanage.template.timeaxis.SysTimeaxisTemplateColumnExample.Criteria criteria = example.createCriteria();
 					criteria.andTemplateColumnFormDefIdEqualTo(aa.getPojoform().getFormDefId().intValue());
 					List<SysTimeaxisTemplateColumn> templateColumns = sysTimeaxisTemplateColumnMapper.selectByExample(example);
-					
 					formService.buildTimeaxisForm(aa,param,formType,templateColumns);
 				}else if(aa.getFormDefLayoutType().equals("12")){
 					formService.buildDragForm(sysFormconfigMapper.selectByPrimaryKey(new BigDecimal(formId)),param);
@@ -2347,9 +2348,9 @@ public class FormController {
 			}
 			
 			CustomerContextHolder.setContextType(CustomerContextHolder.session_factory_sqlserver);
-//			String path =  System.getProperty("user.dir").replace("\\", "/").replace("bin", "");
-//			path = path+"webapps/myehr/WEB-INF/classes/sysparam.properties";
-			String path = "E:/workspace/Myeclipse/.metadata/.me_tcat/webapps/myehr/WEB-INF/classes/sysparam.properties";
+			String path =  System.getProperty("user.dir").replace("\\", "/").replace("bin", "");
+			path = path+"webapps/myehr/WEB-INF/classes/sysparam.properties";
+//			String path = "E:/workspace/Myeclipse/.metadata/.me_tcat/webapps/myehr/WEB-INF/classes/sysparam.properties";
 			String userId = request.getSession().getAttribute("userid")+"";
 			String baseExclePath = GetDBPropertiesValue.readValue(path,"excel.exportTempPath");
 			CreateFileUtil.createDir(baseExclePath);
@@ -2942,6 +2943,65 @@ public class FormController {
 			map.put("OPERATOR_NAME", trees.get(i).getOperatorName());
 			maps.add(map);
 		}
+		return maps;
+	}
+	
+	/**
+	 * 加载表单树方案包含具体表单
+	 * @param request
+	 * @param params
+	 * @throws Throwable 
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/queryFormAndTableTree")
+	public @ResponseBody List<Map>  queryFormAndTableTree(HttpServletRequest request) throws Throwable {
+		String folderId = request.getParameter("FOLDER_TREE_ID");
+		String LV = request.getParameter("lv");
+		List<Map> maps = new ArrayList();
+		if(folderId!=null&&Integer.valueOf(LV)>1){
+			SysFormconfigExample example2 = new SysFormconfigExample();
+			example2.or().andFormDefFolderIdEqualTo(new BigDecimal(folderId)).andFormDefLayoutTypeEqualTo("1");
+			List<SysFormconfig> forms = sysFormconfigMapper.selectByExample(example2);
+			for (SysFormconfig sysFormconfig : forms) {
+				Map map1 = new HashMap();
+				map1.put("FOLDER_TREE_ID", sysFormconfig.getFormDefId());
+				map1.put("FOLDER_TREE_NAME", sysFormconfig.getFormDefName());
+				map1.put("FOLDER_TREE_PARENT_ID", new BigDecimal(folderId));
+				map1.put("FOLDER_TREE_SEQ", "");
+				map1.put("FOLDER_TREE_CODE", sysFormconfig.getFormDefCode());
+				map1.put("TYPE", "FORM");
+				map1.put("FOLDER_TREE_DESC", "");
+				map1.put("OPERATOR_TIME", sysFormconfig.getOperatorTime());
+				map1.put("OPERATOR_NAME", sysFormconfig.getOperatorName());
+				maps.add(map1);
+			}
+		}else {
+			SysFormFolderTreeExample example = new SysFormFolderTreeExample();
+			List<SysFormFolderTree> trees =  treeMapper.selectByExample(example);
+			Map map2 = new HashMap();
+			map2.put("FOLDER_TREE_ID", "0");
+			map2.put("FOLDER_TREE_NAME", "表单目录树");
+			maps.add(map2);
+			for (int i = 0; i < trees.size(); i++) {
+				if (trees.get(i).getFolderTreeParentId()==null) {
+					trees.get(i).setFolderTreeParentId(new BigDecimal("0"));
+				}
+				Map map = new HashMap();
+				map.put("FOLDER_TREE_ID", trees.get(i).getFolderTreeId());
+				map.put("FOLDER_TREE_NAME", trees.get(i).getFolderTreeName());
+				map.put("FOLDER_TREE_PARENT_ID", trees.get(i).getFolderTreeParentId());
+				map.put("FOLDER_TREE_SEQ", trees.get(i).getFolderTreeSeq());
+				map.put("FOLDER_TREE_CODE", trees.get(i).getFolderTreeCode());
+				map.put("FOLDER_TREE_DESC", trees.get(i).getFolderTreeDesc());
+				map.put("TYPE", "FOLDER");
+				map.put("OPERATOR_TIME", trees.get(i).getOperatorTime());
+				map.put("OPERATOR_NAME", trees.get(i).getOperatorName());
+				map.put("isParent", true); 
+				maps.add(map);
+				
+			}
+		}
+		
 		return maps;
 	}
 	
